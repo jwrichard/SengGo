@@ -1,0 +1,13 @@
+.extra-pad {
+  padding-left: 80px;
+  padding-top: 40px;
+}
+
+.panel {
+  transition-property: background;
+  transition-duration: 300ms;
+}
+.panel:hover{
+  background: #eee;
+  cursor: pointer;
+}

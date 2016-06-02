@@ -1,0 +1,92 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>SengGo</title>
+
+    <!-- CSS Stylesheets -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+  </head>
+
+  <body style="background: #f2f2f2;">
+
+    <nav class="navbar navbar-inverse">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">SengGo</a>
+        </div>
+        <div id="navbar">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="/">Home</a></li>
+            <li><a href="/login">Sign in</a></li>
+            <li><a href="/register">Register</a></li>
+            <li><a href="/about">About</a></li>
+          </ul>
+        </div>
+
+        <form class="navbar-form navbar-right">
+            <div class="form-group">
+              <input type="text" placeholder="Email" class="form-control">
+            </div>
+            <div class="form-group">
+              <input type="password" placeholder="Password" class="form-control">
+            </div>
+            <button type="submit" class="btn btn-primary">Sign in</button>
+        </form>
+
+      </div>
+    </nav>
+
+    <div class="container">
+
+      <div class="row">
+        <div class="col-md-8 col-md-offset-2 text-center">
+          <h1>Welcome to SengGo</h1>
+          <p class="lead">Choose an option below to get started and playing!</p>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="col-md-6 extra-pad" >
+            <div class="panel panel-default" style="height: 300px; v">
+              <div class="panel-body text-center">
+                <h2>Local play</h2>
+                <span class="glyphicon glyphicon-user" style="font-size:6em; color: #666; padding-top: 40px;"></span>
+                <span class="glyphicon glyphicon-user" style="font-size:6em; color: #666; padding-top: 40px;"></span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 extra-pad">
+            <div class="panel panel-default" style="height: 300px;">
+              <div class="panel-body text-center">
+                <h2>Online play</h2>
+                <span class="glyphicon glyphicon-cloud-upload" style="font-size:8em; color: #666; padding-top: 20px;" aria-hidden="true"></span>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+
+    </div><!-- /.container -->
+
+
+    <!-- JS Scripts (Added at end of page so page visually loads faster) -->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+  </body>
+</html>
