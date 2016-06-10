@@ -1,13 +1,39 @@
 .extra-pad {
-  padding-left: 80px;
+  padding-left: 20px;
   padding-top: 40px;
+}
+
+.banner {
+	background-image: url("/img/banner.png");
+	background-repeat: repeat-x;
+	height: 46px;
+	border-top: 2px solid black;
 }
 
 .panel {
   transition-property: background;
   transition-duration: 300ms;
 }
+
 .panel:hover{
   background: #eee;
   cursor: pointer;
+}
+
+.navbar-brand {
+	font-size: 2em;
+}
+
+.primaryWord {
+	color: #fff;
+}
+
+.secondaryWord {
+	color: #337ab7;
+}
+
+.loginstatus {
+	color: #fff;
+	font-size: 1.2em;
+	margin-top: 12px;
 }
