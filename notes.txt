@@ -1,2 +1,4 @@
 npm install mongodb --save
 npm install mustache --save
+npm install body-parser --save
+npm install crypto --save

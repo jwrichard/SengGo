@@ -1,6 +1,7 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var mustache = require('mustache');
+var Crypto = require('crypto')
 var fs = require('fs'); // require the filesystem api
 var app = express();
 
@@ -98,10 +99,15 @@ app.post('/actionRegister', function (req, res) {
 	// Check to see if username taken
 
 	// If not, create a salted password and a salt
+	var buf = Crypto.randomBytes(16).toString('base64'); 
+	console.log(buf);
+
+	encryptedPass = hex_sha512();
 
 	// Store new user into db
 
 	// Redirect to login page with success message
+	res.redirect('/?s=2');
 })
 
 

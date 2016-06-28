@@ -54,7 +54,8 @@
 
       <div class="row">
         <div class="col-md-6 col-md-offset-3">
-          <form action="actionRegister" method="POST">
+          <p>Text going here explaining details of the account.</p>
+          <form action="/actionRegister" method="POST" id="register" name="register">
             <div class="form-group">
             <label for="username">Username</label>
             <input type="text" class="form-control" id="username">
@@ -63,7 +64,7 @@
             <label for="password">Password</label>
             <input type="password" class="form-control" id="password">
           </div>
-          <button type="button" class="btn btn-primary btn-lg btn-block">Block level button</button>
+          <button type="button" class="btn btn-primary btn-block" onclick="formhash(this.form, this.form.password)">Register</button>
           </form>
         </div>
       </div>
@@ -74,25 +75,5 @@
     <script src="js/bootstrap.min.js"></script>
     <script src="js/forms.js"></script>
     <script src="js/sha512.js"></script>
-
-    <!-- Adds functionality for the interactive menu and hides later steps -->
-    <script>
-      $(document).ready(function(){
-
-          // Handler for step 1
-          $('#online').on('click', function(){
-            $('#local, #online').hide(500);
-            $('#ai, #pvp, #prev').show(500);
-          });
-
-          // Previous step button
-          $('#prev').on('click', function(){
-            $('#local, #online').show(500);
-            $('#ai, #pvp, #prev').hide(500);
-          });
-
-      });
-
-    </script>
   </body>
 </html>
