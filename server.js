@@ -9,6 +9,9 @@ var app = express();
 var Storage = require('./lib/MongoDB');
 var db = new Storage(null, null, 'senggo');
 
+// Include any scripts we need for the backend server
+var sha = require('./lib/sha512.js');
+
 // Add static files directory
 app.use(express.static("public"));
 
@@ -38,7 +41,6 @@ app.get('/', function (req, res) {
 		default: break;
 	}
 
-	console.log(s);
 
 	var user = checkLogin();
 	console.log("User is logged in: "+user);
@@ -56,17 +58,36 @@ app.get('/', function (req, res) {
 
 // About page
 app.get('/about', function (req, res) {
-   res.sendFile(__dirname + "/" + "about.html");
+   	var page = fs.readFileSync("views/about.html", "utf8"); // bring in the HTML file
+	var html = mustache.to_html(page, {}); // replace all of the data
+	res.send(html);
 })
 
 // Rules page
 app.get('/rules', function (req, res) {
-   res.sendFile(__dirname + "/" + "rules.html");
+   	var page = fs.readFileSync("views/rules.html", "utf8"); // bring in the HTML file
+	var html = mustache.to_html(page, {}); // replace all of the data
+	res.send(html);
 })
 
 // Login page
 app.get('/login', function (req, res) {
-   res.sendFile(__dirname + "/" + "login.html");
+	// Check get params for messages to display
+	var s = "", e = "";
+	switch(req.query.s){
+		case "1": s = '<div class="alert alert-success" role="alert">Thanks for registering! You may now sign in below.</div>';
+				break;
+		default: break;
+	}
+	switch(req.query.e){
+		case "1": e = '<div class="alert alert-danger" role="alert">Oops! We\'ve encountered an error with the system. Please try again later.</div>';
+				break;
+		default: break;
+	}
+
+   	var page = fs.readFileSync("views/login.html", "utf8"); // bring in the HTML file
+	var html = mustache.to_html(page, {error: e, success: s}); // replace all of the data
+	res.send(html);
 })
 
 // Login action
@@ -84,8 +105,18 @@ app.post('/actionLogin', function (req, res) {
 
 // Register page
 app.get('/register', function (req, res) {
+	// Check get params for messages to display
+	var e = "";
+	switch(req.query.e){
+		case "1": e = '<div class="alert alert-danger" role="alert">Oops! We\'ve encountered an error with the system. Please try again later.</div>';
+				break;
+		case "2": e = '<div class="alert alert-danger" role="alert">Oops! That username is currently taken. Please choose a new one.</div>';
+		break;
+		default: break;
+	}
+
 	var page = fs.readFileSync("views/register.html", "utf8"); // bring in the HTML file
-	var html = mustache.to_html(page, {}); // replace all of the data
+	var html = mustache.to_html(page, {error: e}); // replace all of the data
 	res.send(html);
 
 })
@@ -97,19 +128,34 @@ app.post('/actionRegister', function (req, res) {
 	var password = req.body.p
 
 	// Check to see if username taken
+	db.getQuery('users', {username: username}, function(err, result){
+		console.log(result.length);
+		if(result.length > 0){
+			// Redirect to register page with error that user exists
+			res.redirect('/register?e=2')
+		} else {
 
-	// If not, create a salted password and a salt
-	var buf = Crypto.randomBytes(16).toString('base64'); 
-	console.log(buf);
+			// If not, create a salted password and a salt
+			var buf = Crypto.randomBytes(16).toString('base64'); 
+			var salt = sha.hex_sha512(buf);
+			password = sha.hex_sha512(password + salt);
 
-	encryptedPass = hex_sha512();
+			// Create user document
+			var user = {username: username, password: password, salt: salt};
 
-	// Store new user into db
-
-	// Redirect to login page with success message
-	res.redirect('/?s=2');
+			// Store new user into db
+			db.addDocuments(user, function(result){
+				if(result.result.ok != 1){
+					// Redirect to register page with error
+					res.redirect('/register?e=1');
+				} else {
+					// Redirect to login page with success message
+					res.redirect('/login?s=1');
+				}
+			}, 'users');
+		}
+	});
 })
-
 
 
 // Redirect all unsupported pages to the home page
@@ -121,6 +167,7 @@ app.get('*', function (req, res) {
 // Listen on default port 
 var server = app.listen(80, function () {
   console.log("Server running at 127.0.0.1.");
+  db.connect(function(){console.log("Ready to serve requests.");});
 })
 
 

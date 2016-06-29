@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -31,11 +30,11 @@
         </div>
         <div id="navbar">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="/">Home</a></li>
+            <li><a href="/">Home</a></li>
             <li><a href="/about">About</a></li>
             <li><a href="/rules">Rules</a></li>
             <li><a href="/login">Sign in</a></li>
-            <li><a href="/register">Register</a></li>
+            <li class="active"><a href="/register">Register</a></li>
           </ul>
         </div>
       </div>
@@ -58,11 +57,11 @@
           <form action="/actionRegister" method="POST" id="register" name="register">
             <div class="form-group">
             <label for="username">Username</label>
-            <input type="text" class="form-control" id="username">
+            <input type="text" class="form-control" id="username" name="username">
           </div>
           <div class="form-group">
             <label for="password">Password</label>
-            <input type="password" class="form-control" id="password">
+            <input type="password" class="form-control" id="password" name="password">
           </div>
           <button type="button" class="btn btn-primary btn-block" onclick="formhash(this.form, this.form.password)">Register</button>
           </form>
