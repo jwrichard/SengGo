@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>SengGo</title>
+
+    <!-- CSS Stylesheets -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+  </head>
+
+  <body style="background: #f2f2f2;">
+
+    <div class="banner"><div style="background:rgba(0,0,0,0.3); width:100%; height: 100%;"></div></div>
+
+    <nav class="navbar navbar-inverse">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/"><span class="primaryWord">Seng</span><span class="secondaryWord">Go</span></a>
+        </div>
+        <div id="navbar">
+          <ul class="nav navbar-nav">
+            <li><a href="/">Home</a></li>
+            <li><a href="/about">About</a></li>
+            <li><a href="/rules">Rules</a></li>
+            <li class="active"><a href="/login">Sign in</a></li>
+            <li><a href="/register">Register</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container">
+
+      <div class="row">
+        <div class="col-md-8 col-md-offset-2 text-center">
+          {{{error}}}
+          {{{success}}}
+          <h1>Login</h1>
+          <p class="lead">Sign in below to start playing!</p>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+          <p>Text going here explaining info about loggin in.</p>
+          <form action="/actionRegister" method="POST" id="register" name="register">
+            <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" class="form-control" id="username" name="username">
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" id="password" name="password">
+          </div>
+          <div class="pull-right">
+            <button type="reset" class="btn btn-primary">Login</button>
+            <button type="button" class="btn btn-default" onclick="formhash(this.form, this.form.password)">Cancel</button>
+          </div>
+          </form>
+        </div>
+      </div>
+    </div><!-- /.container -->
+
+    <!-- JS Scripts (Added at end of page so page visually loads faster) -->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/forms.js"></script>
+    <script src="js/sha512.js"></script>
+  </body>
+</html>
