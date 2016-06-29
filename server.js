@@ -157,6 +157,19 @@ app.post('/actionRegister', function (req, res) {
 	});
 })
 
+/* 
+* 	Handle Game API logic
+*/ 
+app.post('/sendMove', function (req, res) {
+	res.send(req);
+})
+
+app.get('/getBoard', function (req, res) {
+	res.send("{board: [1,2,3], move: 1}");
+})
+
+
+
 
 // Redirect all unsupported pages to the home page
 app.get('*', function (req, res) {
