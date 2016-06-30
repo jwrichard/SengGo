@@ -30,7 +30,7 @@
         </div>
         <div id="navbar">
           <ul class="nav navbar-nav">
-            <li><a href="/">Home</a></li>
+            <li><a href="/">Play</a></li>
             <li><a href="/about">About</a></li>
             <li><a href="/rules">Rules</a></li>
             <li><a href="/login">Sign in</a></li>
@@ -63,7 +63,11 @@
             <label for="password">Password</label>
             <input type="password" class="form-control" id="password" name="password">
           </div>
-          <button type="button" class="btn btn-primary btn-block" onclick="formhash(this.form, this.form.password)">Register</button>
+          <div class="form-group">
+            <label for="confirmpassword">Confirm password</label>
+            <input type="password" class="form-control" id="confirmpassword" name="confirmpassword">
+          </div>
+          <button type="button" class="btn btn-primary btn-block" onclick="regformhash(this.form, this.form.username, this.form.password, this.form.confirmpassword)">Register</button>
           </form>
         </div>
       </div>

@@ -30,7 +30,7 @@
         </div>
         <div id="navbar">
           <ul class="nav navbar-nav">
-            <li><a href="/">Home</a></li>
+            <li><a href="/">Play</a></li>
             <li><a href="/about">About</a></li>
             <li><a href="/rules">Rules</a></li>
             <li class="active"><a href="/login">Sign in</a></li>
@@ -54,7 +54,7 @@
       <div class="row">
         <div class="col-md-6 col-md-offset-3">
           <p>Text going here explaining info about loggin in.</p>
-          <form action="/actionRegister" method="POST" id="register" name="register">
+          <form action="/actionLogin" method="POST" id="register" name="register">
             <div class="form-group">
             <label for="username">Username</label>
             <input type="text" class="form-control" id="username" name="username">
@@ -64,8 +64,8 @@
             <input type="password" class="form-control" id="password" name="password">
           </div>
           <div class="pull-right">
-            <button type="reset" class="btn btn-primary">Login</button>
-            <button type="button" class="btn btn-default" onclick="formhash(this.form, this.form.password)">Cancel</button>
+            <button type="button" class="btn btn-primary" onclick="formhash(this.form, this.form.username, this.form.password);">Login</button>
+            <button type="reset" class="btn btn-default">Cancel</button>
           </div>
           </form>
         </div>
