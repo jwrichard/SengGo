@@ -107,4 +107,6 @@ function tick(){
 	if(localMove != 0){
 		drawBoard(getBoard());
 	}
-} setInterval(tick, 10000);
+} 
+
+// setInterval(tick, 10000); // ## Uncomment when page ready

@@ -114,6 +114,40 @@ app.get('/login', function (req, res) {
 	res.send(html);
 })
 
+
+// Register page
+app.get('/register', function (req, res) {
+	// Check get params for messages to display
+	var e = "";
+	switch(req.query.e){
+		case "1": e = '<div class="alert alert-danger" role="alert">Oops! We\'ve encountered an error with the system. Please try again later.</div>';
+				break;
+		case "2": e = '<div class="alert alert-danger" role="alert">Oops! That username is currently taken. Please choose a new one.</div>';
+		break;
+		default: break;
+	}
+
+	var page = fs.readFileSync("views/register.html", "utf8"); // bring in the HTML file
+	var html = mustache.to_html(page, {error: e}); // replace all of the data
+	res.send(html);
+})
+
+
+// Game page
+app.get('/play/:gameId', function (req, res) {
+	console.log("gameId is: "+req.params.gameId);
+	var page = fs.readFileSync("views/play.html", "utf8"); // bring in the HTML file
+	var html = mustache.to_html(page, {gameId: req.params.gameId}); // replace all of the data
+	res.send(html);
+})
+
+
+/*
+
+### End of pages, begin actions/tasks ####
+
+*/
+
 // Login action
 app.post('/actionLogin', function (req, res) {
 
@@ -125,7 +159,6 @@ app.post('/actionLogin', function (req, res) {
 
 	// Compare with user in DB to see if match
 	db.getQuery('users', {username: username}, function(err, result){
-		console.log(result[0]);
 		if(result.length > 0){
 			// Ok so that user exists, but did we supply right password?
 			// Lets encrypt supplied pass with that users salt and see if matches their pass
@@ -154,25 +187,6 @@ app.get('/actionLogout', function (req, res) {
 	res.redirect('/');
 })
 
-
-// Register page
-app.get('/register', function (req, res) {
-	// Check get params for messages to display
-	var e = "";
-	switch(req.query.e){
-		case "1": e = '<div class="alert alert-danger" role="alert">Oops! We\'ve encountered an error with the system. Please try again later.</div>';
-				break;
-		case "2": e = '<div class="alert alert-danger" role="alert">Oops! That username is currently taken. Please choose a new one.</div>';
-		break;
-		default: break;
-	}
-
-	var page = fs.readFileSync("views/register.html", "utf8"); // bring in the HTML file
-	var html = mustache.to_html(page, {error: e}); // replace all of the data
-	res.send(html);
-
-})
-
 // Handle registration submission
 app.post('/actionRegister', function (req, res) {
 	// Get post params
@@ -181,12 +195,10 @@ app.post('/actionRegister', function (req, res) {
 
 	// Check to see if username taken
 	db.getQuery('users', {username: username}, function(err, result){
-		console.log(result.length);
 		if(result.length > 0){
 			// Redirect to register page with error that user exists
 			res.redirect('/register?e=2')
 		} else {
-
 			// If not, create a salted password and a salt
 			var buf = Crypto.randomBytes(16).toString('base64'); 
 			var salt = sha.hex_sha512(buf);
@@ -209,24 +221,107 @@ app.post('/actionRegister', function (req, res) {
 	});
 })
 
-/* 
-* 	Handle Game API logic
-*/ 
+
+// Create handlers for starting up a new game
+app.post('/newLocalGame', function (req, res) {
+	// Get game properties 
+	var userIP = req.connection.remoteAddress;
+	var boardSize = req.body.boardSize;
+	var player1 = req.body.player1;
+	var player2 = req.body.player2;
+
+	// Create the game and redirect to it
+	var gameId = createGame(userIP, player1, player2, boardSize);
+	if(gameId != false){
+		res.redirect('/play/'+gameId);
+	} else {
+		res.redirect('/?e=1');
+	}
+})
+
+app.post('/newAIGame', function (req, res) {
+	// Make sure user is logged in
+	(req.session.username ? username = req.session.username :  username = '');
+	if(username = '') res.redirect('/login?e=3');
+
+	// Create the game and redirect to it
+	var boardSize = req.body.boardSize;
+	var gameId = createGame(null, req.session.username, null, boardSize);
+	if(gameId != false){
+		res.redirect('/play/'+gameId);
+	} else {
+		res.redirect('/?e=1');
+	}
+})
+
+app.post('/newPVPGame', function (req, res) {
+	// Make sure user is logged in
+	(req.session.username ? username = req.session.username :  username = '');
+	if(username = '') res.redirect('/login?e=3');
+
+	// Create the game and redirect to it
+	var boardSize = req.body.boardSize;
+	var opponent = req.body.opponent;
+	var gameId = createGame(null, req.session.username, opponent, boardSize);
+	if(gameId != false){
+		res.redirect('/play/'+gameId);
+	} else {
+		res.redirect('/?e=1');
+	}
+})
+
+// Creates a new local, ai, or pvp game depending on paramters. Returns the games id.
+function createGame(ip, player1, player2, boardSize){
+	// Create boardSize x boardSize array
+	var board = new Array(boardSize);
+	for (var i = 0; i < boardSize; i++) {
+	  board[i] = new Array(boardSize);
+	}
+
+	// Create a unique game Id for this game and ensure it hasnt been used before
+	var gameId = Crypto.randomBytes(8).toString('base64');
+	db.getQuery('games', {gameId: gameId}, function(err, result){
+		console.log(err);
+		// If exists, generate a new longer random id
+		if(result.length > 0){
+			gameId = Crypto.randomBytes(10).toString('base64');
+		}
+		// Create the game object to insert
+		var game = {
+			gameId: gameId,
+			board: board,
+			boardSize: boardSize,
+			player1: player1,
+			player2: player2,
+			state: 0
+		}
+		// Insert the new game into the db
+		db.addDocuments(game, function(result){
+			if(result.result.ok != 1){
+				return false;
+			} else {
+				// Return the games id
+				return gameId;
+			}
+		}, 'games');
+	});
+}
+
+// Handle a request for a move, or the sending of a move
 app.post('/sendMove', function (req, res) {
 	res.send(req);
 })
 
+// Get the status of a game
 app.get('/getBoard', function (req, res) {
 	res.send("{board: [1,2,3], move: 1}");
 })
 
 
-
-
 // Redirect all unsupported pages to the home page
-app.get('*', function (req, res) {
+//app.get('*', function (req, res) {
     //res.redirect('/');
-});
+//});
 
 
 // Listen on default port 
