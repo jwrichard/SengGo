@@ -137,7 +137,14 @@ app.get('/register', function (req, res) {
 app.get('/play/:gameId', function (req, res) {
 	console.log("gameId is: "+req.params.gameId);
 	var page = fs.readFileSync("views/play.html", "utf8"); // bring in the HTML file
-	var html = mustache.to_html(page, {gameId: req.params.gameId}); // replace all of the data
+	(req.session.username ? user = req.session.username :  user = '');
+	// Display login status
+	if(user != ''){
+		l = '<div><p class="navbar-form navbar-right loginstatus">Logged in as: <span class="secondaryWord">'+user+'</span> | <a href="/actionLogout">Logout</a></p></div>';
+	} else {
+		l = '<form class="navbar-form navbar-right" action="/actionLogin" method="post"><div class="form-group"><input type="text" placeholder="Username" class="form-control" id="username" name="username"></div><div class="form-group"><input type="password" placeholder="Password" class="form-control" id="password" name="password"></div><input type="button" class="btn btn-primary" onclick="formhash(this.form, this.form.username, this.form.password);" value="Sign in" /></form>';
+	}
+	var html = mustache.to_html(page, {gameId: req.params.gameId, loginstatus: l, user: user}); // replace all of the data
 	res.send(html);
 })
 

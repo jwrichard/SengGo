@@ -37,10 +37,9 @@
             <li class="active"><a href="/">Play</a></li>
             <li><a href="/about">About</a></li>
             <li><a href="/rules">Rules</a></li>
-            <li><a href="/login">Sign in</a></li>
-            <li><a href="/register">Register</a></li>
           </ul>
         </div>
+        {{{loginstatus}}}
       </div>
     </nav>
 
@@ -62,7 +61,7 @@
 
           <!-- Holds the game board -->
           <div class="board">
-            i am game board. The game id is: <span id="gid"></span>
+            i am game board. The game id is: {{{gameId}}}. The player logged in is: {{{user}}}. A blank user can make a move in any hot seat game that their IP matches
           </div>
 
         </div>
