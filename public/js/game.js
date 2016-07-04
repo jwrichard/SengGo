@@ -3,7 +3,6 @@
 */
 
 // Global vars to be used in all
-var gameId = 1; // Will be updated later to depend on the game you're on
 var localBoard = []; // Our local copy of what the board is, update this when getting new board (Not sure if this needed)
 var localMove = -1; // Local copy of who's move it is, update this when getting new board (Not sure if this needed)
 var me = 0; // Our local Id, i.e if its player me's turn, its us!

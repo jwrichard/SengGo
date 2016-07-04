@@ -12,7 +12,7 @@
     <link href="../css/style.css" rel="stylesheet">
 
     <script>
-      var gameId = {{{gameId}}};
+      gameId = "{{{gameId}}}";
     </script>
 
   </head>
@@ -62,7 +62,7 @@
 
           <!-- Holds the game board -->
           <div class="board">
-            i am game board
+            i am game board. The game id is: <span id="gid"></span>
           </div>
 
         </div>
@@ -79,5 +79,6 @@
     <script src="/js/forms.js"></script>
     <script src="/js/sha512.js"></script>
     <script src="/js/game.js"></script>
+    <script>$('#gid').text(gameId);</script>
   </body>
 </html>

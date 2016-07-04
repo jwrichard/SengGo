@@ -231,12 +231,7 @@ app.post('/newLocalGame', function (req, res) {
 	var player2 = req.body.player2;
 
 	// Create the game and redirect to it
-	var gameId = createGame(userIP, player1, player2, boardSize);
-	if(gameId != false){
-		res.redirect('/play/'+gameId);
-	} else {
-		res.redirect('/?e=1');
-	}
+	createGame(userIP, player1, player2, boardSize, res);
 })
 
 app.post('/newAIGame', function (req, res) {
@@ -246,12 +241,7 @@ app.post('/newAIGame', function (req, res) {
 
 	// Create the game and redirect to it
 	var boardSize = req.body.boardSize;
-	var gameId = createGame(null, req.session.username, null, boardSize);
-	if(gameId != false){
-		res.redirect('/play/'+gameId);
-	} else {
-		res.redirect('/?e=1');
-	}
+	createGame(null, req.session.username, null, boardSize, res);
 })
 
 app.post('/newPVPGame', function (req, res) {
@@ -262,16 +252,11 @@ app.post('/newPVPGame', function (req, res) {
 	// Create the game and redirect to it
 	var boardSize = req.body.boardSize;
 	var opponent = req.body.opponent;
-	var gameId = createGame(null, req.session.username, opponent, boardSize);
-	if(gameId != false){
-		res.redirect('/play/'+gameId);
-	} else {
-		res.redirect('/?e=1');
-	}
+	createGame(null, req.session.username, opponent, boardSize, res);
 })
 
 // Creates a new local, ai, or pvp game depending on paramters. Returns the games id.
-function createGame(ip, player1, player2, boardSize){
+function createGame(ip, player1, player2, boardSize, res){
 	// Create boardSize x boardSize array
 	var board = new Array(boardSize);
 	for (var i = 0; i < boardSize; i++) {
@@ -279,12 +264,12 @@ function createGame(ip, player1, player2, boardSize){
 	}
 
 	// Create a unique game Id for this game and ensure it hasnt been used before
-	var gameId = Crypto.randomBytes(8).toString('base64');
+	var gameId = Crypto.randomBytes(3).toString('hex');
 	db.getQuery('games', {gameId: gameId}, function(err, result){
 		console.log(err);
 		// If exists, generate a new longer random id
 		if(result.length > 0){
-			gameId = Crypto.randomBytes(10).toString('base64');
+			gameId = Crypto.randomBytes(5).toString('hex');
 		}
 		// Create the game object to insert
 		var game = {
@@ -300,8 +285,8 @@ function createGame(ip, player1, player2, boardSize){
 			if(result.result.ok != 1){
 				return false;
 			} else {
-				// Return the games id
-				return gameId;
+				// Redirect the user
+				res.redirect('/play/'+gameId);
 			}
 		}, 'games');
 	});
