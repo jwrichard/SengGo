@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>SengGo</title>
+
+    <!-- CSS Stylesheets -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+  </head>
+
+  <body style="background: #f2f2f2;">
+
+    <div class="banner"><div style="background:rgba(0,0,0,0.3); width:100%; height: 100%;"></div></div>
+
+    <nav class="navbar navbar-inverse">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/"><span class="primaryWord">Seng</span><span class="secondaryWord">Go</span></a>
+        </div>
+        <div id="navbar">
+          <ul class="nav navbar-nav">
+            <li><a href="/">Play</a></li>
+            <li><a href="/about">About</a></li>
+            <li class="active"><a href="/rules">Rules</a></li>
+            <li><a href="/login">Sign in</a></li>
+            <li><a href="/register">Register</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container">
+
+      <div class="row">
+        <div class="col-md-8 col-md-offset-2 text-center">
+          {{{error}}}
+          {{{success}}}
+          <h1>The Rules of SengGo</h1>
+          <p class="lead">Here are the rules of the Go Game</p>
+        </div>
+      </div>
+        
+        <div class = "row">
+        <div class="col-md-8 col-md-offset-2">
+            
+            <h3> OBJECTIVE </h3>
+            <p> At the end of the game, the player with the highest score wins </p>
+            <p> The game ends when both players consecutively pass or when the board is completely filled with tokens </p>
+            
+            <h3> GAMEPLAY </h3>
+            <p> On any given turn, the player must either place a token on the board or pass </p>
+            <p> The player with BLACK tokens must play the first move </p>
+            
+            <h3> BOARD AND TOKENS </h3>
+            <p> Go is played on a nxn sized board, where n must be one of the numbers: 9, 13, or 19 </p>
+            <p> There must be tokens of ONLY two different colours </p>
+            <p> Tokens must be placed at the intersections of the board </p>
+            <p> An army must have at least one liberty to remain in play </p>
+            
+            <h3> SCORING </h3>
+            <p> The TOTAL SCORE of a particular colour of token must be calculated by summing up the territories, captured armies, and the individual tokens of that colour on the board </p>
+            <p> Points must be scored by capturing armies or by capturing territories </p>
+            <p> One point is earned per token captured (i.e if the captured army contains 10 tokens, then the player will receive 10 points) </p>
+            <p> Since BLACK always makes the first move, the player with WHITE tokens must get bonus points due to the Komi rule </p>
+             
+            <h3> ILLEGAL MOVES </h3>
+            <p> Placement of a token in a position where another token already exists </p>
+            <p> Suicide rule: placement of a token that will result in an army of the same colour having zero liberties </p>
+            <p> Ko rule: two consecutive moves that result in the prior board state (causing an infinite loop to occur) </p>
+            
+            </div>
+            
+        </div>
+
+    </div><!-- /.container -->
+
+    <!-- JS Scripts (Added at end of page so page visually loads faster) -->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/forms.js"></script>
+    <script src="js/sha512.js"></script>
+  </body>
+</html>

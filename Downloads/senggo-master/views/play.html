@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>SengGo</title>
+
+    <!-- CSS Stylesheets -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/style.css" rel="stylesheet">
+
+    <script>
+      gameId = "{{{gameId}}}";
+    </script>
+
+  </head>
+
+  <body style="background: #f2f2f2;">
+
+    <div class="banner"><div style="background:rgba(0,0,0,0.3); width:100%; height: 100%;"></div></div>
+
+    <nav class="navbar navbar-inverse">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/"><span class="primaryWord">Seng</span><span class="secondaryWord">Go</span></a>
+        </div>
+        <div id="navbar">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="/">Play</a></li>
+            <li><a href="/about">About</a></li>
+            <li><a href="/rules">Rules</a></li>
+          </ul>
+        </div>
+        {{{loginstatus}}}
+      </div>
+    </nav>
+
+    <div class="container">
+
+      <div class="row">
+        <div class="col-md-8 col-md-offset-2 text-center">
+          <h2>Play</h2>
+          <h4>Maybe show who's move it is up here somewhere?</h4>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-2">
+          <!-- Show a move history here or something? -->
+          something here
+        </div>
+        <div class="col-md-8">
+
+          <!-- Holds the game board -->
+          <div class="board">
+            i am game board. The game id is: {{{gameId}}}. The player logged in is: {{{user}}}. A blank user can make a move in any hot seat game that their IP matches
+          </div>
+
+        </div>
+        <div class="col-md-2">
+          <!-- Figure out something to plop here -->
+          something else
+        </div>
+      </div>
+    </div><!-- /.container -->
+
+    <!-- JS Scripts (Added at end of page so page visually loads faster) -->
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/forms.js"></script>
+    <script src="/js/sha512.js"></script>
+    <script src="/js/game.js"></script>
+    <script>$('#gid').text(gameId);</script>
+  </body>
+</html>
