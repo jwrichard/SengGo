@@ -36,6 +36,8 @@ function checkIfValidMove(board, move){
 	// Make sure spot is not taken
 	// TODO
 
+    
+    
 	// Make sure spot would not be suicide
 	// TODO
 
