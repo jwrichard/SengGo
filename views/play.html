@@ -60,7 +60,7 @@
         <div class="col-md-8">
 
           <!-- Holds the game board -->
-          <div class="board">
+          <div id="board">
             i am game board. The game id is: {{{gameId}}}. The player logged in is: {{{user}}}. A blank user can make a move in any hot seat game that their IP matches
           </div>
 
@@ -78,6 +78,10 @@
     <script src="/js/forms.js"></script>
     <script src="/js/sha512.js"></script>
     <script src="/js/game.js"></script>
+	<script src="/js/svgMake.js"></script>
     <script>$('#gid').text(gameId);</script>
+	<script>
+            init(); 
+        </script>
   </body>
 </html>

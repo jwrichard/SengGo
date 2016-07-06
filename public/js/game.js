@@ -54,15 +54,15 @@ function sendMove(move){
 }
 
 function getData(cb){
-    $.get("/getBoard", function(data, textStatus, xhr){
-        console.log("Response for /getBoard: "+textStatus);  
+    $.get("/getBoard?id="+gameId, function(data, textStatus, xhr){
+        console.log("Response for /getBoard?id="+gameId+": "+textStatus);  
         console.log(data);
 
         // handle any errors here....
 
         // draw the board....
 
-        boardState = data; 
+        localBoard = data; 
 
         cb(data);  
 
@@ -92,21 +92,18 @@ function getBoard(){
 	
     $.ajax({
         type: 'POST',
-        url : '/getBoard',
+        url : '/getBoard?id='+ gameId,
         dataType: "json",
         data : JSON.stringify(localBoard), 
         contentType : "application/json",
         success : function(data){
             console.log(data);
-            console.log(status);
-            boardState = data;
+            //console.log(status);
+            localBoard = data;
             drawBoard(data);    
         }
     });
-	
 
-	// Create object and return it
-	return {board: board, move: move};
 }
 
 
@@ -117,7 +114,7 @@ function getBoard(){
 */
 function drawBoard(board){
 	
-    var canvas = $("#canvas"); 
+    var canvas = $("#board"); 
 
     // Change the height and width of the board here...
     // everything else should adapt to an adjustable
@@ -133,7 +130,7 @@ function drawBoard(board){
 	
 	
 	//var sz = state.size;
-	var sz = board.length();
+	var sz = board.length;
 	//var board = state.board;
 	var board = board;
 	var x = 650;
@@ -162,7 +159,7 @@ function drawBoard(board){
 		}
 		
 	}
-	console.log(state);
+	console.log(board);
 
     // append the svg object to the canvas object.
     canvas.append(svg);
@@ -176,8 +173,17 @@ function drawBoard(board){
 function tick(){
 	// If we think its the other persons turn, check for updates
 	if(localMove != 0){
-		getData(drawBoard(getBoard()));
+		getData();
 	}
 } 
 
  setInterval(tick, 10000); // ## Uncomment when page ready
+ 
+ 
+ function init(){
+
+    // do page load things here...
+
+    console.log("Initalizing Page...."); 
+    getData(drawBoard); 
+}
