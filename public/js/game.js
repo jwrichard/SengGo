@@ -100,7 +100,57 @@ function getBoard(){
 *
 */
 function drawBoard(board){
+<<<<<<< HEAD
+    var canvas = $("#canvas"); 
+
+    // Change the height and width of the board here...
+    // everything else should adapt to an adjustable
+    // height and width.
+    var W = 600, H = 600; 
+    canvas.css("height", H); 
+    canvas.css("width", W); 
+
+    // The actual SVG element to add to. 
+    // we make a jQuery object out of this, so that 
+    // we can manipulate it via calls to the jQuery API. 
+    var svg = $(makeSVG(W, H));
 	
+	
+	var sz = state.size;
+	var board = state.board;
+	var x = 650;
+	var inc = (x/sz);
+	var offset = (600-x)/2;
+	
+	if( (.5*inc) > offset) {
+		offset = .5*inc;
+		x = 600 - (2*offset);
+		inc = x/sz;
+	}
+	
+	svg.append(makeRectangle(0,0,600,600,"saddlebrown"));
+	
+	for(i=0; i<sz; i++){
+		for(j=0;j<sz;j++){
+			//var rect = makeRectangle( 50*i,50*j,48,48 ,"brown");
+			var rect = makeRectangle( (i*inc)+offset+1,(j*inc)+offset+1,inc-2,inc-2,"darkolivegreen");
+			if(board[i][j] === 1)
+				var token = makeCircle( (i*inc)+offset-1,(j*inc)+offset-1,.48*(inc),"palegoldenrod");
+			if(board[i][j] === 2)
+				var token = makeCircle( (i*inc)+offset-1,(j*inc)+offset-1,.48*(inc),"sandybrown");
+			svg.append(rect);
+			svg.append(token);
+			//console.log(board[i][j]);
+		}
+		
+	}
+	console.log(state);
+
+    // append the svg object to the canvas object.
+    canvas.append(svg);
+=======
+	
+>>>>>>> 433141f40c4d5ab4f03da3d66b5f2998ba28e482
 }
 
 
