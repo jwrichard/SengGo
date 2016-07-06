@@ -11,6 +11,9 @@ var app = express();
 var Storage = require('./lib/MongoDB');
 var db = new Storage(null, null, 'senggo');
 
+// Initialize server game module
+var serverGameModule = require('./lib/game.js');
+
 // Include any scripts we need for the backend server
 var sha = require('./lib/sha512.js');
 
@@ -319,7 +322,8 @@ function createGame(ip, player1, player2, boardSize, res){
 
 // Handle a request for a move, or the sending of a move
 app.post('/sendMove', function (req, res) {
-	res.send(req);
+	serverGameModule.processMove(req);
+	//res.send(req);
 })
 
 // Get the status of a game
