@@ -328,15 +328,16 @@ app.post('/sendMove', function (req, res) {
 
 // Get the status of a game
 app.get('/getBoard', function (req, res) {
-	res.send("{board: [[1, 0, 2],[2, 0, 1],[0, 1, 1]], move: 7}");
+	gameId = req.query.id;
+	db.getQuery('games', {gameId: gameId}, function(err, result){
+		res.send(result);
+	});
 })
-
 
 // Redirect all unsupported pages to the home page
 //app.get('*', function (req, res) {
     //res.redirect('/');
 //});
-
 
 // Listen on default port 
 var server = app.listen(8000, function () {
