@@ -1,44 +1,44 @@
-
+<!DOCTYPE html>
 <html lang="en">
   <head>
-    
-    
-    
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>SengGo</title>
 
-    
-    
-    
+    <!-- CSS Stylesheets -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
 
   </head>
 
   <body style="background: #f2f2f2;">
 
-    <div class="banner"><div style="background:; width:100%; height: 100%;"></div></div>
+    <div class="banner"><div style="background:rgba(0,0,0,0.3); width:100%; height: 100%;"></div></div>
 
-    
+    <nav class="navbar navbar-inverse">
       <div class="container">
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
             <span class="sr-only">Toggle navigation</span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand"><span class="primaryWord">Seng</span><span class="secondaryWord">Go</span></a>
+          <a class="navbar-brand" href="/"><span class="primaryWord">Seng</span><span class="secondaryWord">Go</span></a>
         </div>
         <div id="navbar">
           <ul class="nav navbar-nav">
-            <li><a>Play</a></li>
-            <li class="active"><a>About</a></li>
-            <li><a>Rules</a></li>
-            <li><a>Sign in</a></li>
-            <li><a>Register</a></li>
+            <li><a href="/">Play</a></li>
+            <li class = "active"><a href="/about">About</a></li>
+            <li><a href="/rules">Rules</a></li>
+            <li><a href="/login">Sign in</a></li>
+            <li><a href="/register">Register</a></li>
           </ul>
         </div>
       </div>
-    
+    </nav>
 
     <div class="container">
 
@@ -51,7 +51,7 @@
         </div>
       </div>
         
-        <div class="row">
+        <div class = "row">
         <div class="col-md-8 col-md-offset-2">
             
             <h3> WHO ARE WE? </h3>
@@ -66,12 +66,12 @@
             
         </div>
 
-    </div>
+    </div><!-- /.container -->
 
-    
-    
-    
-    
-    
+    <!-- JS Scripts (Added at end of page so page visually loads faster) -->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/forms.js"></script>
+    <script src="js/sha512.js"></script>
   </body>
 </html>
