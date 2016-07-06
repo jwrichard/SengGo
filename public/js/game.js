@@ -56,6 +56,7 @@ function checkIfValidMove(board, move){
 *	Returns: 
 *	- IfKoRuleViolated: bool
 */
+
 function checkIfKo(board, move){
 	// Do magic shit
 
@@ -74,6 +75,7 @@ function checkIfKo(board, move){
 *	- Success: bool
 */
 function sendMove(move){
+    
 
 
 	return false;

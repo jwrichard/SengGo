@@ -317,7 +317,7 @@ app.get('/getBoard', function (req, res) {
 
 
 // Listen on default port 
-var server = app.listen(80, function () {
+var server = app.listen(8000, function () {
   console.log("Server running at 127.0.0.1.");
   db.connect(function(){console.log("Ready to serve requests.");});
 })
