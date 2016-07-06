@@ -78,15 +78,33 @@ app.get('/', function (req, res) {
 
 // About page
 app.get('/about', function (req, res) {
+	(req.session.username ? user = req.session.username :  user = '');
+	var pageData;
+	if(user != ""){
+		pageData = {loginstatus: '<div><p class="navbar-form navbar-right loginstatus">Logged in as: <span class="secondaryWord">'+user+'</span> | <a href="/actionLogout">Logout</a></p></div>', 
+					menu: ''};
+	} else {
+		pageData = {loginstatus: '<form class="navbar-form navbar-right" action="/actionLogin" method="post"><div class="form-group"><input type="text" placeholder="Username" class="form-control" id="username" name="username"></div><div class="form-group"><input type="password" placeholder="Password" class="form-control" id="password" name="password"></div><input type="button" class="btn btn-primary" onclick="formhash(this.form, this.form.username, this.form.password);" value="Sign in" /></form>',
+					menu: '<li><a href="/login">Sign in</a></li><li><a href="/register">Register</a></li>'};
+	}
    	var page = fs.readFileSync("views/about.html", "utf8"); // bring in the HTML file
-	var html = mustache.to_html(page, {}); // replace all of the data
+	var html = mustache.to_html(page, pageData); // replace all of the data
 	res.send(html);
 })
 
 // Rules page
 app.get('/rules', function (req, res) {
+	(req.session.username ? user = req.session.username :  user = '');
+	var pageData;
+	if(user != ""){
+		pageData = {loginstatus: '<div><p class="navbar-form navbar-right loginstatus">Logged in as: <span class="secondaryWord">'+user+'</span> | <a href="/actionLogout">Logout</a></p></div>', 
+					menu: ''};
+	} else {
+		pageData = {loginstatus: '<form class="navbar-form navbar-right" action="/actionLogin" method="post"><div class="form-group"><input type="text" placeholder="Username" class="form-control" id="username" name="username"></div><div class="form-group"><input type="password" placeholder="Password" class="form-control" id="password" name="password"></div><input type="button" class="btn btn-primary" onclick="formhash(this.form, this.form.username, this.form.password);" value="Sign in" /></form>',
+					menu: '<li><a href="/login">Sign in</a></li><li><a href="/register">Register</a></li>'};
+	}
    	var page = fs.readFileSync("views/rules.html", "utf8"); // bring in the HTML file
-	var html = mustache.to_html(page, {}); // replace all of the data
+	var html = mustache.to_html(page, pageData); // replace all of the data
 	res.send(html);
 })
 
