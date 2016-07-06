@@ -1,0 +1,29 @@
+{
+  "name": "go-app-package",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "description": "SENG 299 Go Project",
+  "main": "server.js",
+  "dependencies": {
+    "crypto": "^0.0.3",
+    "body-parser": "^1.15.2",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.14.0",
+    "express-session": "^1.13.0",
+    "mongodb": "^2.1.18",
+    "mustache": "^2.2.1"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jwrichard/senggo.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jwrichard/senggo/issues"
+  },
+  "homepage": "https://github.com/jwrichard/senggo#readme"
+}

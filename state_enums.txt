@@ -1,0 +1,9 @@
+states:
+
+0 - black turn
+1 - white turn
+2 - black passed
+3 - white passed
+4 - black won
+5 - white won
+6 - tie (Is this even possible?)
