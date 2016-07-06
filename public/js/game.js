@@ -1,6 +1,10 @@
 /*
 	This script will be used client side to operate the game
 */
+window.onload = function()
+{
+	drawBoard();
+}
 
 // Global vars to be used in all
 var localBoard = []; // Our local copy of what the board is, update this when getting new board (Not sure if this needed)
@@ -94,7 +98,7 @@ function getBoard(){
 *
 */
 function drawBoard(board){
-
+	
 }
 
 
