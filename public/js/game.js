@@ -3,7 +3,7 @@
 
  * Requests a new board state from the server's /data route.
  * 
- * @param cb {function} callback to call when the request comes back from the server.
+ * @param cb {function} callback to call when the request comes back from the server..
  */
 function getData(cb){
     $.get("/data", function(data, textStatus, xhr){
