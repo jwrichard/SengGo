@@ -1,9 +1,20 @@
 /*
 	This script will be used client side to operate the game
-*/
-window.onload = function()
-{
-	drawBoard();
+
+ * Requests a new board state from the server's /data route.
+ * 
+ * @param cb {function} callback to call when the request comes back from the server.
+ */
+function getData(cb){
+    $.get("/data", function(data, textStatus, xhr){
+        console.log("Response for /data: "+textStatus);  
+
+        // handle any errors here....
+
+        // draw the board....
+        cb(data);  
+
+    }); 
 }
 
 // Global vars to be used in all
@@ -98,7 +109,7 @@ function getBoard(){
 *
 */
 function drawBoard(board){
-<<<<<<< HEAD
+	
     var canvas = $("#canvas"); 
 
     // Change the height and width of the board here...
@@ -146,9 +157,7 @@ function drawBoard(board){
 
     // append the svg object to the canvas object.
     canvas.append(svg);
-=======
-	
->>>>>>> 433141f40c4d5ab4f03da3d66b5f2998ba28e482
+
 }
 
 
