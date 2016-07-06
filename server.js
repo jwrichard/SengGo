@@ -285,6 +285,7 @@ app.post('/newPVPGame', function (req, res) {
 
 // Creates a new local, ai, or pvp game depending on parameters. Returns the games id.
 function createGame(ip, player1, player2, boardSize, res){
+
 	// Cast boardSize to int
 	boardSize = parseInt(boardSize);
 
@@ -305,6 +306,7 @@ function createGame(ip, player1, player2, boardSize, res){
 		// Create the game object to insert
 		var game = {
 			gameId: gameId,
+			userIP: ip,
 			board: board,
 			boardSize: boardSize,
 			player1: player1,
@@ -325,8 +327,50 @@ function createGame(ip, player1, player2, boardSize, res){
 
 // Handle a request for a move, or the sending of a move
 app.post('/sendMove', function (req, res) {
-	serverGameModule.processMove(req);
-	//res.send(req);
+	// Get parameters
+	var data = req.body.something;
+	var gameId = data.gameId;
+	var move = data.move;
+	var user = req.session.username;
+	var reqIP = req.connection.remoteAddress;
+	var board;
+	var color;
+
+	// Get the game board from the server
+	db.getQuery('games', {gameId: gameId}, function(err, result){
+		board = result[0].board;
+		var player1 = result[0].player1;
+		var player2 = result[0].player2;
+		var userIP = result[0].userIP;
+
+		// Make sure a valid user is sending the request
+		if(userIP == null){
+			// AI or PvP game
+			if(user == player1){
+				color = 1;
+			} else if(user == player2){
+				color = 2;
+			} else {
+				res.send("[]");
+			}
+		} else {
+			// Local game
+			if(reqIP != userIP){
+				res.send("[]");
+			}
+		}
+		// move = {x, y, c} where c = 1 - black, 2 - white
+		var result = serverGameModule.processMove(board, {move.x, move.y, color});
+		if(result != false){
+			// Update the game board in the db
+			db.updateGame(result, function(result){
+				console.log("Did this update correctly?");
+				console.log(result);
+				// return result;
+			}, 'games');
+		}
+	});
+	
 })
 
 // Get the status of a game
