@@ -262,7 +262,7 @@ app.post('/newPVPGame', function (req, res) {
 	createGame(null, req.session.username, opponent, boardSize, res);
 })
 
-// Creates a new local, ai, or pvp game depending on paramters. Returns the games id.
+// Creates a new local, ai, or pvp game depending on parameters. Returns the games id.
 function createGame(ip, player1, player2, boardSize, res){
 	// Create boardSize x boardSize array
 	var board = new Array(boardSize);
