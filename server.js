@@ -328,7 +328,7 @@ app.post('/sendMove', function (req, res) {
 
 // Get the status of a game
 app.get('/getBoard', function (req, res) {
-	res.send("{board: [1,2,3], move: 1}");
+	res.send("{board: [[1, 0, 2],[2, 0, 1],[0, 1, 1]], move: 7}");
 })
 
 
