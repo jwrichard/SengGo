@@ -2,23 +2,10 @@
 	This script will be used client side to operate the game
 
  * Requests a new board state from the server's /data route.
- * 
- * @param cb {function} callback to call when the request comes back from the server..
- */
-function getData(cb){
-    $.get("/data", function(data, textStatus, xhr){
-        console.log("Response for /data: "+textStatus);  
-
-        // handle any errors here....
-
-        // draw the board....
-        cb(data);  
-
-    }); 
-}
+*/
 
 // Global vars to be used in all
-var localBoard = []; // Our local copy of what the board is, update this when getting new board (Not sure if this needed)
+var localBoard = null; // Our local copy of what the board is, update this when getting new board (Not sure if this needed)
 var localMove = -1; // Local copy of who's move it is, update this when getting new board (Not sure if this needed)
 var me = 0; // Our local Id, i.e if its player me's turn, its us!
 
@@ -83,6 +70,24 @@ function sendMove(move){
 	return false;
 }
 
+function getData(cb){
+    $.get("/getBoard", function(data, textStatus, xhr){
+        console.log("Response for /getBoard: "+textStatus);  
+        console.log(data);
+
+        // handle any errors here....
+
+        // draw the board....
+
+        boardState = data; 
+
+        cb(data);  
+
+    }); 
+}
+
+
+
 /*
 *	getBoard - Sends a request to the server to update the game board
 *			 - Should sent GET request to '/getBoard'
@@ -99,8 +104,23 @@ function getBoard(){
 	// Parse result for game board and move
 
 	// Update our local vars
-	localBoard = board;
-	localMove = move;
+	//localBoard = board;
+	//localMove = move;
+	
+    $.ajax({
+        type: 'POST',
+        url : '/getBoard',
+        dataType: "json",
+        data : JSON.stringify(localBoard), 
+        contentType : "application/json",
+        success : function(data){
+            console.log(data);
+            console.log(status);
+            boardState = data;
+            drawBoard(data);    
+        }
+    });
+	
 
 	// Create object and return it
 	return {board: board, move: move};
@@ -129,8 +149,10 @@ function drawBoard(board){
     var svg = $(makeSVG(W, H));
 	
 	
-	var sz = state.size;
-	var board = state.board;
+	//var sz = state.size;
+	var sz = board.length();
+	//var board = state.board;
+	var board = board;
 	var x = 650;
 	var inc = (x/sz);
 	var offset = (600-x)/2;
@@ -171,8 +193,8 @@ function drawBoard(board){
 function tick(){
 	// If we think its the other persons turn, check for updates
 	if(localMove != 0){
-		drawBoard(getBoard());
+		getData(drawBoard(getBoard()));
 	}
 } 
 
-// setInterval(tick, 10000); // ## Uncomment when page ready
+ setInterval(tick, 10000); // ## Uncomment when page ready
