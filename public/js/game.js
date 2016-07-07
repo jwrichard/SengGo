@@ -130,7 +130,7 @@ function drawBoard(state){
 	
 	
 	//var sz = state.size;
-	var sz = state[0].boardSize;
+	var sz = state[0].boardSize-1;
 	//var board = state.board;
 	var board = state[0].board;
 	//console.log(board[1][1]);
