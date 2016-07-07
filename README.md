@@ -9,5 +9,7 @@ branch on Github then run the following code to make your local repository
 reflect the remote one.
 WARNING: Any changes you made that have not been pushed will be lost.
 
-git fetch --all
-git reset --hard origin/master
+>git fetch origin
+ 
+
+>git reset --hard origin/master
