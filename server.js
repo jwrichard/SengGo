@@ -330,7 +330,8 @@ app.post('/sendMove', function (req, res) {
 	// Get parameters
 	var data = req.body.something;
 	var gameId = data.gameId;
-	var move = data.move;
+	var x = data.move.x;
+	var y = data.move.y;
 	var user = req.session.username;
 	var reqIP = req.connection.remoteAddress;
 	var board;
@@ -360,7 +361,7 @@ app.post('/sendMove', function (req, res) {
 			}
 		}
 		// move = {x, y, c} where c = 1 - black, 2 - white
-		var result = serverGameModule.processMove(board, {move.x, move.y, color});
+		var result = serverGameModule.processMove(board, {x, y, color});
 		if(result != false){
 			// Update the game board in the db
 			db.updateGame(result, function(result){
