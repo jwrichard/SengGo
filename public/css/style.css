@@ -1,3 +1,9 @@
+#canvas{
+    border:8px solid #333;
+	border-radius: 7px;
+    margin:0 auto;
+}
+
 .extra-pad {
   padding-left: 20px;
   padding-top: 40px;

@@ -9,7 +9,7 @@
 
     <!-- CSS Stylesheets -->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
-    <link href="../css/style.css" rel="stylesheet">
+    <link href="../css/style.css" rel="stylesheet" type="text/css">
 
     <script>
       gameId = "{{{gameId}}}";
@@ -47,27 +47,25 @@
 
       <div class="row">
         <div class="col-md-8 col-md-offset-2 text-center">
-          <h2>Play</h2>
-          <h4>Maybe show who's move it is up here somewhere?</h4>
+          <h2>Play Go!</h2>
+          <h4></h4>
         </div>
       </div>
 
       <div class="row">
         <div class="col-md-2">
           <!-- Show a move history here or something? -->
-          something here
         </div>
         <div class="col-md-8">
 
           <!-- Holds the game board -->
-          <div class="board">
+          <div id="canvas">
             i am game board. The game id is: {{{gameId}}}. The player logged in is: {{{user}}}. A blank user can make a move in any hot seat game that their IP matches
           </div>
 
         </div>
         <div class="col-md-2">
           <!-- Figure out something to plop here -->
-          something else
         </div>
       </div>
     </div><!-- /.container -->
@@ -78,6 +76,10 @@
     <script src="/js/forms.js"></script>
     <script src="/js/sha512.js"></script>
     <script src="/js/game.js"></script>
+	<script src="/js/svgMake.js"></script>
     <script>$('#gid').text(gameId);</script>
+	<script>
+            init(); 
+        </script>
   </body>
 </html>

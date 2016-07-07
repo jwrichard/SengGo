@@ -6,3 +6,8 @@ states:
 3 - white passed
 4 - black won
 5 - white won
+
+player colors on board
+0 - empty
+1 - black
+2 - white

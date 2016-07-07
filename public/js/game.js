@@ -2,23 +2,10 @@
 	This script will be used client side to operate the game
 
  * Requests a new board state from the server's /data route.
- * 
- * @param cb {function} callback to call when the request comes back from the server..
- */
-function getData(cb){
-    $.get("/data", function(data, textStatus, xhr){
-        console.log("Response for /data: "+textStatus);  
-
-        // handle any errors here....
-
-        // draw the board....
-        cb(data);  
-
-    }); 
-}
+*/
 
 // Global vars to be used in all
-var localBoard = []; // Our local copy of what the board is, update this when getting new board (Not sure if this needed)
+var localBoard = null; // Our local copy of what the board is, update this when getting new board (Not sure if this needed)
 var localMove = -1; // Local copy of who's move it is, update this when getting new board (Not sure if this needed)
 var me = 0; // Our local Id, i.e if its player me's turn, its us!
 
@@ -69,6 +56,24 @@ function sendMove(move){
 	return false;
 }
 
+function getData(cb){
+    $.get("/getBoard?id="+gameId, function(data, textStatus, xhr){
+        console.log("Response for /getBoard?id="+gameId+": "+textStatus);  
+        console.log(data);
+
+        // handle any errors here....
+
+        // draw the board....
+
+        localBoard = data; 
+
+        cb(data);  
+
+    }); 
+}
+
+
+
 /*
 *	getBoard - Sends a request to the server to update the game board
 *			 - Should sent GET request to '/getBoard'
@@ -80,16 +85,25 @@ function sendMove(move){
 */
 function getBoard(){
 
-	// Make AJAX call to /getBoard 
+ // This code is going to end up doing something
+ // that relates to the AI and requesting moves from it
+ // similar code can be seen in script.js from lab 6 I think.
+ // WYLL :D
+	
+    $.ajax({
+        type: 'POST',
+        url : '/getBoard?id='+ gameId,
+        dataType: "json",
+        data : JSON.stringify(localBoard), 
+        contentType : "application/json",
+        success : function(data){
+            console.log(data);
+            //console.log(status);
+            localBoard = data;
+            drawBoard(data);    
+        }
+    });
 
-	// Parse result for game board and move
-
-	// Update our local vars
-	localBoard = board;
-	localMove = move;
-
-	// Create object and return it
-	return {board: board, move: move};
 }
 
 
@@ -98,14 +112,17 @@ function getBoard(){
 			  - Look at /views/play.html to figure out how to draw it
 *
 */
-function drawBoard(board){
+function drawBoard(state){
+	console.log(state[0].board);
+	
+	$('#canvas').html('');
 	
     var canvas = $("#canvas"); 
 
     // Change the height and width of the board here...
     // everything else should adapt to an adjustable
     // height and width.
-    var W = 600, H = 600; 
+    var W = 750, H = W; 
     canvas.css("height", H); 
     canvas.css("width", W); 
 
@@ -115,19 +132,22 @@ function drawBoard(board){
     var svg = $(makeSVG(W, H));
 	
 	
-	var sz = state.size;
-	var board = state.board;
-	var x = 650;
+	//var sz = state.size;
+	var sz = state[0].boardSize;
+	//var board = state.board;
+	var board = state[0].board;
+	//console.log(board[1][1]);
+	var x = W;
 	var inc = (x/sz);
-	var offset = (600-x)/2;
+	var offset = (W-x)/2;
 	
 	if( (.5*inc) > offset) {
 		offset = .5*inc;
-		x = 600 - (2*offset);
+		x = W -16 - (2*offset);
 		inc = x/sz;
 	}
 	
-	svg.append(makeRectangle(0,0,600,600,"saddlebrown"));
+	svg.append(makeRectangle(0,0,W-16,H-16,"#A99999"));
 	
 	for(i=0; i<sz; i++){
 		for(j=0;j<sz;j++){
@@ -143,7 +163,7 @@ function drawBoard(board){
 		}
 		
 	}
-	console.log(state);
+	//console.log(board);
 
     // append the svg object to the canvas object.
     canvas.append(svg);
@@ -156,9 +176,19 @@ function drawBoard(board){
 */
 function tick(){
 	// If we think its the other persons turn, check for updates
+	
 	if(localMove != 0){
-		drawBoard(getBoard());
+		getData(drawBoard);
 	}
 } 
 
-// setInterval(tick, 10000); // ## Uncomment when page ready
+ setInterval(tick, 10000); // ## Uncomment when page ready
+ 
+ 
+ function init(){
+
+    // do page load things here...
+
+    console.log("Initalizing Page...."); 
+    getData(drawBoard); 
+}
