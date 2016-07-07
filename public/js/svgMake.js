@@ -32,10 +32,6 @@ function makeClick(x, y, w, h){
    rect.setAttribute("fill", "grey");
    //rect.setAttribute("visibility", hidden);
    
-   rect{
-	   visibility: hidden;
-   }
-   
    return rect; 
 }
 
