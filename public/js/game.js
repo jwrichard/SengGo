@@ -64,7 +64,7 @@ function checkIfValidMove(board, move){
 */
 function sendMove(move){
     
-
+    
 
 	return false;
 }
