@@ -18,6 +18,34 @@ var SVGNameSpace = "http://www.w3.org/2000/svg";
 * @param y {number} the y position of the rectangle.
 * @param w {number} the width of the rectangle.
 * @param h {number} the height of the rectangle.
+* 
+* @return {object} 
+*/ 
+function makeClick(x, y, w, h){
+   var rect = document.createElementNS(SVGNameSpace, "rect"); 
+
+   // Checkout docs at: http://www.w3schools.com/svg/svg_rect.asp
+   rect.setAttribute("width", w);
+   rect.setAttribute("height", w);
+   rect.setAttribute("x", x);
+   rect.setAttribute("y", y);
+   rect.setAttribute("fill", "grey");
+   //rect.setAttribute("visibility", hidden);
+   
+   rect{
+	   visibility: hidden;
+   }
+   
+   return rect; 
+}
+
+/**
+* Makes and returns a new SVG rectange object. 
+* 
+* @param x {number} the x position of the rectangle.
+* @param y {number} the y position of the rectangle.
+* @param w {number} the width of the rectangle.
+* @param h {number} the height of the rectangle.
 * @param c {string} the color of the rectangle. 
 * 
 * @return {object} 
@@ -30,8 +58,7 @@ function makeRectangle(x, y, w, h, c){
    rect.setAttribute("height", w);
    rect.setAttribute("x", x);
    rect.setAttribute("y", y);
-   
-   rect.style.fill = c;
+   rect.setAttribute("class", c);
    
    return rect; 
 }
@@ -54,7 +81,7 @@ function makeCircle(x, y, r, c){
     circ.setAttribute("cx", x);
     circ.setAttribute("cy", y);
     circ.setAttribute("r", r);
-    circ.setAttribute("fill", c)
+    circ.setAttribute("class", c)
     circ.setAttribute("stroke", "black")
 
    return circ;
