@@ -1,0 +1,58 @@
+/* ~~~ Changes to the gameboard ~~~ */
+
+/* Board color, only really seen around the edges unless transparent squares used */
+.board {
+	fill: rbg(110, 0 ,0);
+}
+
+/* Each little tile */
+.square {
+	stroke: #000;
+	fill: darkolivegreen
+}
+
+/* Color of the black tokens (player 1) */
+.black {
+	stroke: #ccc;
+	fill: #fff;
+}
+
+/* Color of the white tokens (player 2) */
+.white {
+	stroke: #000;
+	fill: #fff;
+}
+
+/* ~~~ Changes to the sites appearance ~~~ */
+
+/* Background color of the site */
+body  {
+	background-color: #333;
+}
+
+/* Color of the big boxes on the home screen */
+.panel {
+	background-color: #555;
+}
+.panel:hover {
+	background-color: #444;
+}
+span.glyphicon {
+	color: #aaa;
+}
+
+/* Color of form elements */
+input, select {
+	background-color: #fff;
+}
+
+/* Header color */
+.navbar-inverse {
+	background-color: #222;
+    border-color: #080808;
+}
+
+/* Text colors/sizes */
+p, a, span, h1, h2, h3, h4, h5, h6, div {
+	color: #eee;
+}

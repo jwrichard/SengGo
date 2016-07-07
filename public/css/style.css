@@ -4,6 +4,17 @@
     margin:0 auto;
 }
 
+#themePicker {
+	position: fixed;
+	right: 0;
+	width: 150px;
+	margin-top: -20px;
+}
+
+body {
+	background: #f2f2f2;
+}
+
 .extra-pad {
   padding-left: 20px;
   padding-top: 40px;
@@ -14,6 +25,12 @@
 	background-repeat: repeat-x;
 	height: 46px;
 	border-top: 2px solid black;
+}
+
+.banner-overlay {
+	background:rgba(0,0,0,0.3); 
+	width:100%; 
+	height: 100%;
 }
 
 .panel {

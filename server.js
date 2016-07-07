@@ -59,7 +59,6 @@ app.get('/', function (req, res) {
 
 	(req.session.username ? user = req.session.username :  user = '');
 	var pageData;
-	console.log("User logged in: "+user);
 	if(user != ""){
 		pageData = {loginstatus: '<div><p class="navbar-form navbar-right loginstatus">Logged in as: <span class="secondaryWord">'+user+'</span> | <a href="/actionLogout">Logout</a></p></div>', 
 					error: e,
@@ -67,7 +66,7 @@ app.get('/', function (req, res) {
 					success: s
 				}; // replace all of the data
 	} else {
-		pageData = {loginstatus: '<form class="navbar-form navbar-right" action="/actionLogin" method="post"><div class="form-group"><input type="text" placeholder="Username" class="form-control" id="username" name="username"></div><div class="form-group"><input type="password" placeholder="Password" class="form-control" id="password" name="password"></div><input type="button" class="btn btn-primary" onclick="formhash(this.form, this.form.username, this.form.password);" value="Sign in" /></form>', 
+		pageData = {loginstatus: '<form class="navbar-form navbar-right" action="/actionLogin" method="post"><div class="form-group"><input type="text" placeholder="Username" class="form-control" id="username" name="username" size="10"></div><div class="form-group"><input type="password" placeholder="Password" class="form-control" id="password" name="password" size="10"></div><input type="button" class="btn btn-primary" onclick="formhash(this.form, this.form.username, this.form.password);" value="Sign in" /></form>', 
 					authreq: '(Authentication required)',
 					menu: '<li><a href="/login">Sign in</a></li><li><a href="/register">Register</a></li>',
 					error: e,
@@ -87,7 +86,7 @@ app.get('/about', function (req, res) {
 		pageData = {loginstatus: '<div><p class="navbar-form navbar-right loginstatus">Logged in as: <span class="secondaryWord">'+user+'</span> | <a href="/actionLogout">Logout</a></p></div>', 
 					menu: ''};
 	} else {
-		pageData = {loginstatus: '<form class="navbar-form navbar-right" action="/actionLogin" method="post"><div class="form-group"><input type="text" placeholder="Username" class="form-control" id="username" name="username"></div><div class="form-group"><input type="password" placeholder="Password" class="form-control" id="password" name="password"></div><input type="button" class="btn btn-primary" onclick="formhash(this.form, this.form.username, this.form.password);" value="Sign in" /></form>',
+		pageData = {loginstatus: '<form class="navbar-form navbar-right" action="/actionLogin" method="post"><div class="form-group"><input type="text" placeholder="Username" class="form-control" size="10" id="username" name="username"></div><div class="form-group"><input type="password" size="10" placeholder="Password" class="form-control" id="password" name="password"></div><input type="button" class="btn btn-primary" onclick="formhash(this.form, this.form.username, this.form.password);" value="Sign in" /></form>',
 					menu: '<li><a href="/login">Sign in</a></li><li><a href="/register">Register</a></li>'};
 	}
    	var page = fs.readFileSync("views/about.html", "utf8"); // bring in the HTML file
@@ -103,7 +102,7 @@ app.get('/rules', function (req, res) {
 		pageData = {loginstatus: '<div><p class="navbar-form navbar-right loginstatus">Logged in as: <span class="secondaryWord">'+user+'</span> | <a href="/actionLogout">Logout</a></p></div>', 
 					menu: ''};
 	} else {
-		pageData = {loginstatus: '<form class="navbar-form navbar-right" action="/actionLogin" method="post"><div class="form-group"><input type="text" placeholder="Username" class="form-control" id="username" name="username"></div><div class="form-group"><input type="password" placeholder="Password" class="form-control" id="password" name="password"></div><input type="button" class="btn btn-primary" onclick="formhash(this.form, this.form.username, this.form.password);" value="Sign in" /></form>',
+		pageData = {loginstatus: '<form class="navbar-form navbar-right" action="/actionLogin" method="post"><div class="form-group"><input type="text" placeholder="Username" class="form-control" id="username" size="10" name="username"></div><div class="form-group"><input type="password" size="10" placeholder="Password" class="form-control" id="password" name="password"></div><input type="button" class="btn btn-primary" onclick="formhash(this.form, this.form.username, this.form.password);" value="Sign in" /></form>',
 					menu: '<li><a href="/login">Sign in</a></li><li><a href="/register">Register</a></li>'};
 	}
    	var page = fs.readFileSync("views/rules.html", "utf8"); // bring in the HTML file
@@ -156,7 +155,6 @@ app.get('/register', function (req, res) {
 
 // Game page
 app.get('/play/:gameId', function (req, res) {
-	console.log("gameId is: "+req.params.gameId);
 	var page = fs.readFileSync("views/play.html", "utf8"); // bring in the HTML file
 	(req.session.username ? user = req.session.username :  user = '');
 	// Display login status
@@ -182,8 +180,6 @@ app.post('/actionLogin', function (req, res) {
 	// Get post data
 	var username = req.body.username;
 	var password = req.body.p
-
-	console.log('Login attempt for user: '+username);
 
 	// Compare with user in DB to see if match
 	db.getQuery('users', {username: username}, function(err, result){
@@ -298,7 +294,6 @@ function createGame(ip, player1, player2, boardSize, res){
 	// Create a unique game Id for this game and ensure it hasnt been used before
 	var gameId = Crypto.randomBytes(3).toString('hex');
 	db.getQuery('games', {gameId: gameId}, function(err, result){
-		console.log(err);
 		// If exists, generate a new longer random id
 		if(result.length > 0){
 			gameId = Crypto.randomBytes(5).toString('hex');
