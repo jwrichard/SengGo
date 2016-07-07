@@ -82,13 +82,10 @@ function getData(cb){
 */
 function getBoard(){
 
-	// Make AJAX call to /getBoard 
-
-	// Parse result for game board and move
-
-	// Update our local vars
-	//localBoard = board;
-	//localMove = move;
+ // This code is going to end up doing something
+ // that relates to the AI and requesting moves from it
+ // similar code can be seen in script.js from lab 6 I think.
+ // WYLL :D
 	
     $.ajax({
         type: 'POST',
@@ -112,14 +109,17 @@ function getBoard(){
 			  - Look at /views/play.html to figure out how to draw it
 *
 */
-function drawBoard(board){
+function drawBoard(state){
+	console.log(state[0].board);
 	
-    var canvas = $("#board"); 
+	$('#canvas').html('');
+	
+    var canvas = $("#canvas"); 
 
     // Change the height and width of the board here...
     // everything else should adapt to an adjustable
     // height and width.
-    var W = 600, H = 600; 
+    var W = 750, H = W; 
     canvas.css("height", H); 
     canvas.css("width", W); 
 
@@ -130,20 +130,21 @@ function drawBoard(board){
 	
 	
 	//var sz = state.size;
-	var sz = board.length;
+	var sz = state[0].boardSize;
 	//var board = state.board;
-	var board = board;
-	var x = 650;
+	var board = state[0].board;
+	//console.log(board[1][1]);
+	var x = W;
 	var inc = (x/sz);
-	var offset = (600-x)/2;
+	var offset = (W-x)/2;
 	
 	if( (.5*inc) > offset) {
 		offset = .5*inc;
-		x = 600 - (2*offset);
+		x = W -16 - (2*offset);
 		inc = x/sz;
 	}
 	
-	svg.append(makeRectangle(0,0,600,600,"saddlebrown"));
+	svg.append(makeRectangle(0,0,W-16,H-16,"#A99999"));
 	
 	for(i=0; i<sz; i++){
 		for(j=0;j<sz;j++){
@@ -159,7 +160,7 @@ function drawBoard(board){
 		}
 		
 	}
-	console.log(board);
+	//console.log(board);
 
     // append the svg object to the canvas object.
     canvas.append(svg);
@@ -172,8 +173,9 @@ function drawBoard(board){
 */
 function tick(){
 	// If we think its the other persons turn, check for updates
+	
 	if(localMove != 0){
-		getData();
+		getData(drawBoard);
 	}
 } 
 

@@ -31,6 +31,8 @@ function makeRectangle(x, y, w, h, c){
    rect.setAttribute("x", x);
    rect.setAttribute("y", y);
    
+   rect.style.fill = c;
+   
    return rect; 
 }
 
