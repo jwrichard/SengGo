@@ -103,10 +103,34 @@ function getBoard(){
 
 }
 
+/*
+* showPlayerInfo - Given player name and score for each player,
+*                  manipulate the DOM to display each player information
+*
+*/
+function showPlayerInfo(player1, player2, board) {
+    
+    var playerLeftInfo = document.getElementById('playerinfo-left');
+    var playerRightInfo = document.getElementById('playerinfo-right');
+    
+    var firstPlayer = document.createElement('H1');
+    var secondPlayer = document.createElement('H1');
+    var firstPlayerScore = document.createElement('H2');
+    var secondPlayerScore = document.createElement('H2');
+    
+    firstPlayer.appendChild(player1);
+    secondPlayer.appendChild(player2);
+    
+    firstPlayerScore.innerHTML = "Score: " + player1
+    secondPlayerScore.innerHTML = "Score: " + player2
+    
+    
+}
+
 
 /*
 *	drawBoard - Given a board, re-draws the page and manipulates the DOM to display the new board
-			  - Look at /views/play.html to figure out how to draw it
+*			  - Look at /views/play.html to figure out how to draw it
 *
 */
 function drawBoard(state){
