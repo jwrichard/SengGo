@@ -144,6 +144,12 @@ function passButton() {
 }
 
 
+function placeToken(board) {
+ /*  setAttribute("onmouseover", 'setAttribute("fill-opacity", .5)');
+   setAttribute("onmouseout", 'setAttribute("fill-opacity", 0)');*/
+	console.log(click);
+}
+
 /*
 *	drawBoard - Given a board, re-draws the page and manipulates the DOM to display the new board
 *			  - Look at /views/play.html to figure out how to draw it
@@ -198,7 +204,7 @@ function drawBoard(state){
 				var token = makeCircle( (i*inc)+offset-1,(j*inc)+offset-1,.48*(inc),"black");
 			if(board[i][j] === 2)
 				var token = makeCircle( (i*inc)+offset-1,(j*inc)+offset-1,.48*(inc),"white");
-			click.setAttribute("onclick","alert('justin')")
+			//click.setAttribute("onclick",placeToken(board));
 			svg.append(token);
 			svg.append(click);
 			//console.log(board[i][j]);
