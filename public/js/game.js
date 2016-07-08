@@ -146,18 +146,20 @@ function drawBoard(state){
 	
 	svg.append(makeRectangle(0,0,W-16,H-16,"board"));
 	
-	for(i=0; i<sz; i++){
-		for(j=0;j<sz;j++){
-			//var rect = makeRectangle( 50*i,50*j,48,48 ,"brown");
-			var rect = makeRectangle( (i*inc)+offset+1,(j*inc)+offset+1,inc-2,inc-2,"square");
-			/*if(board[i][j] === 0)
-				var token = makeClick( (i*inc)+offset-1,(j*inc)+offset-1,inc-2,inc-2);*/
+	for(i=0; i<=sz; i++){
+		for(j=0; j<=sz; j++){
+			if( i < state[0].boardSize-1 && j < state[0].boardSize-1) {
+				var rect = makeRectangle( (i*inc)+offset+1,(j*inc)+offset+1,inc-2,inc-2,"square");
+				svg.append(rect);
+			}
+			if(board[i][j] === 0)
+				var click = makeClick( (i*inc)+(.15*offset)-1,(j*inc)+(.15*offset)-1,inc,inc,i,j);
 			if(board[i][j] === 1)
 				var token = makeCircle( (i*inc)+offset-1,(j*inc)+offset-1,.48*(inc),"black");
 			if(board[i][j] === 2)
 				var token = makeCircle( (i*inc)+offset-1,(j*inc)+offset-1,.48*(inc),"white");
-			svg.append(rect);
 			svg.append(token);
+			svg.append(click);
 			//console.log(board[i][j]);
 		}
 		
