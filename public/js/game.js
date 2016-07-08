@@ -215,13 +215,13 @@ function tick(){
 	}
 } 
 
- setInterval(tick, 10000); // ## Uncomment when page ready
+setInterval(tick, 10000); // ## Uncomment when page ready
  
- 
- function init(){
+function init(){
+	// Do page load things here...
+	console.log("Initalizing Page...."); 
 
-    // do page load things here...
+	// Add  
 
-    console.log("Initalizing Page...."); 
-    getData(drawBoard);
+	getData(drawBoard);
 }
