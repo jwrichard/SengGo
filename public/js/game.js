@@ -108,7 +108,7 @@ function getBoard(){
 *                  manipulate the DOM to display each player information
 *
 */
-function showPlayerInfo(player1, player2, board) {
+function showPlayerInfo(player1, player2) {
     
     var playerLeftInfo = document.getElementById('playerinfo-left');
     var playerRightInfo = document.getElementById('playerinfo-right');
@@ -213,5 +213,6 @@ function tick(){
     // do page load things here...
 
     console.log("Initalizing Page...."); 
-    getData(drawBoard); 
+    getData(drawBoard);
+    getData(showPlayerInfo);
 }
