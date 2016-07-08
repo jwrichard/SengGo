@@ -3,13 +3,13 @@
 /* Board color, only really seen around the edges unless transparent squares used */
 
 .board {
-	fill: rgb(110, 0 ,0);
+    fill: rgb(227, 38, 54);
 }
 
 /* Each little tile */
 .square {
-	stroke: #FA8072;
-	fill: #FA8072;
+	stroke: #00693E;
+	fill: #008000;
 }
 
 /* Color of the black tokens (player 1) */
@@ -28,22 +28,22 @@
 
 /* Background color of the site */
 body  {
-	background: #228B22;
+	background: url("/img/christmas2.png");
 }
 
 /* Color of the big boxes on the home screen */
 .panel {
-	background: #B22222;
+	background: #177245;
 }
 .modal-content {
-    background: #333;
+    background: #8B0000;
 }
 
 .panel:hover {
-	background: #FFB6C1;
+	background: #560319;
 }
 span.glyphicon {
-	color: #FFEFD5;
+	color: #03C03C;
 }
 
 /* Color of form elements */
@@ -58,6 +58,10 @@ input, select {
 }
 
 /* Text colors/sizes */
-p, a, span, h1, h2, h3, h4, h5, h6, div {
+a, span, h2, h3, h4, h5, h6, div {
 	color: #eee;
+}
+
+h1, p {
+    color: #eee;
 }

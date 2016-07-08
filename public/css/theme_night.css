@@ -2,13 +2,13 @@
 
 /* Board color, only really seen around the edges unless transparent squares used */
 .board {
-	fill: rgb(110, 0 ,0);
+	fill: rgb(128, 128, 128);
 }
 
 /* Each little tile */
 .square {
 	stroke: #000;
-	fill: darkolivegreen
+	fill: lightgray;
 }
 
 /* Color of the black tokens (player 1) */

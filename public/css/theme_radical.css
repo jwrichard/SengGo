@@ -1,20 +1,21 @@
 /* ~~~ Changes to the gameboard ~~~ */
 
 /* Board color, only really seen around the edges unless transparent squares used */
+
 .board {
-	fill: rgb(255, 193, 204);
+	fill: rgb(0, 0, 0);
 }
 
 /* Each little tile */
 .square {
-	stroke: #FA8072;
-	fill: #E7FEFF;
+	stroke: #000;
+	fill: #000;
 }
 
 /* Color of the black tokens (player 1) */
 .black {
-	stroke: #FFC0CB;
-	fill: #FFC0CB;
+	stroke: #000;
+	fill: #000;
 }
 
 /* Color of the white tokens (player 2) */
@@ -27,24 +28,19 @@
 
 /* Background color of the site */
 body  {
-	background: url("/img/cottoncandy.png");
-}
-
-/* changes the top tokens bar thing */
-.banner-overlay {
-    background: rgba(0,0,0,0.2);
+	background: #000;
 }
 
 /* Color of the big boxes on the home screen */
 .panel {
-	background: #F08080;
+	background: #000;
 }
 .modal-content {
-    background: #F08080;
+    background: #333;
 }
 
 .panel:hover {
-	background: #A52A2A;
+	background: #FFB6C1;
 }
 span.glyphicon {
 	color: #FFEFD5;
@@ -52,21 +48,16 @@ span.glyphicon {
 
 /* Color of form elements */
 input, select {
-	background: #DB7093;
+	background: #009;
 }
 
 /* Header color */
 .navbar-inverse {
-	/*background: #FFA6C9*/
-    background: #FBCCE7;
+	background: #222;
     border-color: #080808;
 }
 
 /* Text colors/sizes */
-a, span, h2, h3, h4, h5, h6, div {
-	color: #eee;
-}
-
-h1, p {
-    color: black;
+p, a, span, h1, h2, h3, h4, h5, h6, div {
+	color: #005;
 }
