@@ -19,17 +19,17 @@ Work on dis
 
 ###Game Functionality
 
--Pass function > game.js/html stuff?
--Scoring/Rule algorithms
--Token interactions
--Replay
--Move theme selector
--Make Radical, radical yeaaaaaaaaaaa
+- Pass function > game.js/html stuff?
+- Scoring/Rule algorithms
+- Token interactions
+- Replay
+- Move theme selector
+- Make Radical, radical yeaaaaaaaaaaa
 
 ###Server
--Computer to computer
--AI communication
+- Computer to computer
+- AI communication
 
 ###Database
--History
--Replays?
+- History
+- Replays?
