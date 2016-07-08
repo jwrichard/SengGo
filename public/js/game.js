@@ -218,7 +218,6 @@ function drawBoard(state){
 */
 function tick(){
 	// If we think its the other persons turn, check for updates
-	
 	if(localMove != 0){
 		getData(drawBoard);
 	}
@@ -229,8 +228,15 @@ setInterval(tick, 10000); // ## Uncomment when page ready
 function init(){
 	// Do page load things here...
 	console.log("Initalizing Page...."); 
-
-	// Add  
-
 	getData(drawBoard);
+
+	
 }
+
+$(document).ready(function(){
+	// Add event handler for squares
+	console.log('Creating event handlers for squares');
+	$('rect.click').on('click', function(){
+		console.log("You clicked on a square!");
+	});
+});
