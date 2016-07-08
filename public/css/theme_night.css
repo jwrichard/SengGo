@@ -37,14 +37,14 @@ body  {
 
 /* Color of the big boxes on the home screen */
 .modal-content {
-    background-color: #333;
+    background: #333;
 }
 
 .panel {
-	background-color: #555;
+	background: #555;
 }
 .panel:hover {
-	background-color: #444;
+	background: #444;
 }
 span.glyphicon {
 	color: #aaa;
@@ -52,12 +52,12 @@ span.glyphicon {
 
 /* Color of form elements */
 input, select {
-	background-color: #fff;
+	background: #fff;
 }
 
 /* Header color */
 .navbar-inverse {
-	background-color: #222;
+	background: #222;
     border-color: #080808;
 }
 
