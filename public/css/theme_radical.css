@@ -3,13 +3,13 @@
 /* Board color, only really seen around the edges unless transparent squares used */
 
 .board {
-	fill: rgb(0, 0, 0);
+	fill: rgb(253, 238, 0);
 }
 
 /* Each little tile */
 .square {
-	stroke: #000;
-	fill: #000;
+	stroke: #66FF00;
+	fill: #66FF00;
 }
 
 /* Color of the black tokens (player 1) */
@@ -28,19 +28,19 @@
 
 /* Background color of the site */
 body  {
-	background: #000;
+	background-image: url("/img/hypnotize.gif");
 }
 
 /* Color of the big boxes on the home screen */
 .panel {
-	background: #000;
+	background: aqua;
 }
 .modal-content {
-    background: #333;
+    background: #ffe135;
 }
 
 .panel:hover {
-	background: #FFB6C1;
+	background: aquamarine;
 }
 span.glyphicon {
 	color: #FFEFD5;
@@ -53,11 +53,11 @@ input, select {
 
 /* Header color */
 .navbar-inverse {
-	background: #222;
+	background: aquamarine;
     border-color: #080808;
 }
 
 /* Text colors/sizes */
 p, a, span, h1, h2, h3, h4, h5, h6, div {
-	color: #005;
+	color: white;
 }
