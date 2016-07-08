@@ -357,17 +357,25 @@ app.post('/sendMove', function (req, res) {
 				res.send("[]");
 			}
 		}
+
 		// move = {x, y, c} where c = 1 - black, 2 - white
-		var payload = {board: board, move: {x, y, color}, scores: {player1: result[0].player1score, player2: result[0].player2score}};
+		var payload = {game: result[0], move: {x, y, color}};
 		var result = serverGameModule.processMove(payload);
+
+		console.log("Result is:");
+		console.log(result);
+
 		if(result != false){
 			// Update the game board in the db
-
-
-			db.updateGame(result, function(result){
+			db.updateGame(result.game, function(result){
 				console.log("Did this update correctly?");
 				console.log(result);
 				// return result;
+
+
+				// If it did, add to the replay collection
+
+				// TODO
 			}, 'games');
 		}
 	});
