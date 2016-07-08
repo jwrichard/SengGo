@@ -23,7 +23,10 @@ function checkIfValidMove(board, move){
 	// Make sure spot is not taken
 	// TODO
 
-    
+    if(board[x][y] != 0)
+    {
+        return false;
+    }
     
 	// Make sure spot would not be suicide
 	// TODO
@@ -48,7 +51,7 @@ function checkIfValidMove(board, move){
 */
 function sendMove(move){
     
-
+    
 
 	return false;
 }
@@ -103,10 +106,34 @@ function getBoard(){
 
 }
 
+/*
+* showPlayerInfo - Given player name and score for each player,
+*                  manipulate the DOM to display each player information
+*
+*/
+function showPlayerInfo(player1, player2) {
+    
+    var playerLeftInfo = document.getElementById('playerinfo-left');
+    var playerRightInfo = document.getElementById('playerinfo-right');
+    
+    var firstPlayer = document.createElement('H1');
+    var secondPlayer = document.createElement('H1');
+    var firstPlayerScore = document.createElement('H2');
+    var secondPlayerScore = document.createElement('H2');
+    
+    firstPlayer.appendChild(player1);
+    secondPlayer.appendChild(player2);
+    
+    firstPlayerScore.innerHTML = "Score: " + parseInt(player1score);
+    secondPlayerScore.innerHTML = "Score: " + parseInt(player2score);
+    
+    
+}
+
 
 /*
 *	drawBoard - Given a board, re-draws the page and manipulates the DOM to display the new board
-			  - Look at /views/play.html to figure out how to draw it
+*			  - Look at /views/play.html to figure out how to draw it
 *
 */
 function drawBoard(state){
@@ -144,16 +171,18 @@ function drawBoard(state){
 		inc = x/sz;
 	}
 	
-	svg.append(makeRectangle(0,0,W-16,H-16,"#A99999"));
+	svg.append(makeRectangle(0,0,W-16,H-16,"board"));
 	
 	for(i=0; i<sz; i++){
 		for(j=0;j<sz;j++){
 			//var rect = makeRectangle( 50*i,50*j,48,48 ,"brown");
-			var rect = makeRectangle( (i*inc)+offset+1,(j*inc)+offset+1,inc-2,inc-2,"darkolivegreen");
+			var rect = makeRectangle( (i*inc)+offset+1,(j*inc)+offset+1,inc-2,inc-2,"square");
+			/*if(board[i][j] === 0)
+				var token = makeClick( (i*inc)+offset-1,(j*inc)+offset-1,inc-2,inc-2);*/
 			if(board[i][j] === 1)
-				var token = makeCircle( (i*inc)+offset-1,(j*inc)+offset-1,.48*(inc),"palegoldenrod");
+				var token = makeCircle( (i*inc)+offset-1,(j*inc)+offset-1,.48*(inc),"black");
 			if(board[i][j] === 2)
-				var token = makeCircle( (i*inc)+offset-1,(j*inc)+offset-1,.48*(inc),"sandybrown");
+				var token = makeCircle( (i*inc)+offset-1,(j*inc)+offset-1,.48*(inc),"white");
 			svg.append(rect);
 			svg.append(token);
 			//console.log(board[i][j]);
@@ -187,5 +216,6 @@ function tick(){
     // do page load things here...
 
     console.log("Initalizing Page...."); 
-    getData(drawBoard); 
+    getData(drawBoard);
+    getData(showPlayerInfo);
 }

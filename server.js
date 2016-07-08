@@ -306,6 +306,8 @@ function createGame(ip, player1, player2, boardSize, res){
 			boardSize: boardSize,
 			player1: player1,
 			player2: player2,
+			player1score: 0,
+			player2score: 0,
 			state: 0
 		}
 		// Insert the new game into the db
@@ -355,14 +357,25 @@ app.post('/sendMove', function (req, res) {
 				res.send("[]");
 			}
 		}
+
 		// move = {x, y, c} where c = 1 - black, 2 - white
-		var result = serverGameModule.processMove(board, {x, y, color});
+		var payload = {game: result[0], move: {x, y, color}};
+		var result = serverGameModule.processMove(payload);
+
+		console.log("Result is:");
+		console.log(result);
+
 		if(result != false){
 			// Update the game board in the db
-			db.updateGame(result, function(result){
+			db.updateGame(result.game, function(result){
 				console.log("Did this update correctly?");
 				console.log(result);
 				// return result;
+
+
+				// If it did, add to the replay collection
+
+				// TODO
 			}, 'games');
 		}
 	});

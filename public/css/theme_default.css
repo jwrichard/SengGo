@@ -1,20 +1,22 @@
 /* ~~~ Changes to the gameboard ~~~ */
 
+/* 7cc3ff = blue used on general screen */
+
 /* Board color, only really seen around the edges unless transparent squares used */
 .board {
-	fill: rbg(110, 0 ,0);
+	fill: rgb(124, 195, 255);
 }
 
 /* Each little tile */
 .square {
 	stroke: #000;
-	fill: darkolivegreen
+	fill: #dfdfdf;
 }
 
 /* Color of the black tokens (player 1) */
 .black {
 	stroke: #ccc;
-	fill: #fff;
+	fill: #000;
 }
 
 /* Color of the white tokens (player 2) */
@@ -30,10 +32,19 @@ body  {
 	background-color: #f2f2f2;
 }
 
+/* changes the top tokens bar thing */
+.banner-overlay {
+    background: rgba(0,0,0,0.2);
+}
+
 /* Color of the big boxes on the home screen */
 .panel {
 	background-color: #fff;
 }
+.modal-content {
+    background-color: #333;
+}
+
 .panel:hover {
 	background-color: #eee;
 }
