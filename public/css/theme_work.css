@@ -34,9 +34,6 @@ body  {
 }
 
 /* changes the top tokens bar thing */
-.banner{
-	background: none;
-}
 .banner-overlay {
     background: rgba(0,0,0,0.2);
 }
