@@ -25,6 +25,9 @@ function makeClick(x, y, w, h, dataX, dataY){
    var click = document.createElementNS(SVGNameSpace, "rect"); 
 
    // Checkout docs at: http://www.w3schools.com/svg/svg_rect.asp
+   click.setAttribute("onclick", 'alert("rip u Justin")');
+   click.setAttribute("onmouseover", 'setAttribute("fill-opacity", 0.5)');
+   click.setAttribute("onmouseout", 'setAttribute("fill-opacity", 0)');
    click.setAttribute("width", w);
    click.setAttribute("height", w);
    click.setAttribute("x", x);
@@ -36,6 +39,10 @@ function makeClick(x, y, w, h, dataX, dataY){
    click.setAttribute("class", "click");
    
    return click; 
+}
+
+function indicate(cls){
+	cls.setAttribute("fill-opacity", .5);
 }
 
 /**
@@ -80,8 +87,8 @@ function makeCircle(x, y, r, c){
     circ.setAttribute("cx", x);
     circ.setAttribute("cy", y);
     circ.setAttribute("r", r);
-    circ.setAttribute("class", c)
-    circ.setAttribute("stroke", "black")
+    circ.setAttribute("class", c);
+    circ.setAttribute("stroke", "black");
 
    return circ;
 
