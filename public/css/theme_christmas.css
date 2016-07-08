@@ -28,19 +28,19 @@
 
 /* Background color of the site */
 body  {
-	background-color: #228B22;
+	background: #228B22;
 }
 
 /* Color of the big boxes on the home screen */
 .panel {
-	background-color: #B22222;
+	background: #B22222;
 }
 .modal-content {
-    background-color: #333;
+    background: #333;
 }
 
 .panel:hover {
-	background-color: #FFB6C1;
+	background: #FFB6C1;
 }
 span.glyphicon {
 	color: #FFEFD5;
@@ -48,12 +48,12 @@ span.glyphicon {
 
 /* Color of form elements */
 input, select {
-	background-color: #DB7093;
+	background: #DB7093;
 }
 
 /* Header color */
 .navbar-inverse {
-	background-color: #222;
+	background: #222;
     border-color: #080808;
 }
 

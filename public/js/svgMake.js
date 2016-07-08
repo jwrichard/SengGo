@@ -21,18 +21,21 @@ var SVGNameSpace = "http://www.w3.org/2000/svg";
 * 
 * @return {object} 
 */ 
-function makeClick(x, y, w, h){
-   var rect = document.createElementNS(SVGNameSpace, "rect"); 
+function makeClick(x, y, w, h, dataX, dataY){
+   var click = document.createElementNS(SVGNameSpace, "rect"); 
 
    // Checkout docs at: http://www.w3schools.com/svg/svg_rect.asp
-   rect.setAttribute("width", w);
-   rect.setAttribute("height", w);
-   rect.setAttribute("x", x);
-   rect.setAttribute("y", y);
-   rect.setAttribute("fill", "grey");
-   //rect.setAttribute("visibility", hidden);
+   click.setAttribute("width", w);
+   click.setAttribute("height", w);
+   click.setAttribute("x", x);
+   click.setAttribute("y", y);
+   click.setAttribute("fill", "grey");
+   click.setAttribute("fill-opacity", 0);
+   click.setAttribute("data-x", dataX);
+   click.setAttribute("data-y", dataY);
+   click.setAttribute("class", "click");
    
-   return rect; 
+   return click; 
 }
 
 /**

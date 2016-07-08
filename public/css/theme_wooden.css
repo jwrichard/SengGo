@@ -2,13 +2,13 @@
 
 /* Board color, only really seen around the edges unless transparent squares used */
 .board {
-	fill: rgb(110, 0 ,0);
+	fill: rgb(139, 69, 19);
 }
 
 /* Each little tile */
 .square {
 	stroke: #000;
-	fill: darkolivegreen
+    fill: #CD853F;
 }
 
 /* Color of the black tokens (player 1) */
@@ -32,19 +32,19 @@ body  {
 
 /* changes the top tokens bar thing */
 .banner-overlay {
-    background: rgba(0,0,0,0.5);
+    background: rgba(0,0,0,0.2);
 }
 
 /* Color of the big boxes on the home screen */
 .modal-content {
-    background-color: #333;
+    background: url("/img/wood.jpg");
 }
 
 .panel {
-	background-color: #555;
+	background: url("/img/wood.jpg");
 }
 .panel:hover {
-	background-color: #444;
+	background: url("/img/wood3.jpg");
 }
 span.glyphicon {
 	color: #aaa;
@@ -52,7 +52,7 @@ span.glyphicon {
 
 /* Color of form elements */
 input, select {
-	background-color: #cc6600;
+	background: #cc6600;
 }
 
 /* Header color */
@@ -62,6 +62,10 @@ input, select {
 }
 
 /* Text colors/sizes */
-p, a, span, h1, h2, h3, h4, h5, h6, div {
-	color: #eee;
+p, a, span, h1, h3, h5, h6, div {
+	color: #000;
+}
+
+h2, h4 {
+    color: azure;
 }

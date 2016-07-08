@@ -64,3 +64,12 @@ body {
 .loginstatus a {
 	color: #9d9d9d;
 }
+
+/* Making squares clickable */ 
+.click {
+	z-index: 999;
+}
+
+.square {
+	z-index: -999;
+}
