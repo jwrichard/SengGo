@@ -1,0 +1,72 @@
+/* ~~~ Changes to the gameboard ~~~ */
+
+/* 7cc3ff = blue used on general screen */
+
+/* Board color, only really seen around the edges unless transparent squares used */
+.board {
+	fill: rgb(124, 195, 255);
+}
+
+/* Each little tile */
+.square {
+	stroke: #000;
+	fill: none;
+}
+
+/* Color of the black tokens (player 1) */
+.black {
+	stroke: #ccc;
+	fill: none;
+}
+
+/* Color of the white tokens (player 2) */
+.white {
+	stroke: #000;
+	fill: none;
+}
+
+/* ~~~ Changes to the sites appearance ~~~ */
+
+/* Background color of the site */
+body  {
+	background: url('/img/decoy.jpg');
+
+}
+
+/* changes the top tokens bar thing */
+.banner{
+	background: none;
+}
+.banner-overlay {
+    background: rgba(0,0,0,0.2);
+}
+
+/* Color of the big boxes on the home screen */
+.panel {
+	background-color: #fff;
+}
+.modal-content {
+    background-color: #333;
+}
+
+.panel:hover {
+	background-color: #eee;
+}
+span.glyphicon  {
+	color: #666;
+}
+
+/* Color of form elements */
+input, select {
+	background-color: #fff;
+}
+
+/* Header color */
+.navbar-inverse {
+	background: none;
+}
+
+/* Text colors/sizes */
+p, a, span, h1, h2, h3, h4, h5, h6, div {
+	color: #333;
+}
