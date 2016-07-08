@@ -367,7 +367,7 @@ app.post('/sendMove', function (req, res) {
 
 		if(result != false){
 			// Update the game board in the db
-			db.updateGame(result.game, function(result){
+			db.updateGame(result, function(result){
 				console.log("Did this update correctly?");
 				console.log(result);
 				// return result;
