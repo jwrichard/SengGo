@@ -4,25 +4,25 @@
 
 /* Board color, only really seen around the edges unless transparent squares used */
 .board {
-	fill: rgb(124, 195, 255);
+	fill: rgb(242,243,244);
 }
 
 /* Each little tile */
 .square {
-	stroke: #000;
-	fill: none;
+	stroke: white;
+	fill: white;
 }
 
 /* Color of the black tokens (player 1) */
 .black {
-	stroke: #ccc;
-	fill: none;
+	stroke: #5D8AA8;
+	fill: #5D8AA8;
 }
 
 /* Color of the white tokens (player 2) */
 .white {
-	stroke: #000;
-	fill: none;
+	stroke: aliceblue;
+	fill: aliceblue;
 }
 
 /* ~~~ Changes to the sites appearance ~~~ */
