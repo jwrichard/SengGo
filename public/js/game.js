@@ -121,8 +121,8 @@ function showPlayerInfo(player1, player2, board) {
     firstPlayer.appendChild(player1);
     secondPlayer.appendChild(player2);
     
-    firstPlayerScore.innerHTML = "Score: " + player1
-    secondPlayerScore.innerHTML = "Score: " + player2
+    firstPlayerScore.innerHTML = "Score: " + parseInt(player1score);
+    secondPlayerScore.innerHTML = "Score: " + parseInt(player2score);
     
     
 }
