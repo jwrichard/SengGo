@@ -29,7 +29,7 @@
 
 /* Background color of the site */
 body  {
-	background-color: #f2f2f2;
+	background: #f2f2f2;
 }
 
 /* changes the top tokens bar thing */
@@ -39,14 +39,14 @@ body  {
 
 /* Color of the big boxes on the home screen */
 .panel {
-	background-color: #fff;
+	background: #fff;
 }
 .modal-content {
-    background-color: #333;
+    background: #fff;
 }
 
 .panel:hover {
-	background-color: #eee;
+	background: #eee;
 }
 span.glyphicon  {
 	color: #666;
@@ -54,12 +54,12 @@ span.glyphicon  {
 
 /* Color of form elements */
 input, select {
-	background-color: #fff;
+	background: #fff;
 }
 
 /* Header color */
 .navbar-inverse {
-	background-color: #222;
+	background: #222;
     border-color: #080808;
 }
 
