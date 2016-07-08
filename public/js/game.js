@@ -109,25 +109,29 @@ function getBoard(){
 /*
 * showPlayerInfo - Given player name and score for each player,
 *                  manipulate the DOM to display each player information
+*                - Player information contains: Name/Score
 *
 */
-function showPlayerInfo(player1, player2) {
+function showPlayerInfo(player1, player2, player1score, player2score) {
     
     var playerLeftInfo = document.getElementById('playerinfo-left');
     var playerRightInfo = document.getElementById('playerinfo-right');
     
-    var firstPlayer = document.createElement('H1');
-    var secondPlayer = document.createElement('H1');
-    var firstPlayerScore = document.createElement('H2');
-    var secondPlayerScore = document.createElement('H2');
+    var firstPlayer = document.createElement('H2');
+    var secondPlayer = document.createElement('H2');
+    var firstPlayerScore = document.createElement('H3');
+    var secondPlayerScore = document.createElement('H3');
     
-    firstPlayer.appendChild(player1);
-    secondPlayer.appendChild(player2);
+    firstPlayer.innerHTML = player1;
+    secondPlayer.innerHTML = player2;
     
     firstPlayerScore.innerHTML = "Score: " + parseInt(player1score);
     secondPlayerScore.innerHTML = "Score: " + parseInt(player2score);
     
-    
+    playerLeftInfo.appendChild(firstPlayer);
+    playerLeftInfo.appendChild(firstPlayerScore);
+    playerRightInfo.appendChild(secondPlayer);
+    playerRightInfo.appendChild(secondPlayerScore);
 }
 
 
@@ -139,7 +143,7 @@ function showPlayerInfo(player1, player2) {
 function drawBoard(state){
 	console.log(state[0].board);
 	
-	$('#canvas').html('');
+	$('#canvas, #playerinfo-left, #playerinfo-right').html('');
 	
     var canvas = $("#canvas"); 
 
@@ -173,18 +177,20 @@ function drawBoard(state){
 	
 	svg.append(makeRectangle(0,0,W-16,H-16,"board"));
 	
-	for(i=0; i<sz; i++){
-		for(j=0;j<sz;j++){
-			//var rect = makeRectangle( 50*i,50*j,48,48 ,"brown");
-			var rect = makeRectangle( (i*inc)+offset+1,(j*inc)+offset+1,inc-2,inc-2,"square");
-			/*if(board[i][j] === 0)
-				var token = makeClick( (i*inc)+offset-1,(j*inc)+offset-1,inc-2,inc-2);*/
+	for(i=0; i<=sz; i++){
+		for(j=0; j<=sz; j++){
+			if( i < state[0].boardSize-1 && j < state[0].boardSize-1) {
+				var rect = makeRectangle( (i*inc)+offset+1,(j*inc)+offset+1,inc-2,inc-2,"square");
+				svg.append(rect);
+			}
+			if(board[i][j] === 0)
+				var click = makeClick( (i*inc)+(.15*offset)-1,(j*inc)+(.15*offset)-1,inc,inc,i,j);
 			if(board[i][j] === 1)
 				var token = makeCircle( (i*inc)+offset-1,(j*inc)+offset-1,.48*(inc),"black");
 			if(board[i][j] === 2)
 				var token = makeCircle( (i*inc)+offset-1,(j*inc)+offset-1,.48*(inc),"white");
-			svg.append(rect);
 			svg.append(token);
+			svg.append(click);
 			//console.log(board[i][j]);
 		}
 		
@@ -193,6 +199,7 @@ function drawBoard(state){
 
     // append the svg object to the canvas object.
     canvas.append(svg);
+    showPlayerInfo(state[0].player1, state[0].player2, state[0].player1score, state[0].player2score);
 
 }
 
@@ -217,5 +224,4 @@ function tick(){
 
     console.log("Initalizing Page...."); 
     getData(drawBoard);
-    getData(showPlayerInfo);
 }
