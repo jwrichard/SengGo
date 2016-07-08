@@ -134,6 +134,15 @@ function showPlayerInfo(player1, player2, player1score, player2score) {
     playerRightInfo.appendChild(secondPlayerScore);
 }
 
+/*
+* passButton - 
+*
+*
+*/
+function passButton() {
+    
+}
+
 
 /*
 *	drawBoard - Given a board, re-draws the page and manipulates the DOM to display the new board
