@@ -4,33 +4,32 @@
 
 /* Board color, only really seen around the edges unless transparent squares used */
 .board {
-	fill: rgb(242,243,244);
+	fill: rgb(0, 128, 0);
 }
 
 /* Each little tile */
 .square {
-	stroke: white;
-	fill: white;
+	stroke: #000;
+	fill: #87A96B;
 }
 
 /* Color of the black tokens (player 1) */
 .black {
-	stroke: #5D8AA8;
-	fill: #5D8AA8;
+	stroke: #ccc;
+	fill: #000;
 }
 
 /* Color of the white tokens (player 2) */
 .white {
-	stroke: aliceblue;
-	fill: aliceblue;
+	stroke: #000;
+	fill: #fff;
 }
 
 /* ~~~ Changes to the sites appearance ~~~ */
 
 /* Background color of the site */
 body  {
-	background: url('/img/decoy.jpg');
-
+	background: url("/img/forest2.jpg");
 }
 
 /* changes the top tokens bar thing */
@@ -40,17 +39,17 @@ body  {
 
 /* Color of the big boxes on the home screen */
 .panel {
-	background: #fff;
+	background: url("/img/ocean.jpg");
 }
 .modal-content {
-    background: grey;
+    background: #008000;
 }
 
 .panel:hover {
-	background: #eee;
+	background: url("/img/nature3.jpg");
 }
 span.glyphicon  {
-	color: #666;
+	color: #9F8170;
 }
 
 /* Color of form elements */
@@ -60,10 +59,11 @@ input, select {
 
 /* Header color */
 .navbar-inverse {
-	background: none;
+	background: #222;
+    border-color: #080808;
 }
 
 /* Text colors/sizes */
 p, a, span, h1, h2, h3, h4, h5, h6, div {
-	color: #333;
+	color:white;
 }
