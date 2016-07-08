@@ -23,7 +23,10 @@ function checkIfValidMove(board, move){
 	// Make sure spot is not taken
 	// TODO
 
-    
+    if(board[x][y] != 0)
+    {
+        return false;
+    }
     
 	// Make sure spot would not be suicide
 	// TODO
@@ -48,7 +51,7 @@ function checkIfValidMove(board, move){
 */
 function sendMove(move){
     
-
+    
 
 	return false;
 }
@@ -103,16 +106,44 @@ function getBoard(){
 
 }
 
+/*
+* showPlayerInfo - Given player name and score for each player,
+*                  manipulate the DOM to display each player information
+*                - Player information contains: Name/Score
+*
+*/
+function showPlayerInfo(player1, player2, player1score, player2score) {
+    
+    var playerLeftInfo = document.getElementById('playerinfo-left');
+    var playerRightInfo = document.getElementById('playerinfo-right');
+    
+    var firstPlayer = document.createElement('H2');
+    var secondPlayer = document.createElement('H2');
+    var firstPlayerScore = document.createElement('H3');
+    var secondPlayerScore = document.createElement('H3');
+    
+    firstPlayer.innerHTML = player1;
+    secondPlayer.innerHTML = player2;
+    
+    firstPlayerScore.innerHTML = "Score: " + parseInt(player1score);
+    secondPlayerScore.innerHTML = "Score: " + parseInt(player2score);
+    
+    playerLeftInfo.appendChild(firstPlayer);
+    playerLeftInfo.appendChild(firstPlayerScore);
+    playerRightInfo.appendChild(secondPlayer);
+    playerRightInfo.appendChild(secondPlayerScore);
+}
+
 
 /*
 *	drawBoard - Given a board, re-draws the page and manipulates the DOM to display the new board
-			  - Look at /views/play.html to figure out how to draw it
+*			  - Look at /views/play.html to figure out how to draw it
 *
 */
 function drawBoard(state){
 	console.log(state[0].board);
 	
-	$('#canvas').html('');
+	$('#canvas, #playerinfo-left, #playerinfo-right').html('');
 	
     var canvas = $("#canvas"); 
 
@@ -168,6 +199,7 @@ function drawBoard(state){
 
     // append the svg object to the canvas object.
     canvas.append(svg);
+    showPlayerInfo(state[0].player1, state[0].player2, state[0].player1score, state[0].player2score);
 
 }
 
@@ -191,5 +223,5 @@ function tick(){
     // do page load things here...
 
     console.log("Initalizing Page...."); 
-    getData(drawBoard); 
+    getData(drawBoard);
 }

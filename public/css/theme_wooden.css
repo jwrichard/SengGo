@@ -27,7 +27,7 @@
 
 /* Background color of the site */
 body  {
-	background-color: #333;
+	background: url("/img/wood2.jpg");
 }
 
 /* changes the top tokens bar thing */
@@ -52,13 +52,13 @@ span.glyphicon {
 
 /* Color of form elements */
 input, select {
-	background-color: #fff;
+	background-color: #cc6600;
 }
 
 /* Header color */
 .navbar-inverse {
-	background-color: #222;
-    border-color: #080808;
+    background: url("/img/wood.jpg");
+    border-color: #cc6600;
 }
 
 /* Text colors/sizes */
