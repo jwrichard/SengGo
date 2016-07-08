@@ -25,6 +25,7 @@ function makeClick(x, y, w, h, dataX, dataY){
    var click = document.createElementNS(SVGNameSpace, "rect"); 
 
    // Checkout docs at: http://www.w3schools.com/svg/svg_rect.asp
+   click.setAttribute("onclick", 'alert("rip u Justin")');
    click.setAttribute("width", w);
    click.setAttribute("height", w);
    click.setAttribute("x", x);

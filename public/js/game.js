@@ -198,6 +198,7 @@ function drawBoard(state){
 				var token = makeCircle( (i*inc)+offset-1,(j*inc)+offset-1,.48*(inc),"black");
 			if(board[i][j] === 2)
 				var token = makeCircle( (i*inc)+offset-1,(j*inc)+offset-1,.48*(inc),"white");
+			click.setAttribute("onclick","alert('justin')")
 			svg.append(token);
 			svg.append(click);
 			//console.log(board[i][j]);
