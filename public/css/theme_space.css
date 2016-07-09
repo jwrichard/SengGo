@@ -59,7 +59,7 @@ input, select {
 
 /* Header color */
 .navbar-inverse {
-	background: #222;
+	background: url("/img/earthspace.jpg");
     border-color: #080808;
 }
 
