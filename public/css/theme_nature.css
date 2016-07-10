@@ -42,7 +42,7 @@ body  {
 	background: url("/img/ocean.jpg");
 }
 .modal-content {
-    background: #008000;
+    background: url("/img/leaf.jpg");
 }
 
 .panel:hover {
@@ -59,7 +59,7 @@ input, select {
 
 /* Header color */
 .navbar-inverse {
-	background: #222;
+	background: url("/img/leaf2.jpg");
     border-color: #080808;
 }
 
