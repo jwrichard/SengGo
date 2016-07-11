@@ -1,0 +1,73 @@
+/* ~~~ Changes to the gameboard ~~~ */
+
+/* 7cc3ff = blue used on general screen */
+
+/* Board color, only really seen around the edges unless transparent squares used */
+.board {
+	fill: rgb(0, 206, 209);
+}
+
+/* Each little tile */
+.square {
+	stroke: #000;
+	fill: #E0FFFF;
+}
+
+/* Color of the black tokens (player 1) */
+.black {
+	stroke: #ccc;
+	fill: #000;
+}
+
+/* Color of the white tokens (player 2) */
+.white {
+	stroke: #000;
+	fill: #fff;
+}
+
+/* ~~~ Changes to the sites appearance ~~~ */
+
+/* Background color of the site */
+body  {
+	background: url("/img/summer.jpg");
+}
+
+/* changes the top tokens bar thing */
+.banner-overlay {
+    background: rgba(0,0,0,0.2);
+}
+
+/* Color of the big boxes on the home screen */
+.panel {
+	background: url("/img/summergallery.jpg");
+}
+.modal-content {
+    background: url("/img/sunflower.jpg");
+}
+
+.panel:hover {
+	background: url("/img/summerfun.jpg");
+}
+span.glyphicon  {
+	color: #D2691E;
+}
+
+/* Color of form elements */
+input, select {
+	background: black;
+}
+
+/* Header color */
+.navbar-inverse {
+	background: url("/img/gorgeous.jpg");
+    border-color: #080808;
+}
+
+/* Text colors/sizes */
+a, span, h2, h3, h4, h5, h6, div {
+	color:black;
+}
+
+h1, p {
+    color:black;
+}
