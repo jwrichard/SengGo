@@ -3,25 +3,27 @@
 /* Board color, only really seen around the edges unless transparent squares used */
 
 .board {
-	fill: rgb(253, 238, 0);
+	fill: rgb(255, 29, 206);
+    opacity: 0.6;
 }
 
 /* Each little tile */
 .square {
 	stroke: #66FF00;
 	fill: #66FF00;
+    opacity: 0.7;
 }
 
 /* Color of the black tokens (player 1) */
 .black {
 	stroke: #000;
-	fill: #000;
+	fill: #0000FF;
 }
 
 /* Color of the white tokens (player 2) */
 .white {
 	stroke: #000;
-	fill: #DCDCDC;
+	fill: #FF0000;
 }
 
 /* ~~~ Changes to the sites appearance ~~~ */
