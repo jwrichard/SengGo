@@ -113,7 +113,7 @@ function getBoard(){
 *                - Player information contains: Name/Score
 *
 */
-function showPlayerInfo(player1, player2, player1score, player2score, turn) {
+function showPlayerInfo(player1, player2, player1score, player2score) {
     
     var playerLeftInfo = document.getElementById('playerinfo-left');
     var playerRightInfo = document.getElementById('playerinfo-right');
@@ -230,7 +230,7 @@ function drawBoard(state){
 
     // append the svg object to the canvas object.
     canvas.append(svg);
-    showPlayerInfo(state[0].player1, state[0].player2, state[0].player1score, state[0].player2score, state[0].state);
+    showPlayerInfo(state[0].player1, state[0].player2, state[0].player1score, state[0].player2score);
 
 }
 
