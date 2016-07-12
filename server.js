@@ -316,7 +316,7 @@ function createGame(ip, player1, player2, boardSize, res){
 			player1: player1,
 			player2: player2,
 			player1score: 0,
-			player2score: 0,
+			player2score: 7.5,
 			state: 0
 		}
 		// Insert the new game into the db
