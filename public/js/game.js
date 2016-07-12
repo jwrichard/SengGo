@@ -127,17 +127,17 @@ function showPlayerInfo(player1, player2, player1score, player2score) {
     var secondPlayerScore = document.createElement('H3');
     var firstPlayerBtn = document.createElement("BUTTON");
     var secondPlayerBtn = document.createElement("BUTTON");
+    
     firstPlayerBtn.className = "btn btn-danger";
     secondPlayerBtn.className = "btn btn-danger";
     var text1 = document.createTextNode("PASS");
     var text2 = document.createTextNode("PASS");
-
-    firstPlayer.innerHTML = player1;
-    secondPlayer.innerHTML = player2;
+    firstPlayer.innerHTML = player1 + " is colour Black.";
+    secondPlayer.innerHTML = player2 + " is colour White.";
     
     firstPlayerBtn.appendChild(text1);
     secondPlayerBtn.appendChild(text2);
-
+    
     firstPlayerScore.innerHTML = "Score: " + parseInt(player1score);
     secondPlayerScore.innerHTML = "Score: " + parseInt(player2score);
     
@@ -156,8 +156,10 @@ function showPlayerInfo(player1, player2, player1score, player2score) {
 *              context (i.e. different game modes)
 *
 */
-function passButton() {
-    
+function passButton(turn) {
+    // HOT SEAT PLAY/NETWORK PLAY:
+        // STATE 0: show pass button for player 1 move (hide player 2 pass)
+        // STATE 1: show pass button for player 2 move (hide player 1 pass)
 }
 
 
@@ -226,7 +228,6 @@ function drawBoard(state){
 			svg.append(click);
 			//console.log(board[i][j]);
 		}
-		
 	}
 	//console.log(board);
 
