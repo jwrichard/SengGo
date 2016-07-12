@@ -121,17 +121,26 @@ function showPlayerInfo(player1, player2, player1score, player2score) {
     var secondPlayer = document.createElement('H2');
     var firstPlayerScore = document.createElement('H3');
     var secondPlayerScore = document.createElement('H3');
-    
+    var firstPlayerBtn = document.createElement("BUTTON");
+    var secondPlayerBtn = document.createElement("BUTTON");
+    var text1 = document.createTextNode("PASS");
+    var text2 = document.createTextNode("PASS");
+
     firstPlayer.innerHTML = player1;
     secondPlayer.innerHTML = player2;
     
+    firstPlayerBtn.appendChild(text1);
+    secondPlayerBtn.appendChild(text2);
+
     firstPlayerScore.innerHTML = "Score: " + parseInt(player1score);
     secondPlayerScore.innerHTML = "Score: " + parseInt(player2score);
     
     playerLeftInfo.appendChild(firstPlayer);
     playerLeftInfo.appendChild(firstPlayerScore);
+    playerLeftInfo.appendChild(firstPlayerBtn);
     playerRightInfo.appendChild(secondPlayer);
     playerRightInfo.appendChild(secondPlayerScore);
+    playerRightInfo.appendChild(secondPlayerBtn);
 }
 
 /*
