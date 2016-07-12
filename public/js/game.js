@@ -162,15 +162,15 @@ function passButton(turn) {
     var firstPlayerBtn = document.getElementById("player1-passbutton");
     var secondPlayerBtn = document.getElementById("player2-passbutton");
 
-    if (turn == 0 || 3) {
+    if (turn == 0 || turn == 3) {
         $('#player1-passbutton').show(500);
         $('#player2-passbutton').hide(500);
     }
-    else if (turn == 1 || 2) {
+    else if (turn == 1 || turn == 2) {
         $('#player1-passbutton').hide(500);
         $('#player2-passbutton').show(500);
     }
-    else if (turn == 4 || 5) {
+    else if (turn == 4 || turn == 5) {
         $('#player1-passbutton').hide(500);
         $('#player2-passbutton').hide(500);
     }
