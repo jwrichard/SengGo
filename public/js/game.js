@@ -49,12 +49,15 @@ function checkIfValidMove(board, move){
 *	Returns: 
 *	- Success: bool
 */
-function sendMove(x,y){
+function sendMove(x, y){
     
-	var move = {"x": x, "y": y};
+	var move = {"x": x, "y": y, gameId: gameId};
     $.post("/sendMove", move).done(function(data){
-            alert(data);
-        });   
+    	if(data != {}){
+    		console.log([data]);
+    		drawBoard([data]);
+    	}
+    });   
 }
 
 function getData(cb){
@@ -125,6 +128,8 @@ function showPlayerInfo(player1, player2, player1score, player2score) {
     var firstPlayerBtn = document.createElement("BUTTON");
     var secondPlayerBtn = document.createElement("BUTTON");
     
+    firstPlayerBtn.id = "player1-passbutton";
+    secondPlayerBtn.id = "player2-passbutton";
     firstPlayerBtn.className = "btn btn-danger";
     secondPlayerBtn.className = "btn btn-danger";
     var text1 = document.createTextNode("PASS");
@@ -154,9 +159,21 @@ function showPlayerInfo(player1, player2, player1score, player2score) {
 *
 */
 function passButton(turn) {
-    // HOT SEAT PLAY/NETWORK PLAY:
-        // STATE 0: show pass button for player 1 move (hide player 2 pass)
-        // STATE 1: show pass button for player 2 move (hide player 1 pass)
+    var firstPlayerBtn = document.getElementById("player1-passbutton");
+    var secondPlayerBtn = document.getElementById("player2-passbutton");
+
+    if (turn == 0 || 3) {
+        $('#player1-passbutton').show(500);
+        $('#player2-passbutton').hide(500);
+    }
+    else if (turn == 1 || 2) {
+        $('#player1-passbutton').hide(500);
+        $('#player2-passbutton').show(500);
+    }
+    else if (turn == 4 || 5) {
+        $('#player1-passbutton').hide(500);
+        $('#player2-passbutton').hide(500);
+    }
 }
 
 
@@ -231,7 +248,21 @@ function drawBoard(state){
     // append the svg object to the canvas object.
     canvas.append(svg);
     showPlayerInfo(state[0].player1, state[0].player2, state[0].player1score, state[0].player2score);
+<<<<<<< HEAD
+    passButton(state[0].state);
+=======
 
+    // Set the game status
+    switch(state[0].state){
+    	case 0: $('#gameStatus').html('<b>Blacks turn</b>'); break;
+    	case 1: $('#gameStatus').html('<b>Whites turn</b>'); break;
+    	case 2: $('#gameStatus').html('<b>Black passed</b>'); break;
+    	case 3: $('#gameStatus').html('<b>White passed</b>'); break;
+    	case 4: $('#gameStatus').html('<b>Black won!</b>'); break;
+    	case 5: $('#gameStatus').html('<b>White won!</b>'); break;
+    }
+
+>>>>>>> 060603a5a0938dfcdda92c2c5c5874363bb37053
 }
 
 
