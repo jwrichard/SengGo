@@ -274,7 +274,7 @@ app.post('/newAIGame', function (req, res) {
 
 	// Create the game and redirect to it
 	var boardSize = req.body.boardSize;
-	createGame(null, req.session.username, null, boardSize, res);
+	createGame(null, req.session.username, 'AI', boardSize, res);
 })
 
 app.post('/newPVPGame', function (req, res) {
