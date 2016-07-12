@@ -125,6 +125,8 @@ function showPlayerInfo(player1, player2, player1score, player2score) {
     var firstPlayerBtn = document.createElement("BUTTON");
     var secondPlayerBtn = document.createElement("BUTTON");
     
+    firstPlayerBtn.id = "player1-passbutton";
+    secondPlayerBtn.id = "player2-passbutton";
     firstPlayerBtn.className = "btn btn-danger";
     secondPlayerBtn.className = "btn btn-danger";
     var text1 = document.createTextNode("PASS");
@@ -154,9 +156,21 @@ function showPlayerInfo(player1, player2, player1score, player2score) {
 *
 */
 function passButton(turn) {
-    // HOT SEAT PLAY/NETWORK PLAY:
-        // STATE 0: show pass button for player 1 move (hide player 2 pass)
-        // STATE 1: show pass button for player 2 move (hide player 1 pass)
+    var firstPlayerBtn = document.getElementById("player1-passbutton");
+    var secondPlayerBtn = document.getElementById("player2-passbutton");
+
+    if (turn == 0 || 3) {
+        $('#player1-passbutton').show(500);
+        $('#player2-passbutton').hide(500);
+    }
+    else if (turn == 1 || 2) {
+        $('#player1-passbutton').hide(500);
+        $('#player2-passbutton').show(500);
+    }
+    else if (turn == 4 || 5) {
+        $('#player1-passbutton').hide(500);
+        $('#player2-passbutton').hide(500);
+    }
 }
 
 
@@ -231,7 +245,7 @@ function drawBoard(state){
     // append the svg object to the canvas object.
     canvas.append(svg);
     showPlayerInfo(state[0].player1, state[0].player2, state[0].player1score, state[0].player2score);
-
+    passButton(state[0].state);
 }
 
 
