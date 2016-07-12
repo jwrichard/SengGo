@@ -334,10 +334,9 @@ function createGame(ip, player1, player2, boardSize, res){
 // Handle a request for a move, or the sending of a move
 app.post('/sendMove', function (req, res) {
 	// Get parameters
-	var data = req.body.something;
-	var gameId = data.gameId;
-	var x = data.move.x;
-	var y = data.move.y;
+	var gameId = req.body.gameId;
+	var x = parseInt(req.body.x);
+	var y = parseInt(req.body.y);
 	var user = req.session.username;
 	var reqIP = req.connection.remoteAddress;
 	var board;
@@ -358,33 +357,51 @@ app.post('/sendMove', function (req, res) {
 			} else if(user == player2){
 				color = 2;
 			} else {
-				res.send("[]");
+				res.send("{}");
 			}
 		} else {
 			// Local game
+			console.log("Local game");
 			if(reqIP != userIP){
-				res.send("[]");
+				res.send("{}");
+			} else {
+				switch(result[0].state){
+					case 0: color = 1; break;
+					case 1: color = 2; break;
+					case 2: color = 2; break;
+					case 3: color = 1; break;
+				}
 			}
 		}
 
-		// move = {x, y, c} where c = 1 - black, 2 - white
-		var payload = {game: result[0], move: {x, y, color}};
-		var result = serverGameModule.processMove(payload);
+		//console.log("User is color: "+color);
+		//console.log("Sending in x,y = "+x+','+y);
 
-		console.log("Result is:");
-		console.log(result);
+		// move = {x, y, c} where c = 1 - black, 2 - white
+		var payload = {game: result[0], move: {x: x, y: y, color: color}};
+		var result = serverGameModule.processMove(payload.game, payload.move);
+
+		//console.log("Result is:");
+		//console.log(result);
 
 		if(result != false){
 			// Update the game board in the db
-			db.updateGame(result, function(result){
+			db.updateGame(result, function(dbresult){
 				console.log("Did this update correctly?");
-				console.log(result);
-				// return result;
+				console.log(dbresult.result.ok);
+				
+				if(dbresult.result.ok == 1){
+					// Updated succesfully
+					res.send(result); 
+
+					// If it did, add to the replay collection
+					// TODO
 
 
-				// If it did, add to the replay collection
-
-				// TODO
+				} else {
+					// Failed to update db
+					res.send('{}');
+				}
 			}, 'games');
 		}
 	});
