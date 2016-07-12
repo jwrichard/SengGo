@@ -51,9 +51,9 @@ function checkIfValidMove(board, move){
 */
 function sendMove(move){
     
-    
-
-	return false;
+    $.post("/sendMove", move).done(function(data){
+            alert(data);
+        });   
 }
 
 function getData(cb){
