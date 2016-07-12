@@ -140,14 +140,16 @@ function showPlayerInfo(player1, player2, player1score, player2score) {
     playerLeftInfo.appendChild(firstPlayer);
     playerLeftInfo.appendChild(firstPlayerScore);
     playerLeftInfo.appendChild(firstPlayerBtn);
+    playerLeftInfo.style.textAlign = 'center';
     playerRightInfo.appendChild(secondPlayer);
     playerRightInfo.appendChild(secondPlayerScore);
     playerRightInfo.appendChild(secondPlayerBtn);
+    playerRightInfo.style.textAlign = 'center';
 }
 
 /*
-* passButton - 
-*
+* passButton - Have the pass button show in the appropriate
+*              context (i.e. different game modes)
 *
 */
 function passButton() {
