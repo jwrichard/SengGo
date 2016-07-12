@@ -230,6 +230,16 @@ function drawBoard(state){
     canvas.append(svg);
     showPlayerInfo(state[0].player1, state[0].player2, state[0].player1score, state[0].player2score);
 
+    // Set the game status
+    switch(state[0].state){
+    	case 0: $('#gameStatus').html('<b>Blacks turn</b>'); break;
+    	case 1: $('#gameStatus').html('<b>Whites turn</b>'); break;
+    	case 2: $('#gameStatus').html('<b>Black passed</b>'); break;
+    	case 3: $('#gameStatus').html('<b>White passed</b>'); break;
+    	case 4: $('#gameStatus').html('<b>Black won!</b>'); break;
+    	case 5: $('#gameStatus').html('<b>White won!</b>'); break;
+    }
+
 }
 
 
