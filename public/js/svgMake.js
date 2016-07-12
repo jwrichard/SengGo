@@ -25,7 +25,7 @@ function makeClick(x, y, w, h, dataX, dataY){
    var click = document.createElementNS(SVGNameSpace, "circle"); 
 
    // Checkout docs at: http://www.w3schools.com/svg/svg_rect.asp
-   click.setAttribute("onclick", 'setAttribute("fill-opacity", 1)');
+   click.setAttribute("onclick", 'sendMove()');
    click.setAttribute("onmouseover", 'setAttribute("fill-opacity", 0.5)');
    click.setAttribute("onmouseout", 'setAttribute("fill-opacity", 0)');
    click.setAttribute("r", w/2);
