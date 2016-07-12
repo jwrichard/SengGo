@@ -140,8 +140,8 @@ function showPlayerInfo(player1, player2, player1score, player2score) {
     firstPlayerBtn.appendChild(text1);
     secondPlayerBtn.appendChild(text2);
     
-    firstPlayerScore.innerHTML = "Score: " + parseInt(player1score);
-    secondPlayerScore.innerHTML = "Score: " + parseInt(player2score);
+    firstPlayerScore.innerHTML = "Score: " + parseFloat(player1score);
+    secondPlayerScore.innerHTML = "Score: " + parseFloat(player2score);
     
     playerLeftInfo.appendChild(firstPlayer);
     playerLeftInfo.appendChild(firstPlayerScore);
