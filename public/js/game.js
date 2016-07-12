@@ -129,8 +129,8 @@ function showPlayerInfo(player1, player2, player1score, player2score, turn) {
     secondPlayerBtn.className = "btn btn-danger";
     var text1 = document.createTextNode("PASS");
     var text2 = document.createTextNode("PASS");
-    firstPlayer.innerHTML = player1 + "is colour Black.";
-    secondPlayer.innerHTML = player2 + "is colour White.";
+    firstPlayer.innerHTML = player1 + " is colour Black.";
+    secondPlayer.innerHTML = player2 + " is colour White.";
     
     firstPlayerBtn.appendChild(text1);
     secondPlayerBtn.appendChild(text2);
