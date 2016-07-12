@@ -318,7 +318,7 @@ function createGame(ip, player1, player2, boardSize, res){
 		{
 			player2StartingScore = 6.5;
 		}
-		else if (boardSize == 19(
+		else if (boardSize == 19)
 		{
 			player2StartingScore = 	7.5;	
 		}
