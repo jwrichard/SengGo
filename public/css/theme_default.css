@@ -15,14 +15,14 @@
 
 /* Color of the black tokens (player 1) */
 .black {
-	stroke: #ccc;
-	fill: #000;
+	stroke: black;
+	fill: #007FFF;
 }
 
 /* Color of the white tokens (player 2) */
 .white {
 	stroke: #000;
-	fill: #fff;
+	fill: #F0FFFF;
 }
 
 /* ~~~ Changes to the sites appearance ~~~ */

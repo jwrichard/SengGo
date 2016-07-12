@@ -9,19 +9,19 @@
 /* Each little tile */
 .square {
 	stroke: #00693E;
-	fill: #008000;
+	fill: #009E60;
 }
 
 /* Color of the black tokens (player 1) */
 .black {
-	stroke: #FFC0CB;
-	fill: #FFC0CB;
+	stroke: black;
+	fill: #AE0C00;
 }
 
 /* Color of the white tokens (player 2) */
 .white {
 	stroke: #000;
-	fill: #DCDCDC;
+	fill: #77DD77;
 }
 
 /* ~~~ Changes to the sites appearance ~~~ */

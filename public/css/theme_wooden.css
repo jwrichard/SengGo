@@ -13,7 +13,7 @@
 
 /* Color of the black tokens (player 1) */
 .black {
-	stroke: #ccc;
+	stroke: black;
 	fill: #000;
 }
 
@@ -32,7 +32,7 @@ body  {
 
 /* changes the top tokens bar thing */
 .banner-overlay {
-    background: rgba(0,0,0,0.2);
+    background: rgba(227, 168, 87,0.2);
 }
 
 /* Color of the big boxes on the home screen */

@@ -13,14 +13,14 @@
 
 /* Color of the black tokens (player 1) */
 .black {
-	stroke: #FFC0CB;
-	fill: #FFC0CB;
+	stroke: black;
+	fill: #CC6666;
 }
 
 /* Color of the white tokens (player 2) */
 .white {
 	stroke: #000;
-	fill: #DCDCDC;
+	fill: #FFF0F5;
 }
 
 /* ~~~ Changes to the sites appearance ~~~ */
@@ -32,7 +32,7 @@ body  {
 
 /* changes the top tokens bar thing */
 .banner-overlay {
-    background: rgba(0,0,0,0.2);
+    background: rgba(245, 105, 145, 0.2);
 }
 
 /* Color of the big boxes on the home screen */
