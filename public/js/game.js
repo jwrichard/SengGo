@@ -267,12 +267,10 @@ function drawBoard(state){
 */
 function tick(){
 	// If we think its the other persons turn, check for updates
-	if(localMove != 0){
-		getData(drawBoard);
-	}
+	getData(drawBoard);
 } 
 
-setInterval(tick, 10000); // ## Uncomment when page ready
+setInterval(tick, 1000); // ## Uncomment when page ready
  
 function init(){
 	// Do page load things here...

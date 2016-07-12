@@ -378,14 +378,10 @@ app.post('/sendMove', function (req, res) {
 		//console.log("Sending in x,y = "+x+','+y);
 
 		// Make sure its their turn
-		var result;
-		if((color == 1 && (result[0].state =! 0 && result[0].state != 3)) && (color == 2 && (result[0].state =! 1 && result[0].state != 2))){
-			result = result[0];
-		} else {
-			// move = {x, y, c} where c = 1 - black, 2 - white
-			var payload = {game: result[0], move: {x: x, y: y, color: color}};
-			result = serverGameModule.processMove(payload.game, payload.move);
-		}
+		// move = {x, y, c} where c = 1 - black, 2 - white
+		var payload = {game: result[0], move: {x: x, y: y, color: color}};
+		var result = serverGameModule.processMove(payload.game, payload.move);
+
 
 		if(result != false){
 			// Update the game board in the db
