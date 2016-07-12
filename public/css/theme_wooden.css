@@ -14,7 +14,7 @@
 /* Color of the black tokens (player 1) */
 .black {
 	stroke: #ccc;
-	fill: #fff;
+	fill: #000;
 }
 
 /* Color of the white tokens (player 2) */

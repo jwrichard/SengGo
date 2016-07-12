@@ -248,9 +248,7 @@ function drawBoard(state){
     // append the svg object to the canvas object.
     canvas.append(svg);
     showPlayerInfo(state[0].player1, state[0].player2, state[0].player1score, state[0].player2score);
-<<<<<<< HEAD
     passButton(state[0].state);
-=======
 
     // Set the game status
     switch(state[0].state){
@@ -261,8 +259,6 @@ function drawBoard(state){
     	case 4: $('#gameStatus').html('<b>Black won!</b>'); break;
     	case 5: $('#gameStatus').html('<b>White won!</b>'); break;
     }
-
->>>>>>> 060603a5a0938dfcdda92c2c5c5874363bb37053
 }
 
 
