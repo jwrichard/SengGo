@@ -49,8 +49,9 @@ function checkIfValidMove(board, move){
 *	Returns: 
 *	- Success: bool
 */
-function sendMove(move){
+function sendMove(x,y){
     
+	var move = {"x": x, "y": y};
     $.post("/sendMove", move).done(function(data){
             alert(data);
         });   
