@@ -199,7 +199,7 @@ function drawBoard(state){
 				svg.append(rect);
 			}
 			if(board[i][j] === 0)
-				var click = makeClick( (i*inc)+(.15*offset)-1,(j*inc)+(.15*offset)-1,inc,inc,i,j);
+				var click = makeClick( (i*inc)+(1.05*offset)-1,(j*inc)+(1.05*offset)-1,inc,inc,i,j);
 			if(board[i][j] === 1)
 				var token = makeCircle( (i*inc)+offset-1,(j*inc)+offset-1,.48*(inc),"black");
 			if(board[i][j] === 2)
