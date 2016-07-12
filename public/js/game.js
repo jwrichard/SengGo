@@ -49,12 +49,15 @@ function checkIfValidMove(board, move){
 *	Returns: 
 *	- Success: bool
 */
-function sendMove(x,y){
+function sendMove(x, y){
     
-	var move = {"x": x, "y": y};
+	var move = {"x": x, "y": y, gameId: gameId};
     $.post("/sendMove", move).done(function(data){
-            alert(data);
-        });   
+    	if(data != {}){
+    		console.log([data]);
+    		drawBoard([data]);
+    	}
+    });   
 }
 
 function getData(cb){
