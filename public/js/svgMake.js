@@ -22,16 +22,17 @@ var SVGNameSpace = "http://www.w3.org/2000/svg";
 * @return {object} 
 */ 
 function makeClick(x, y, w, h, dataX, dataY){
-   var click = document.createElementNS(SVGNameSpace, "rect"); 
+   var click = document.createElementNS(SVGNameSpace, "circle"); 
 
    // Checkout docs at: http://www.w3schools.com/svg/svg_rect.asp
-   click.setAttribute("onclick", 'alert("rip u Justin")');
+   click.setAttribute("onclick", 'setAttribute("fill-opacity", 1)');
    click.setAttribute("onmouseover", 'setAttribute("fill-opacity", 0.5)');
    click.setAttribute("onmouseout", 'setAttribute("fill-opacity", 0)');
-   click.setAttribute("width", w);
-   click.setAttribute("height", w);
-   click.setAttribute("x", x);
-   click.setAttribute("y", y);
+   click.setAttribute("r", w/2);
+   //click.setAttribute("width", w);
+   //click.setAttribute("height", w);
+   click.setAttribute("cx", x);
+   click.setAttribute("cy", y);
    click.setAttribute("fill", "grey");
    click.setAttribute("fill-opacity", 0);
    click.setAttribute("data-x", dataX);
