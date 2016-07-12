@@ -123,6 +123,8 @@ function showPlayerInfo(player1, player2, player1score, player2score) {
     var secondPlayerScore = document.createElement('H3');
     var firstPlayerBtn = document.createElement("BUTTON");
     var secondPlayerBtn = document.createElement("BUTTON");
+    firstPlayerBtn.className = "btn btn-danger";
+    secondPlayerBtn.className = "btn btn-danger";
     var text1 = document.createTextNode("PASS");
     var text2 = document.createTextNode("PASS");
 
