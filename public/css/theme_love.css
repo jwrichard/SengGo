@@ -4,13 +4,13 @@
 
 /* Board color, only really seen around the edges unless transparent squares used */
 .board {
-	fill: rgb(0, 128, 0);
+	fill: rgb(215, 10, 83);
 }
 
 /* Each little tile */
 .square {
 	stroke: #000;
-	fill: #87A96B;
+	fill: #FBCCE7;
 }
 
 /* Color of the black tokens (player 1) */
@@ -29,7 +29,7 @@
 
 /* Background color of the site */
 body  {
-	background: url("/img/forest2.jpg");
+	background: url("/img/love1.jpg");
 }
 
 /* changes the top tokens bar thing */
@@ -39,17 +39,17 @@ body  {
 
 /* Color of the big boxes on the home screen */
 .panel {
-	background: url("/img/ocean.jpg");
+	background: url("/img/roses.jpg");
 }
 .modal-content {
-    background: url("/img/leaf.jpg");
+    background: url("/img/pinkrose.jpg");
 }
 
 .panel:hover {
-	background: url("/img/nature3.jpg");
+	background: url("/img/love3.jpg");
 }
 span.glyphicon  {
-	color: #9F8170;
+	color: #FAE7B5;
 }
 
 /* Color of form elements */
@@ -59,11 +59,15 @@ input, select {
 
 /* Header color */
 .navbar-inverse {
-	background: url("/img/leaf2.jpg");
-    border-color: #080808;
+	background: url("/img/roses2.jpg");
+    border-color: black;
 }
 
 /* Text colors/sizes */
-p, a, span, h1, h2, h3, h4, h5, h6, div {
-	color:white;
+p, a, span, h1, h3, h5, h6, div {
+	color:black;
+}
+
+h2, h4 {
+    color: cornsilk;
 }
