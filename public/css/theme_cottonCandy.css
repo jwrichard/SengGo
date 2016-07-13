@@ -3,12 +3,14 @@
 /* Board color, only really seen around the edges unless transparent squares used */
 .board {
 	fill: rgb(255, 193, 204);
+    opacity: 0.6;
 }
 
 /* Each little tile */
 .square {
 	stroke: #FA8072;
 	fill: #E7FEFF;
+    opacity: 0.7;
 }
 
 /* Color of the black tokens (player 1) */

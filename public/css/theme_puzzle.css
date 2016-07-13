@@ -5,17 +5,19 @@
 /* Board color, only really seen around the edges unless transparent squares used */
 .board {
 	fill: rgb(59, 68, 75);
+    opacity: 0.6;
 }
 
 /* Each little tile */
 .square {
 	stroke: #000;
 	fill: #F0FFFF;
+    opacity: 0.7;
 }
 
 /* Color of the black tokens (player 1) */
 .black {
-	stroke: #ccc;
+	stroke: #000;
 	fill: #000;
 }
 
@@ -34,7 +36,7 @@ body  {
 
 /* changes the top tokens bar thing */
 .banner-overlay {
-    background: rgba(0,0,0,0.2);
+    background: rgba(0,0,0,0.5);
 }
 
 /* Color of the big boxes on the home screen */
