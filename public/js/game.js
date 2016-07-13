@@ -124,43 +124,6 @@ function showPlayerInfo(player1, player2, player1score, player2score) {
     $('#playerinfo-right-name').html(player2);
     $('#playerinfo-left-score').html("Score: " + player1score);
     $('#playerinfo-right-score').html("Score: " + player2score);
-
-    /*
-    var playerLeftInfo = document.getElementById('playerinfo-left');
-    var playerRightInfo = document.getElementById('playerinfo-right');
-    
-    var firstPlayer = document.createElement('H2');
-    var secondPlayer = document.createElement('H2');
-    var firstPlayerScore = document.createElement('H3');
-    var secondPlayerScore = document.createElement('H3');
-    var firstPlayerBtn = document.createElement("BUTTON");
-    var secondPlayerBtn = document.createElement("BUTTON");
-    
-    firstPlayerBtn.id = "player1-passbutton";
-    secondPlayerBtn.id = "player2-passbutton";
-    firstPlayerBtn.className = "btn btn-danger";
-    secondPlayerBtn.className = "btn btn-danger";
-    var text1 = document.createTextNode("PASS");
-    var text2 = document.createTextNode("PASS");
-    firstPlayer.innerHTML = player1 + " is colour Black.";
-    secondPlayer.innerHTML = player2 + " is colour White.";
-    
-    console.log("DEBUG ISSUES???");
-    firstPlayerBtn.appendChild(text1);
-    secondPlayerBtn.appendChild(text2);
-    
-    firstPlayerScore.innerHTML = "Score: " + parseFloat(player1score);
-    secondPlayerScore.innerHTML = "Score: " + parseFloat(player2score);
-    
-    playerLeftInfo.appendChild(firstPlayer);
-    playerLeftInfo.appendChild(firstPlayerScore);
-    playerLeftInfo.appendChild(firstPlayerBtn);
-    playerLeftInfo.style.textAlign = 'center';
-    playerRightInfo.appendChild(secondPlayer);
-    playerRightInfo.appendChild(secondPlayerScore);
-    playerRightInfo.appendChild(secondPlayerBtn);
-    playerRightInfo.style.textAlign = 'center';
-    */
 }
 
 /*
@@ -169,9 +132,7 @@ function showPlayerInfo(player1, player2, player1score, player2score) {
 *
 */
 function passButton(turn) {
-    //var firstPlayerBtn = document.getElementById("player1-passbutton");
-    //var secondPlayerBtn = document.getElementById("player2-passbutton");
-
+    
     if (turn == 0 || turn == 3) {
         $('#playerinfo-left-button').show(500);
         $('#playerinfo-right-button').hide(500);
