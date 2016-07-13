@@ -174,13 +174,7 @@ function passButton(turn) {
             var passBlack = confirm("Are you sure you want to pass?");
             if(passBlack == true)
             {
-                alert("Black passes!");
-                //switch states (skip the turn)
                 sendPass();
-            }
-            else
-            {
-                alert("No pass, still Black's turn!");
             }
     }
     });
@@ -190,13 +184,7 @@ function passButton(turn) {
             var passWhite = confirm("Are you sure you want to pass?");
             if(passWhite == true)
             {
-                alert("White passes!");
-                //switch states (skip the turn)
                 sendPass();
-            }
-            else
-            {
-                alert("No pass, still White's turn!");
             }
     }
     });
