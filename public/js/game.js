@@ -271,16 +271,13 @@ function drawBoard(state){
     // END GAME OPTION SHOW:
     if (state[0].state == 4 || state[0].state == 5) {
         $('#myModal').modal('show');
-        /*
-        * Calculate the score by making a request to the server.
-        * Server calls game.js (lib) for the calculate score function.
-        * The request to the server then returns the calculated score.
-        * => RETURN who has won the game.
-        */
-        if (state[0].state == 4) { // WRONG -> needs to calculate score
+		
+		// server handles calculating score/determining winner
+		
+        if (state[0].state == 4) {
             $('#id-modal-title').html(state[0].player1 + " (black) has won the game!");
         }
-        if (state[0].state == 5) { // WRONG -> needs to calculate score
+        if (state[0].state == 5) {
             $('#id-modal-title').html(state[0].player2 + " (white) has won the game!");
         }
     }
