@@ -350,13 +350,13 @@ function createGame(ip, player1, player2, boardSize, res){
 app.post('/sendMove', function (req, res) {
 	// Get parameters
 	var gameId = req.body.gameId;
+	console.log("gameId: " + gameId);
 	var x = parseInt(req.body.x);
 	var y = parseInt(req.body.y);
 	var user = req.session.username;
 	var reqIP = req.connection.remoteAddress;
 	var board;
 	var color;
-    var pass = req.body.pass;
 
 	// Get the game board from the server
 	db.getQuery('games', {gameId: gameId}, function(err, result){
@@ -397,33 +397,47 @@ app.post('/sendMove', function (req, res) {
 		// move = {x, y, c} where c = 1 - black, 2 - white
         
         //check for pass
-        if(pass == true)
+        if(req.body.pass != undefined)
         {
-            res.send(result);
-            game.state = (game.state+1)%2;
-        }
-        
-		var payload = {game: result[0], move: {x: x, y: y, color: color}};
-		var result = serverGameModule.processMove(payload.game, payload.move);
-
-
-		if(result != false){
-			// Update the game board in the db
-			db.updateGame(result, function(dbresult){
-				console.log(result);
-				if(dbresult.result.ok == 1){
-					// Updated succesfully
-					res.send(result); 
-
-					// If it did, add to the replay collection
-					// TODO
-
-
-				} else {
-					// Failed to update db
+			var game = result[0];
+			console.log("here we are! ");
+			console.log(game);
+			game.state = (game.state + 1) % 2;
+			db.updateGame(game, function(dbresult)
+			{
+				if (dbresult.result.ok == 1)
+				{
+					res.send(game);
+				}
+				else
+				{
 					res.send('{}');
 				}
-			}, 'games');
+			});
+        }
+		else
+		{
+			var payload = {game: result[0], move: {x: x, y: y, color: color}};
+			var moveResult = serverGameModule.processMove(payload.game, payload.move);
+
+			if(moveResult != false){
+				// Update the game board in the db
+				db.updateGame(moveResult, function(dbresult){
+					console.log(moveResult);
+					if(dbresult.result.ok == 1){
+						// Updated succesfully
+						res.send(moveResult); 
+
+						// If it did, add to the replay collection
+						// TODO
+
+
+					} else {
+						// Failed to update db
+						res.send('{}');
+					}
+				}, 'games');
+			}
 		}
 	});
 	

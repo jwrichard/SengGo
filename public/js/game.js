@@ -52,7 +52,7 @@ function checkIfValidMove(board, move){
 *	- Success: bool
 */
 function sendMove(x, y){
-    
+	console.log("gameId: " + gameId);
 	var move = {"x": x, "y": y, gameId: gameId};
     $.post("/sendMove", move).done(function(data){
     	if(data != {}){
@@ -63,6 +63,8 @@ function sendMove(x, y){
 }
 
 function sendPass(){
+	console.log("here we are!");
+	console.log("gameId: " + gameId);
     var move = {"gameId": gameId, "pass": true};
     $.post("/sendMove", move).done(function(data){
         if(data != {}){
@@ -74,8 +76,8 @@ function sendPass(){
 
 function getData(cb){
     $.get("/getBoard?id="+gameId, function(data, textStatus, xhr){
-        console.log("Response for /getBoard?id="+gameId+": "+textStatus);  
-        console.log(data);
+        //console.log("Response for /getBoard?id="+gameId+": "+textStatus);  
+        //console.log(data);
 
         // handle any errors here....
 
@@ -204,7 +206,7 @@ function placeToken(board) {
 *
 */
 function drawBoard(state){
-	console.log(state[0].board);
+	//console.log(state[0].board);
 	
 	$('#canvas, #playerinfo-left, #playerinfo-right').html('');
 	
