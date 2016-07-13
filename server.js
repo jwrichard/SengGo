@@ -21,6 +21,17 @@ var sha = require('./lib/sha512.js');
 app.use(express.static("public"));
 app.use(cookieParser())
 
+// Constants
+const blackTurn = 0;
+const whiteTurn = 1;
+const blackPassed = 2;
+const whitePassed = 3;
+const blackWon = 4;
+const whiteWon = 5;
+
+const blackPlayer = 1;
+const whitePlayer = 2;
+
 // Setup sessions and how the IDs are created
 app.use(session({
   genid: function(req) {
@@ -406,7 +417,29 @@ app.post('/sendMove', function (req, res) {
         {
 			var game = result[0];
             
-            game.state = (game.state + 2);
+			if (game.state == blackTurn)
+			{
+				game.state = blackPassed;
+			}
+			else if (game.state == whiteTurn)
+			{
+				game.state = whitePassed;
+			}
+			else if (game.state == blackPassed || game.state == whitePassed)
+			{
+				serverGameModule.calculateScore(game);
+				
+				if (game.player1score > game.player2score)
+				{
+					game.state = blackWon;
+					console.log("black won!")
+				}
+				else
+				{
+					game.state = whiteWon;
+					console.log("white won!")
+				}
+			}
 			
             db.updateGame(game, function(dbresult)
 			{
