@@ -400,8 +400,10 @@ app.post('/sendMove', function (req, res) {
         if(req.body.pass != undefined)
         {
 			var game = result[0];
-			game.state = (game.state + 1) % 2;
-			db.updateGame(game, function(dbresult)
+            
+            game.state = (game.state + 2);
+			
+            db.updateGame(game, function(dbresult)
 			{
 				if (dbresult.result.ok == 1)
 				{
@@ -413,6 +415,7 @@ app.post('/sendMove', function (req, res) {
 				}
 			});
         }
+        
 		else
 		{
 			var payload = {game: result[0], move: {x: x, y: y, color: color}};
@@ -421,9 +424,12 @@ app.post('/sendMove', function (req, res) {
 			if(moveResult != false){
 				// Update the game board in the db
 				db.updateGame(moveResult, function(dbresult){
-					console.log(moveResult);
-					if(dbresult.result.ok == 1){
+					//console.log(moveResult);
+                    //console.log(moveResult.state);
+                    //console.log(dbresult.result.ok);
+					if((dbresult.result.ok == 1)){
 						// Updated succesfully
+    
 						res.send(moveResult); 
 
 						// If it did, add to the replay collection
