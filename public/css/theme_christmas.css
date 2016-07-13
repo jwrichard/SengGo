@@ -4,6 +4,7 @@
 
 .board {
     fill: rgb(227, 38, 54);
+    opacity: 0.6;
 }
 
 /* Each little tile */
@@ -29,6 +30,11 @@
 /* Background color of the site */
 body  {
 	background: url("/img/christmas3.jpg");
+}
+
+/* changes the top tokens bar thing */
+.banner-overlay {
+    background: rgba(0, 107, 60, 0.2);
 }
 
 /* Color of the big boxes on the home screen */

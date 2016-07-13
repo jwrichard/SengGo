@@ -33,6 +33,11 @@ body  {
 	background-image: url("/img/hypnotize.gif");
 }
 
+/* changes the top tokens bar thing */
+.banner-overlay {
+    background: rgba(57, 255, 20, 0.2);
+}
+
 /* Color of the big boxes on the home screen */
 .panel {
 	background: aqua;
