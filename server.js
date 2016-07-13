@@ -400,8 +400,6 @@ app.post('/sendMove', function (req, res) {
         if(req.body.pass != undefined)
         {
 			var game = result[0];
-			console.log("here we are! ");
-			console.log(game);
 			game.state = (game.state + 1) % 2;
 			db.updateGame(game, function(dbresult)
 			{

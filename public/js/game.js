@@ -63,8 +63,6 @@ function sendMove(x, y){
 }
 
 function sendPass(){
-	console.log("here we are!");
-	console.log("gameId: " + gameId);
     var move = {"gameId": gameId, "pass": true};
     $.post("/sendMove", move).done(function(data){
         if(data != {}){
