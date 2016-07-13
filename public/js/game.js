@@ -9,6 +9,8 @@ var localBoard = null; // Our local copy of what the board is, update this when 
 var localMove = -1; // Local copy of who's move it is, update this when getting new board (Not sure if this needed)
 var me = 0; // Our local Id, i.e if its player me's turn, its us!
 
+var prevState = -1;
+
 /*
 *	checkIfValidMove
 *	Inputs: 
@@ -118,6 +120,12 @@ function getBoard(){
 */
 function showPlayerInfo(player1, player2, player1score, player2score) {
     
+    $('#playerinfo-left-name').html(player1);
+    $('#playerinfo-right-name').html(player2);
+    $('#playerinfo-left-score').html("Score: " + player1score);
+    $('#playerinfo-right-score').html("Score: " + player2score);
+
+    /*
     var playerLeftInfo = document.getElementById('playerinfo-left');
     var playerRightInfo = document.getElementById('playerinfo-right');
     
@@ -137,6 +145,7 @@ function showPlayerInfo(player1, player2, player1score, player2score) {
     firstPlayer.innerHTML = player1 + " is colour Black.";
     secondPlayer.innerHTML = player2 + " is colour White.";
     
+    console.log("DEBUG ISSUES???");
     firstPlayerBtn.appendChild(text1);
     secondPlayerBtn.appendChild(text2);
     
@@ -151,6 +160,7 @@ function showPlayerInfo(player1, player2, player1score, player2score) {
     playerRightInfo.appendChild(secondPlayerScore);
     playerRightInfo.appendChild(secondPlayerBtn);
     playerRightInfo.style.textAlign = 'center';
+    */
 }
 
 /*
@@ -159,20 +169,20 @@ function showPlayerInfo(player1, player2, player1score, player2score) {
 *
 */
 function passButton(turn) {
-    var firstPlayerBtn = document.getElementById("player1-passbutton");
-    var secondPlayerBtn = document.getElementById("player2-passbutton");
+    //var firstPlayerBtn = document.getElementById("player1-passbutton");
+    //var secondPlayerBtn = document.getElementById("player2-passbutton");
 
     if (turn == 0 || turn == 3) {
-        $('#player1-passbutton').show(500);
-        $('#player2-passbutton').hide(500);
+        $('#playerinfo-left-button').show(500);
+        $('#playerinfo-right-button').hide(500);
     }
     else if (turn == 1 || turn == 2) {
-        $('#player1-passbutton').hide(500);
-        $('#player2-passbutton').show(500);
+        $('#playerinfo-left-button').hide(500);
+        $('#playerinfo-right-button').show(500);
     }
     else if (turn == 4 || turn == 5) {
-        $('#player1-passbutton').hide(500);
-        $('#player2-passbutton').hide(500);
+        $('#playerinfo-left-button').hide(500);
+        $('#playerinfo-right-button').hide(500);
     }
 }
 
@@ -248,7 +258,12 @@ function drawBoard(state){
     // append the svg object to the canvas object.
     canvas.append(svg);
     showPlayerInfo(state[0].player1, state[0].player2, state[0].player1score, state[0].player2score);
-    passButton(state[0].state);
+    
+    if (state[0].state != prevState) {
+        passButton(state[0].state);
+        prevState = state[0].state;
+    }
+    
 
     // Set the game status
     switch(state[0].state){
