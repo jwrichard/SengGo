@@ -284,7 +284,7 @@ app.post('/newPVPGame', function (req, res) {
 
 	// Create the game and redirect to it
 	var boardSize = req.body.boardSize;
-	var opponent = req.body.opponent;
+	var opponent = req.body.player2;
 	createGame(null, req.session.username, opponent, boardSize, res);
 })
 
@@ -308,6 +308,21 @@ function createGame(ip, player1, player2, boardSize, res){
 			gameId = Crypto.randomBytes(5).toString('hex');
 		}
 		// Create the game object to insert
+		
+		var player2StartingScore = 0;
+		if (boardSize == 9)
+		{
+			player2StartingScore = 5.5;
+		}
+		else if (boardSize == 13)
+		{
+			player2StartingScore = 6.5;
+		}
+		else if (boardSize == 19)
+		{
+			player2StartingScore = 	7.5;	
+		}
+		
 		var game = {
 			gameId: gameId,
 			userIP: ip,
@@ -316,7 +331,7 @@ function createGame(ip, player1, player2, boardSize, res){
 			player1: player1,
 			player2: player2,
 			player1score: 0,
-			player2score: 7.5,
+			player2score: player2StartingScore,
 			state: 0
 		}
 		// Insert the new game into the db
@@ -377,19 +392,16 @@ app.post('/sendMove', function (req, res) {
 		//console.log("User is color: "+color);
 		//console.log("Sending in x,y = "+x+','+y);
 
+		// Make sure its their turn
 		// move = {x, y, c} where c = 1 - black, 2 - white
 		var payload = {game: result[0], move: {x: x, y: y, color: color}};
 		var result = serverGameModule.processMove(payload.game, payload.move);
 
-		//console.log("Result is:");
-		//console.log(result);
 
 		if(result != false){
 			// Update the game board in the db
 			db.updateGame(result, function(dbresult){
-				console.log("Did this update correctly?");
-				console.log(dbresult.result.ok);
-				
+				console.log(result);
 				if(dbresult.result.ok == 1){
 					// Updated succesfully
 					res.send(result); 
