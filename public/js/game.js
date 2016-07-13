@@ -72,6 +72,16 @@ function sendPass(){
     })
 }
 
+function gameOver() {
+    // WHAT DO WE WANT TO SEND? var board = {"gameId": gameId, (...)
+    $.post("/gameOver", board).done(function(data){
+        if (data != {}) {
+            console.log([data]);
+            drawBoard([data]);
+        }
+    })
+}
+
 function getData(cb){
     $.get("/getBoard?id="+gameId, function(data, textStatus, xhr){
         //console.log("Response for /getBoard?id="+gameId+": "+textStatus);  
@@ -264,9 +274,27 @@ function drawBoard(state){
     canvas.append(svg);
     showPlayerInfo(state[0].player1, state[0].player2, state[0].player1score, state[0].player2score);
     
+    // PASS BUTTON ANIMATION:
     if (state[0].state != prevState) {
         passButton(state[0].state);
         prevState = state[0].state;
+    }
+    
+    // END GAME OPTION SHOW:
+    if (state[0].state == 4 || state[0].state == 5) {
+        $('#myModal').modal('show');
+        /*
+        * Calculate the score by making a request to the server.
+        * Server calls game.js (lib) for the calculate score function.
+        * The request to the server then returns the calculated score.
+        * => RETURN who has won the game.
+        */
+        if (state[0].state == 4) { // WRONG -> needs to calculate score
+            $('#id-modal-title').html(state[0].player1 + " (black) has won the game!");
+        }
+        if (state[0].state == 5) { // WRONG -> needs to calculate score
+            $('#id-modal-title').html(state[0].player2 + " (white) has won the game!");
+        }
     }
     
 

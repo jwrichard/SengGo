@@ -220,6 +220,11 @@ app.get('/actionLogout', function (req, res) {
 	res.redirect('/');
 })
 
+// Calculate score from "game.js (lib)" and return score
+app.get('/gameOver', function (req, res) {
+
+})
+
 // Handle registration submission
 app.post('/actionRegister', function (req, res) {
 	// Get post params
