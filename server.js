@@ -356,6 +356,7 @@ app.post('/sendMove', function (req, res) {
 	var reqIP = req.connection.remoteAddress;
 	var board;
 	var color;
+    var pass = req.body.pass;
 
 	// Get the game board from the server
 	db.getQuery('games', {gameId: gameId}, function(err, result){
@@ -363,7 +364,7 @@ app.post('/sendMove', function (req, res) {
 		var player1 = result[0].player1;
 		var player2 = result[0].player2;
 		var userIP = result[0].userIP;
-
+        
 		// Make sure a valid user is sending the request
 		if(userIP == null){
 			// AI or PvP game
@@ -394,6 +395,14 @@ app.post('/sendMove', function (req, res) {
 
 		// Make sure its their turn
 		// move = {x, y, c} where c = 1 - black, 2 - white
+        
+        //check for pass
+        if(pass == true)
+        {
+            res.send(result);
+            game.state = (game.state+1)%2;
+        }
+        
 		var payload = {game: result[0], move: {x: x, y: y, color: color}};
 		var result = serverGameModule.processMove(payload.game, payload.move);
 

@@ -62,6 +62,16 @@ function sendMove(x, y){
     });   
 }
 
+function sendPass(){
+    var move = {"gameId": gameId, "pass": true};
+    $.post("/sendMove", move).done(function(data){
+        if(data != {}){
+            console.log([data]);
+            drawBoard([data]);
+        }
+    })
+}
+
 function getData(cb){
     $.get("/getBoard?id="+gameId, function(data, textStatus, xhr){
         console.log("Response for /getBoard?id="+gameId+": "+textStatus);  
@@ -156,7 +166,7 @@ function passButton(turn) {
             {
                 alert("Black passes!");
                 //switch states (skip the turn)
-                
+                sendPass();
             }
             else
             {
@@ -172,7 +182,7 @@ function passButton(turn) {
             {
                 alert("White passes!");
                 //switch states (skip the turn)
-                
+                sendPass();
             }
             else
             {
