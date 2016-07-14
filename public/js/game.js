@@ -275,10 +275,10 @@ function drawBoard(state){
 		// server handles calculating score/determining winner
 		
         if (state[0].state == 4) {
-            $('#id-modal-title').html(state[0].player1 + " (black) has won the game!");
+            $('#id-modal-title').html(state[0].player1 + " (black) has won the game with a total of " + state[0].player1score + " points!");
         }
         if (state[0].state == 5) {
-            $('#id-modal-title').html(state[0].player2 + " (white) has won the game!");
+            $('#id-modal-title').html(state[0].player2 + " (white) has won the game with a total of " + state[0].player2score + " points!");
         }
     }
     
