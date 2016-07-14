@@ -505,6 +505,37 @@ app.post('/sendMove', function (req, res) {
 	});
 })
 
+//
+function postRoberts(param, callback){
+	var options = {
+		host: "roberts.seng.uvic.ca",
+		json: true,
+		headers: {'Content-type': 'application/json'},
+		port: 30000,
+		path: '/ai/random',
+		method: 'POST'
+	};
+
+	// Make the POST request
+	var req = http.request(options, function(response){
+	var str = "";
+	response.on('data', function(chunk){
+		str += chunk.toString();
+	});
+	response.on('end', function(){
+		var data = JSON.parse(str);
+		AIMove = {
+			x: data.x,
+			y: data.y,
+			color: data.c,
+			pass: data.pass
+		};
+		callback(AIMove);
+	});
+	req.write(JSON.stringify(param));
+	req.end();
+}
+
 // Given a game, updates the game with a move from the AI
 function getAIMove(game, lastMove, pass){
 	
@@ -523,55 +554,28 @@ function getAIMove(game, lastMove, pass){
 		}
 	};
 
-	var options = {
-		host: "roberts.seng.uvic.ca",
-		json: true,
-		headers: {'Content-type': 'application/json'},
-		port: 30000,
-		path: '/ai/random',
-		method: 'POST'
-	};
-	
 	// Keep making ajax calls until we get a valid move
 	// Since its random, may as well use rand(0, size) for each move but whatever
-	var moveResult, AIMove;
-	do {
-		// Make the POST request
-		var req = http.request(options, function(response){
-			var str = "";
-			response.on('data', function(chunk){
-				str += chunk.toString();
-			});
-			response.on('end', function(){
-				var data = JSON.parse(str);
-				AIMove = {
-					x: data.x,
-					y: data.y,
-					color: data.c,
-					pass: data.pass
-				};
-			});
-			req.write(JSON.stringify(param));
-			req.end();
+	var moveResult;
 
-			// insert AI pass code here
-		});   
-		// Check if valid result - i.e, the board changed after processing this move
-	} while((moveResult = serverGameModule.processMove(payload.game, AIMove)) != game);
-	
-	// Update the db with the game result
-	moveResult.move = moveResult.move + 1;
-	db.updateGame(moveResult, function(dbresult){
-		// Check if insertion ok
-		if((dbresult.result.ok == 1)){
-			// If it is, add to the replay collection
-			db.addHistory(moveResult, function(err){
-				console.log("Added history to game. Error?: "+err)
-			});
+	postRoberts(param, function(AIMove){
+		console.log("AI's move was: ");
+		console.log(AIMove);
+
+		// If valud move, 
+		if(AIMove.c != null){
+			// Request worked, now check if it was a valid move
+			if((moveResult = serverGameModule.processMove(payload.game, AIMove)) != game){
+				console.log("Valid move");
+			} else {
+				console.log("Invalid move");
+			}
 		} else {
-			console.log("Failed to update game board in db");
+			// Somehow make request again
+			console.log("Bad result from server");
 		}
-	}, 'games');
+
+	})
 }
 
 // Get the status of a game
