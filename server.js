@@ -6,7 +6,7 @@ var fs = require('fs');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var app = express();
-var http = require('http');
+var request = require('request');
 
 // Initialize DB
 var Storage = require('./lib/MongoDB');
@@ -507,33 +507,25 @@ app.post('/sendMove', function (req, res) {
 
 //
 function postRoberts(param, callback){
-	var options = {
-		host: "roberts.seng.uvic.ca",
-		json: true,
-		headers: {'Content-type': 'application/json'},
-		port: 30000,
-		path: '/ai/random',
-		method: 'POST'
-	};
+	request({
+	    url: "http://roberts.seng.uvic.ca:30000/ai/random",
+	    method: "POST",
+	    json: true,   // <--Very important!!!
+	    body: param
+	}, function (error, response, body){
+		if(response == undefined){
+			console.log(error);
+		} else {
+			callback(response);
+		}
+	});
 
-	// Make the POST request
-	var req = http.request(options, function(response){
-	var str = "";
-	response.on('data', function(chunk){
-		str += chunk.toString();
-	});
-	response.on('end', function(){
-		var data = JSON.parse(str);
-		AIMove = {
-			x: data.x,
-			y: data.y,
-			color: data.c,
-			pass: data.pass
-		};
-		callback(AIMove);
-	});
-	req.write(JSON.stringify(param));
-	req.end();
+	/* AIMove = {
+				x: data.x,
+				y: data.y,
+				color: data.c,
+				pass: data.pass
+			}; */
 }
 
 // Given a game, updates the game with a move from the AI
@@ -557,25 +549,9 @@ function getAIMove(game, lastMove, pass){
 	// Keep making ajax calls until we get a valid move
 	// Since its random, may as well use rand(0, size) for each move but whatever
 	var moveResult;
-
-	postRoberts(param, function(AIMove){
-		console.log("AI's move was: ");
-		console.log(AIMove);
-
-		// If valud move, 
-		if(AIMove.c != null){
-			// Request worked, now check if it was a valid move
-			if((moveResult = serverGameModule.processMove(payload.game, AIMove)) != game){
-				console.log("Valid move");
-			} else {
-				console.log("Invalid move");
-			}
-		} else {
-			// Somehow make request again
-			console.log("Bad result from server");
-		}
-
-	})
+	postRoberts(param, function(response){
+		console.log(response);
+	});
 }
 
 // Get the status of a game

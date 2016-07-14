@@ -5,3 +5,4 @@ npm install body-parser --save
 npm install crypto --save
 npm install cookie-parser --save
 npm install express-session --save
+npm install request --save
