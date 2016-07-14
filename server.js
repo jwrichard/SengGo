@@ -42,16 +42,11 @@ app.use(session({
   saveUninitialized: true
 }))
 
-
 // Used to parse JSON objects from requests
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true
 }));
-
-// Define any used data structures
-
-
 
 // Deliver our home page 
 app.get('/', function (req, res) {
@@ -180,6 +175,29 @@ app.get('/play/:gameId', function (req, res) {
 	db.getQuery('games', {gameId: req.params.gameId}, function(err, result){
 		if(err == null){
 			var html = mustache.to_html(page, {gameId: req.params.gameId, loginstatus: l, user: user, game: JSON.stringify(result[0])}); // replace all of the data
+			res.send(html);
+		} else {
+			res.redirect("/?e=1");
+		}
+	});
+})
+
+// Replay page
+app.get('/replay/:gameId/:move', function (req, res) {
+	var page = fs.readFileSync("views/replay.html", "utf8"); // bring in the HTML file
+	(req.session.username ? user = req.session.username :  user = '');
+
+	// Display login status
+	if(user != ''){
+		l = '<div><p class="navbar-form navbar-right loginstatus">Logged in as: <span class="secondaryWord">'+user+'</span> | <a href="/actionLogout">Logout</a></p></div>';
+	} else {
+		l = '<form class="navbar-form navbar-right" action="/actionLogin" method="post"><div class="form-group"><input type="text" placeholder="Username" class="form-control" id="username" name="username"></div><div class="form-group"><input type="password" placeholder="Password" class="form-control" id="password" name="password"></div><input type="button" class="btn btn-primary" onclick="formhash(this.form, this.form.username, this.form.password);" value="Sign in" /></form>';
+	}
+
+	// Send game data as param
+	db.getQuery('history', {gameId: req.params.gameId, move: req.params.move}, function(err, result){
+		if(err == null){
+			var html = mustache.to_html(page, {game: JSON.stringify(result[0])}); // replace all of the data
 			res.send(html);
 		} else {
 			res.redirect("/?e=1");
@@ -348,7 +366,8 @@ function createGame(ip, player1, player2, boardSize, res){
 			player2: player2,
 			player1score: 0,
 			player2score: player2StartingScore,
-			state: 0
+			state: 0,
+			move: 0
 		}
 		// Insert the new game into the db
 		db.addDocuments(game, function(result){
@@ -389,14 +408,17 @@ app.post('/sendMove', function (req, res) {
 			} else if(user == player2){
 				color = 2;
 			} else {
+				// User is not in this game, they cannot send moves
 				res.send("{}");
 			}
 		} else {
 			// Local game
 			console.log("Local game");
 			if(reqIP != userIP){
+				// Not their local game, they can't make moves!
 				res.send("{}");
 			} else {
+				// If local game, and right IP, next move depends on current state
 				switch(result[0].state){
 					case 0: color = 1; break;
 					case 1: color = 2; break;
@@ -405,75 +427,73 @@ app.post('/sendMove', function (req, res) {
 				}
 			}
 		}
-
-		//console.log("User is color: "+color);
-		//console.log("Sending in x,y = "+x+','+y);
-
-		// Make sure its their turn
-		// move = {x, y, c} where c = 1 - black, 2 - white
         
-        //check for pass
-        if(req.body.pass != undefined)
-        {
+        // Check to see if a pass was sent
+        if(req.body.pass != undefined) {
+			
 			var game = result[0];
-            
-			if (game.state == blackTurn)
-			{
+			// Check who sent it
+			if (game.state == blackTurn && color == blackPlayer){
 				game.state = blackPassed;
-			}
-			else if (game.state == whiteTurn)
-			{
+			} else if (game.state == whiteTurn && color == whitePlayer){
 				game.state = whitePassed;
 			}
-			else if (game.state == blackPassed || game.state == whitePassed)
-			{
+			// If two consecutive passes
+			else if ((game.state == blackPassed && color == whitePlayer) || (game.state == whitePassed && color == blackPlayer)){
+				// Calculate game score
 				serverGameModule.calculateScore(game);
 				
-				if (game.player1score > game.player2score)
-				{
+				// Set state appropriately 
+				if (game.player1score > game.player2score) {
 					game.state = blackWon;
 					console.log("black won!")
-				}
-				else
-				{
+				} else {
 					game.state = whiteWon;
 					console.log("white won!")
 				}
 			}
 			
-            db.updateGame(game, function(dbresult)
-			{
-				if (dbresult.result.ok == 1)
-				{
+			// Update game move counter
+			game.move = game.move + 1;
+			
+			// Update the game state in the db
+            db.updateGame(game, function(dbresult){
+				if (dbresult.result.ok == 1) {
+					// Update history collection
+					db.addHistory(game, function(err){
+						console.log("Added history to game. Error?: "+err)
+					});
 					res.send(game);
-				}
-				else
-				{
+					// If AI game, call AI move function
+					if(player2 == "AI"){
+						getAIMove(moveResult, null, true);
+					}
+				} else {
 					res.send('{}');
 				}
 			});
-        }
-        
-		else
-		{
+        } else {
+			// If not a pass, process the move and see if its legit
 			var payload = {game: result[0], move: {x: x, y: y, color: color}};
 			var moveResult = serverGameModule.processMove(payload.game, payload.move);
-
 			if(moveResult != false){
 				// Update the game board in the db
+				moveResult.move = moveResult.move + 1;
 				db.updateGame(moveResult, function(dbresult){
-					//console.log(moveResult);
-                    //console.log(moveResult.state);
-                    //console.log(dbresult.result.ok);
+					// Check if insertion ok
 					if((dbresult.result.ok == 1)){
-						// Updated succesfully
-    
+						// If it is, add to the replay collection
+						db.addHistory(moveResult, function(err){
+							console.log("Added history to game. Error?: "+err)
+						});
+						
+						// Send user the board
 						res.send(moveResult); 
-
-						// If it did, add to the replay collection
-						// TODO
-
-
+						
+						// If AI game, call AI move function
+						if(player2 == "AI"){
+							getAIMove(moveResult, payload.move);
+						}
 					} else {
 						// Failed to update db
 						res.send('{}');
@@ -482,8 +502,92 @@ app.post('/sendMove', function (req, res) {
 			}
 		}
 	});
-	
 })
+
+// Given a game, updates the game with a move from the AI
+function getAIMove(game, lastMove, pass){
+	
+	if(pass == null) pass = false;
+	if(lastMove == null) lastMove = {x:0, y:0, color: 0};
+	
+	// Prepare input to ajax call
+	var param = {
+		size: game.size,
+		board: game.board,
+		last: {
+			x: lastMove.x,
+			y: lastMove.y,
+			c: lastMove.color,
+			pass: pass
+		}
+	};
+	
+	// Keep making ajax calls until we get a valid move
+	// Since its random, may as well use rand(0, size) for each move but whatever
+	var moveResult, AIMove;
+	do {
+		// Make the ajax call
+		$.post("https://roberts.seng.uvic.ca:30000/ai/random", param).done(function(data){
+			if(data != null){
+				AIMove = {
+					x: data.x,
+					y: data.y,
+					color: data.c,
+					pass: data.pass
+				};
+			}
+			// If a pass, we handle it differently - this is ugly duplicate code
+			if(AIMove.pass == true){
+				// Change state and return
+				if (game.state == blackTurn && color == blackPlayer){
+					game.state = blackPassed;
+				} else if (game.state == whiteTurn && color == whitePlayer){
+					game.state = whitePassed;
+				}
+				// If two consecutive passes
+				else if ((game.state == blackPassed && color == whitePlayer) || (game.state == whitePassed && color == blackPlayer)){
+					// Calculate game score
+					serverGameModule.calculateScore(game);
+					
+					// Set state appropriately 
+					if (game.player1score > game.player2score) {
+						game.state = blackWon;
+						console.log("black won!")
+					} else {
+						game.state = whiteWon;
+						console.log("white won!")
+					}
+				}
+				// Update the game state in the db
+				db.updateGame(game, function(dbresult){
+					if (dbresult.result.ok == 1) {
+						// Update history collection
+						db.addHistory(game, function(err){
+							console.log("Added history to game. Error?: "+err)
+						});
+					}
+				});
+				// -- End duplicate code 
+				return;
+			}
+		});   
+		// Check if valid result - i.e, the board changed after processing this move
+	} while((moveResult = serverGameModule.processMove(payload.game, AIMove)) != game);
+	
+	// Update the db with the game result
+	moveResult.move = moveResult.move + 1;
+	db.updateGame(moveResult, function(dbresult){
+		// Check if insertion ok
+		if((dbresult.result.ok == 1)){
+			// If it is, add to the replay collection
+			db.addHistory(moveResult, function(err){
+				console.log("Added history to game. Error?: "+err)
+			});
+		} else {
+			console.log("Failed to update game board in db");
+		}
+	}, 'games');
+}
 
 // Get the status of a game
 app.get('/getBoard', function (req, res) {

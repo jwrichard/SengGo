@@ -84,21 +84,10 @@ function gameOver() {
 
 function getData(cb){
     $.get("/getBoard?id="+gameId, function(data, textStatus, xhr){
-        //console.log("Response for /getBoard?id="+gameId+": "+textStatus);  
-        //console.log(data);
-
-        // handle any errors here....
-
-        // draw the board....
-
         localBoard = data; 
-
         cb(data);  
-
     }); 
 }
-
-
 
 /*
 *	getBoard - Sends a request to the server to update the game board
@@ -115,7 +104,6 @@ function getBoard(){
  // that relates to the AI and requesting moves from it
  // similar code can be seen in script.js from lab 6 I think.
  // WYLL :D
-	
     $.ajax({
         type: 'POST',
         url : '/getBoard?id='+ gameId,
@@ -129,7 +117,6 @@ function getBoard(){
             drawBoard(data);    
         }
     });
-
 }
 
 /*
@@ -303,20 +290,9 @@ function tick(){
 	getData(drawBoard);
 } 
 
-setInterval(tick, 1000); // ## Uncomment when page ready
- 
 function init(){
 	// Do page load things here...
 	console.log("Initalizing Page...."); 
 	getData(drawBoard);
-
-	
+	setInterval(tick, 1000);
 }
-
-$(document).ready(function(){
-	// Add event handler for squares
-	console.log('Creating event handlers for squares');
-	$('rect.click').on('click', function(){
-		console.log("You clicked on a square!");
-	});
-});

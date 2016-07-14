@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>SengGo</title>
+
+    <!-- CSS Stylesheets -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/style.css" rel="stylesheet" type="text/css">
+
+    <script>
+      game = {{{game}}};
+    </script>
+
+  </head>
+
+  <body>
+    <div class="banner"><div class="banner-overlay"></div></div>
+    <nav class="navbar navbar-inverse">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/"><span class="primaryWord">Seng</span><span class="secondaryWord">Go</span></a>
+        </div>
+        <div id="navbar">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="/">Play</a></li>
+            <li><a href="/about">About</a></li>
+            <li><a href="/rules">Rules</a></li>
+          </ul>
+        </div>
+        {{{loginstatus}}}
+      </div>
+    </nav>
+
+    <select id="themePicker" class="form-control">
+      <option value="default">Default</option>
+      <option value="night">Night</option>
+      <option value="wooden">Wood</option>
+      <option value="cottoncandy">Cotton Candy</option>
+      <option value="christmas">Christmas</option>
+      <option value="radical">Radical</option>
+        <option value="nature">Nature</option> 
+        <option value="space">Space</option>
+        <option value="medieval">Medieval</option>
+         <option value="winter">Winter</option>
+        <option value="love">Love</option>
+        <option value="summer">Summer</option>
+        <option value="puzzle">Puzzle</option>
+      <option value="work">Work Decoy</option> 
+    </select>
+
+    <div class="container">
+
+      <div class="row">
+        <div class="col-md-8 col-md-offset-2 text-center">
+          <h1>Game replay</h1>
+          <h3 id="gameStatus"></h3>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-2" align="center">
+            <h2 id="playerinfo-left-name">You forgot to enter a name.</h2>
+            <h3>Black</h3>
+            <h3 id="playerinfo-left-score">Score: 0</h3>
+            <button type="button" class="btn btn-danger" id="playerinfo-left-button" align='center'>PASS</button>
+          <!-- Show a move history here or something? -->
+        </div>
+        <div class="col-md-8">
+
+          <!-- Holds the game board -->
+          <div id="canvas">
+            i am game board. The game id is: {{{gameId}}}. The player logged in is: {{{user}}}. A blank user can make a move in any hot seat game that their IP matches
+          </div>
+          
+        </div>
+        <div class="col-md-2" align="center">
+            <h2 id="playerinfo-right-name">You forgot to enter a name.</h2>
+            <h3>White</h3>
+            <h3 id="playerinfo-right-score">Score: 0</h3>
+            <button type="button" class="btn btn-danger" id="playerinfo-right-button" align='center'>PASS</button>
+        </div>
+      </div>
+    </div><!-- /.container -->
+
+    <!-- JS Scripts (Added at end of page so page visually loads faster) -->
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/forms.js"></script>
+    <script src="/js/sha512.js"></script>
+    <script src="/js/game.js"></script>
+	<script src="/js/svgMake.js"></script>
+	<script src="/js/themePicker.js"></script>
+    <script>$('#gid').text(gameId);</script>
+	<script>
+        drawBoard(game);
+    </script>
+  </body>
+</html>
