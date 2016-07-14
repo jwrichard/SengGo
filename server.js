@@ -6,6 +6,7 @@ var fs = require('fs');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var app = express();
+var http = require('http');
 
 // Initialize DB
 var Storage = require('./lib/MongoDB');
@@ -521,55 +522,39 @@ function getAIMove(game, lastMove, pass){
 			pass: pass
 		}
 	};
+
+	var options = {
+		host: "roberts.seng.uvic.ca",
+		json: true,
+		headers: {'Content-type': 'application/json'},
+		port: 30000,
+		path: '/ai/random',
+		method: 'POST'
+	};
 	
 	// Keep making ajax calls until we get a valid move
 	// Since its random, may as well use rand(0, size) for each move but whatever
 	var moveResult, AIMove;
 	do {
-		// Make the ajax call
-		$.post("https://roberts.seng.uvic.ca:30000/ai/random", param).done(function(data){
-			if(data != null){
+		// Make the POST request
+		var req = http.request(options, function(response){
+			var str = "";
+			response.on('data', function(chunk){
+				str += chunk.toString();
+			});
+			response.on('end', function(){
+				var data = JSON.parse(str);
 				AIMove = {
 					x: data.x,
 					y: data.y,
 					color: data.c,
 					pass: data.pass
 				};
-			}
-			// If a pass, we handle it differently - this is ugly duplicate code
-			if(AIMove.pass == true){
-				// Change state and return
-				if (game.state == blackTurn && color == blackPlayer){
-					game.state = blackPassed;
-				} else if (game.state == whiteTurn && color == whitePlayer){
-					game.state = whitePassed;
-				}
-				// If two consecutive passes
-				else if ((game.state == blackPassed && color == whitePlayer) || (game.state == whitePassed && color == blackPlayer)){
-					// Calculate game score
-					serverGameModule.calculateScore(game);
-					
-					// Set state appropriately 
-					if (game.player1score > game.player2score) {
-						game.state = blackWon;
-						console.log("black won!")
-					} else {
-						game.state = whiteWon;
-						console.log("white won!")
-					}
-				}
-				// Update the game state in the db
-				db.updateGame(game, function(dbresult){
-					if (dbresult.result.ok == 1) {
-						// Update history collection
-						db.addHistory(game, function(err){
-							console.log("Added history to game. Error?: "+err)
-						});
-					}
-				});
-				// -- End duplicate code 
-				return;
-			}
+			});
+			req.write(JSON.stringify(param));
+			req.end();
+
+			// insert AI pass code here
 		});   
 		// Check if valid result - i.e, the board changed after processing this move
 	} while((moveResult = serverGameModule.processMove(payload.game, AIMove)) != game);
