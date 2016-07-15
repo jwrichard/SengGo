@@ -506,17 +506,36 @@ app.post('/sendMove', function (req, res) {
 })
 
 //
-function postRoberts(param, callback){
+function postRoberts(param, game, callback){
 	request({
 	    url: "http://roberts.seng.uvic.ca:30000/ai/random",
 	    method: "POST",
-	    json: true,   // <--Very important!!!
-	    body: param
+	    json: true,
+	    body: param 
 	}, function (error, response, body){
-		if(response == undefined){
-			console.log(error);
+
+		console.log("Got from server: ");
+		console.log(body);
+
+		if(response == undefined || response.statusCode == 400){
+			console.log("Error "+error);
 		} else {
-			callback(response);
+			var move = {x: body.x, y: body.y, color: body.c};
+			var oldGame = JSON.parse(JSON.stringify(game));
+			game = serverGameModule.processMove(game, move);
+
+			console.log(oldGame);
+			console.log(game);
+
+			if(game == oldGame){
+				// Invalid move
+				console.log("Invalid move, calling postRoberts again");
+				//postRoberts(param, game, callback);
+			} else {
+				console.log("Valid move, calling callback");
+				game.move = game.move + 1;
+				callback(game);
+			}
 		}
 	});
 
@@ -535,22 +554,40 @@ function getAIMove(game, lastMove, pass){
 	if(lastMove == null) lastMove = {x:0, y:0, color: 0};
 	
 	// Prepare input to ajax call
+	console.log(game);
 	var param = {
-		size: game.size,
-		board: game.board,
-		last: {
-			x: lastMove.x,
-			y: lastMove.y,
-			c: lastMove.color,
-			pass: pass
+		'size': game.boardSize,
+		'board': game.board,
+		'last': {
+			'x': lastMove.x,
+			'y': lastMove.y,
+			'c': lastMove.color,
+			'pass': pass
 		}
 	};
 
+
 	// Keep making ajax calls until we get a valid move
 	// Since its random, may as well use rand(0, size) for each move but whatever
-	var moveResult;
-	postRoberts(param, function(response){
-		console.log(response);
+	
+	postRoberts(param, game, function(newGame){
+		
+		console.log(newGame);
+
+		// Update the db with the game result
+		db.updateGame(newGame, function(dbresult){
+			// Check if insertion ok
+			if((dbresult.result.ok == 1)){
+				// If it is, add to the replay collection
+				db.addHistory(newGame, function(err){
+					console.log("Added history to game. Error?: "+err)
+				});
+			} else {
+				console.log("Failed to update game board in db");
+			}
+		}, 'games');
+		console.log("Tried to update the game and history");
+
 	});
 }
 
