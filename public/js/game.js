@@ -294,5 +294,5 @@ function init(){
 	// Do page load things here...
 	console.log("Initalizing Page...."); 
 	getData(drawBoard);
-	setInterval(tick, 1000);
+	setInterval(tick, 5000);
 }

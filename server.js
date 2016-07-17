@@ -410,6 +410,7 @@ app.post('/sendMove', function (req, res) {
 				color = 2;
 			} else {
 				// User is not in this game, they cannot send moves
+				console.log("e1");
 				res.send("{}");
 			}
 		} else {
@@ -417,6 +418,7 @@ app.post('/sendMove', function (req, res) {
 			console.log("Local game");
 			if(reqIP != userIP){
 				// Not their local game, they can't make moves!
+				console.log("e2");
 				res.send("{}");
 			} else {
 				// If local game, and right IP, next move depends on current state
@@ -470,6 +472,7 @@ app.post('/sendMove', function (req, res) {
 						getAIMove(moveResult, null, true);
 					}
 				} else {
+					console.log("e3");
 					res.send('{}');
 				}
 			});
@@ -497,6 +500,7 @@ app.post('/sendMove', function (req, res) {
 						}
 					} else {
 						// Failed to update db
+						console.log("e4");
 						res.send('{}');
 					}
 				}, 'games');
