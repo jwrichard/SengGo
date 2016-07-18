@@ -420,6 +420,7 @@ app.post('/sendMove', function (req, res) {
 				// User is not in this game, they cannot send moves
 				console.log("User is not in this game! No action taken");
 				res.send(result[0]);
+				return;
 			}
 		} else {
 			// Local game
@@ -437,6 +438,7 @@ app.post('/sendMove', function (req, res) {
 				// Cant move, since not in this local game! Send same state back
 				console.log("Can't send move since not correct player in the local game!");
 				res.send(result[0]);
+				return;
 			}
 		}
         
@@ -465,10 +467,12 @@ app.post('/sendMove', function (req, res) {
 				
 				// Send user the board
 				res.send(moveResult); 
+				return;
 			} else {
 				// Failed to update db
 				console.log("Failed to update DB, returning same board");
 				res.send(result[0]);
+				return;
 			}
 		}, 'games');
 	});
@@ -485,21 +489,18 @@ function postRoberts(param, game, callback){
 		    body: param 
 		}, function (error, response, body){
 
-		console.log("Got from server: ");
-		console.log(body);
-		
 		if(error != null){
 			// Fatal error, couldn't reach server
 			move = {gameId: game.gameId, x: 0, y: 0, pass: true, ai: true};
-		}
-
-		// If we recieve an invalid request or something, try again one more time
-		if(body == "Invalid request format." || response.statusCode == 400){
-			// First call failed
-			console.log("Invalid move, say its a pass");
-			move = {gameId: game.gameId, x: 0, y: 0, pass: true, ai: true};
 		} else {
-			move = {gameId: game.gameId, x: body.x, y: body.y, pass: body.pass, ai: true};
+			// If we recieve an invalid request or something, try again one more time
+			if(body == "Invalid request format." || response.statusCode == 400){
+				// First call failed
+				console.log("Invalid move, say its a pass");
+				move = {gameId: game.gameId, x: 0, y: 0, pass: true, ai: true};
+			} else {
+				move = {gameId: game.gameId, x: body.x, y: body.y, pass: body.pass, ai: true};
+			}
 		}
 
 		// Send request to /sendMove from AI until board state changes
