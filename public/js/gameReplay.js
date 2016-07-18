@@ -129,7 +129,7 @@ function showPlayerInfo(player1, player2, player1score, player2score) {
     
     $('#playerinfo-left-name').html(player1);
     $('#playerinfo-right-name').html(player2);
-    $('#playerinfo-left-score').html("Score: " + player1score);
+    $('#playerinfo-left-score').html("Sasdasadsadscore: " + player1score);
     $('#playerinfo-right-score').html("Score: " + player2score);
 }
 
@@ -154,27 +154,46 @@ function passButton(turn) {
     }
 }
 
-//pass button functionality
 
-    $('#playerinfo-left-button').click(function(){
-        if(this.id == 'playerinfo-left-button'){
-              $("#passModal").modal("show");
-              $('#pass').click(function() {
-                  sendPass();
-              })
-        }
-    });
+function nextPage(game) {
+    $(location).attr('href',"http://localhost:8000/replay/" + game[0].gameId + "/" + ++game.[0].move);
+}
 
-    $('#playerinfo-right-button').click(function(){
-        if(this.id == 'playerinfo-right-button'){
-              $("#passModal").modal("show");
-              $('#pass').click(function() {
-                  sendPass();
-              })
-        }
-    });
+function prevPage(game) {
+    $(location).attr('href',"http://localhost:8000/replay/" + game[0].gameId + "/" + --game.[0].move);
+    
+}
 
-
+function moveInfo(turn, moveCount) {
+    if (turn != moveCount) { // Don't show for initial state
+        switch(turn) {
+            case 0:
+                var blackTurn = "White just made a move!";
+                $('div#col-mid-left').append(blackTurn).show(500);
+                break;
+            case 1:
+                var whiteTurn = "Black just made a move!";
+                $('div#col-mid-right').append(whiteTurn).show(500);
+                break;
+            case 2:
+                var blackPass = "Black just passed!";
+                $('div#col-mid-right').append(blackPass).show(500);
+                break;
+            case 3:
+                var whitePass = "White just passed!";
+                $('div#col-mid-left').append(whitePass).show(500);
+                break;
+            case 4:
+                var blackWon = "BLACK JUST WON!!";
+                $('div#col-mid-left').append(blackWon).show(500);
+                break;
+            case 5:
+                var whiteWon = "WHITE JUST WON!!";
+                $('div#col-mid-right').append(whiteWon).show(500);
+                break;
+        }  
+    }
+}
 function placeToken(board) {
  /*  setAttribute("onmouseover", 'setAttribute("fill-opacity", .5)');
    setAttribute("onmouseout", 'setAttribute("fill-opacity", 0)');*/
@@ -188,7 +207,21 @@ function placeToken(board) {
 */
 function drawBoard(state){
 	//console.log(state[0].board);
-	
+  console.log("Gets here");
+  
+  // 31 = placeholder for totalMoves
+  $("#currentMove").innerHTML("Current move: " + currentMove + "/" + 31);  
+    
+  if (state[0].move == 0) {
+      $('#glyph1').hide();
+  }
+    
+  // 31 = placeholder for totalMoves
+  if (state[0].move == 31) {
+      $('#glyph2').hide();
+  }
+    
+	$('#currentMove').html("Current score" + state[0].move);
 	$('#canvas, #playerinfo-left, #playerinfo-right').html('');
 	
     var canvas = $("#canvas"); 
@@ -277,12 +310,19 @@ function drawBoard(state){
     	case 4: $('#gameStatus').html('<b>Black won!</b>'); break;
     	case 5: $('#gameStatus').html('<b>White won!</b>'); break;
     }
+    
+    moveInfo(state[0].state, state[0].move);
 }
 
 
 /* 
 *	tick - Periodically checks for game board updates if it isn't our turn
 */
+/////////////////////////
+/////////////////////////
+// DELETE IF NECESSARY //
+/////////////////////////
+/////////////////////////
 function tick(){
 	// If we think its the other persons turn, check for updates
 	getData(drawBoard);
@@ -292,5 +332,5 @@ function init(){
 	// Do page load things here...
 	console.log("Initalizing Page...."); 
 	getData(drawBoard);
-	setInterval(tick, 1000);
+  setInterval(tick, 1000);
 }

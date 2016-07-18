@@ -1,3 +1,11 @@
+@import url(http://fonts.googleapis.com/css?family=Press+Start+2P:400,300,700);
+
+.container h1, h2, h3 {
+  font-family: 'Press Start 2P', sans-serif;
+  font-size: 25px;
+  line-height: 1.3;
+}
+
 #canvas{
     border:8px solid #333;
 	border-radius: 7px;
@@ -71,6 +79,21 @@ body {
 
 #headerz {
     line-height: 45px;
+    text-decoration: underline;
+}
+
+#glyph1 {
+    width: 100px;
+    color: red;
+    line-height: 45px;
+    font-size: 80px;
+}
+
+#glyph2 {
+    width: 100px;
+    color: red;
+    line-height: 45px;
+    font-size: 80px;
 }
 
 /* Making squares clickable */ 
@@ -81,3 +104,4 @@ body {
 .square {
 	z-index: -999;
 }
+

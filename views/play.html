@@ -74,6 +74,24 @@
             <h3>Black</h3>
             <h3 id="playerinfo-left-score">Score: 0</h3>
             <button type="button" class="btn btn-danger" id="playerinfo-left-button" align='center'>PASS</button>
+            <!-- Modal -->
+              <div class="modal fade" id="passModal" role="dialog">
+                <div class="modal-dialog">
+
+                  <!-- Modal content-->
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                      <h3 class="modal-title">Are you sure you want to pass?</h3>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                      <button type="button" class="btn btn-danger" id="pass" data-dismiss="modal">YES</button>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
           <!-- Show a move history here or something? -->
         </div>
         <div class="col-md-8">
@@ -110,6 +128,24 @@
             <h3>White</h3>
             <h3 id="playerinfo-right-score">Score: 0</h3>
             <button type="button" class="btn btn-danger" id="playerinfo-right-button" align='center'>PASS</button>
+              <!-- Modal -->
+              <div class="modal fade" id="passModal" role="dialog">
+                <div class="modal-dialog">
+
+                  <!-- Modal content-->
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                      <h3 class="modal-title">Are you sure you want to pass?</h3>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                      <button type="button" class="btn btn-danger" id="pass" data-dismiss="modal">YES</button>
+                    </div>
+                  </div>
+
+                </div>
+              </div>          
         </div>
       </div>
     </div><!-- /.container -->

@@ -8,10 +8,11 @@
     <title>SengGo</title>
 
     <!-- CSS Stylesheets -->
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
-    <link href="../css/style.css" rel="stylesheet" type="text/css">
+    <link href="../../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../css/style.css" rel="stylesheet" type="text/css">
 
     <script>
+      gameId = "{{{gameId}}}";
       game = {{{game}}};
     </script>
 
@@ -62,17 +63,19 @@
 
       <div class="row">
         <div class="col-md-8 col-md-offset-2 text-center">
-          <h1>Game replay</h1>
+          <h1>Game Replay</h1>
+          <h2 id="currentMove">Current Move: </h2>
           <h3 id="gameStatus"></h3>
         </div>
       </div>
 
       <div class="row">
-        <div class="col-md-2" align="center">
+        <div class="col-md-2" id="col-mid-left" align="center">
             <h2 id="playerinfo-left-name">You forgot to enter a name.</h2>
             <h3>Black</h3>
             <h3 id="playerinfo-left-score">Score: 0</h3>
-            <button type="button" class="btn btn-danger" id="playerinfo-left-button" align='center'>PASS</button>
+            <!-- <button type="button" class="btn btn-danger" id="playerinfo-left-button" align='center'>PASS</button> -->
+            <span class="glyphicon glyphicon-arrow-left" id="glyph1" onclick="prevPage(game)" onmouseover="" style="cursor: pointer;"></span>
           <!-- Show a move history here or something? -->
         </div>
         <div class="col-md-8">
@@ -83,11 +86,12 @@
           </div>
           
         </div>
-        <div class="col-md-2" align="center">
+        <div class="col-md-2" id="col-mid-right" align="center">
             <h2 id="playerinfo-right-name">You forgot to enter a name.</h2>
             <h3>White</h3>
             <h3 id="playerinfo-right-score">Score: 0</h3>
-            <button type="button" class="btn btn-danger" id="playerinfo-right-button" align='center'>PASS</button>
+            <!--<button type="button" class="btn btn-danger" id="playerinfo-right-button" align='center'>PASS</button> -->
+            <span class="glyphicon glyphicon-arrow-right" id="glyph2" onclick="nextPage(game)" onmouseover="" style="cursor: pointer;"></span>
         </div>
       </div>
     </div><!-- /.container -->
@@ -97,12 +101,17 @@
     <script src="/js/bootstrap.min.js"></script>
     <script src="/js/forms.js"></script>
     <script src="/js/sha512.js"></script>
-    <script src="/js/game.js"></script>
+    <script src="/js/gameReplay.js"></script>
 	<script src="/js/svgMake.js"></script>
 	<script src="/js/themePicker.js"></script>
-    <script>$('#gid').text(gameId);</script>
+    <script>
+        gameId = "{{{gameId}}}";
+        $('#gid').text(gameId);
+    </script>
 	<script>
+        game = {{{game}}};
         drawBoard(game);
     </script>
+        <h2 align='center' id="headerz"><a href="http://localhost:8000/">EXIT TO MAIN MENU</a></h2>
   </body>
 </html>

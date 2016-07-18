@@ -195,10 +195,10 @@ app.get('/replay/:gameId/:move', function (req, res) {
 		l = '<form class="navbar-form navbar-right" action="/actionLogin" method="post"><div class="form-group"><input type="text" placeholder="Username" class="form-control" id="username" name="username"></div><div class="form-group"><input type="password" placeholder="Password" class="form-control" id="password" name="password"></div><input type="button" class="btn btn-primary" onclick="formhash(this.form, this.form.username, this.form.password);" value="Sign in" /></form>';
 	}
 
-	// Send game data as param
-	db.getQuery('history', {gameId: req.params.gameId, move: req.params.move}, function(err, result){
+   // Send game data as param
+	db.getQuery('games', {gameId: req.params.gameId}, function(err, result){
 		if(err == null){
-			var html = mustache.to_html(page, {game: JSON.stringify(result[0])}); // replace all of the data
+			var html = mustache.to_html(page, {gameId: req.params.gameId, loginstatus: l, user: user, game: JSON.stringify(result[0])}); // replace all of the data
 			res.send(html);
 		} else {
 			res.redirect("/?e=1");
@@ -250,11 +250,6 @@ app.get('/actionLogout', function (req, res) {
 	res.redirect('/');
 })
 
-// Calculate score from "game.js (lib)" and return score
-app.get('/gameOver', function (req, res) {
-
-})
-
 // Handle registration submission
 app.post('/actionRegister', function (req, res) {
 	// Get post params
@@ -288,7 +283,6 @@ app.post('/actionRegister', function (req, res) {
 		}
 	});
 })
-
 
 // Create handlers for starting up a new game
 app.post('/newLocalGame', function (req, res) {
