@@ -13,7 +13,7 @@
 }
 
 #themePicker {
-	position: fixed;
+	position: absolute;
 	right: 0;
 	width: 150px;
 	margin-top: -20px;
@@ -105,3 +105,30 @@ body {
 	z-index: -999;
 }
 
+/* 
+	Default board colors
+	Board color, only really seen around the edges unless transparent squares used 
+*/
+.board {
+	fill: rgb(124, 195, 255);
+    opacity: 0.6;
+}
+
+/* Each little tile */
+.square {
+	stroke: #000;
+	fill: #dfdfdf;
+    opacity: 0.7;
+}
+
+/* Color of the black tokens (player 1) */
+.black {
+	stroke: black;
+	fill: #007FFF;
+}
+
+/* Color of the white tokens (player 2) */
+.white {
+	stroke: #000;
+	fill: #F0FFFF;
+}

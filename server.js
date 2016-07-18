@@ -6,7 +6,7 @@ var fs = require('fs');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var app = express();
-var http = require('http');
+var request = require('request');
 
 // Initialize DB
 var Storage = require('./lib/MongoDB');
@@ -32,6 +32,8 @@ const whiteWon = 5;
 
 const blackPlayer = 1;
 const whitePlayer = 2;
+
+const PORT = 8000;
 
 // Setup sessions and how the IDs are created
 app.use(session({
@@ -185,20 +187,19 @@ app.get('/play/:gameId', function (req, res) {
 
 // Replay page
 app.get('/replay/:gameId/:move', function (req, res) {
-	var page = fs.readFileSync("views/replay.html", "utf8"); // bring in the HTML file
-	(req.session.username ? user = req.session.username :  user = '');
-
-	// Display login status
-	if(user != ''){
-		l = '<div><p class="navbar-form navbar-right loginstatus">Logged in as: <span class="secondaryWord">'+user+'</span> | <a href="/actionLogout">Logout</a></p></div>';
-	} else {
-		l = '<form class="navbar-form navbar-right" action="/actionLogin" method="post"><div class="form-group"><input type="text" placeholder="Username" class="form-control" id="username" name="username"></div><div class="form-group"><input type="password" placeholder="Password" class="form-control" id="password" name="password"></div><input type="button" class="btn btn-primary" onclick="formhash(this.form, this.form.username, this.form.password);" value="Sign in" /></form>';
-	}
-
-   // Send game data as param
-	db.getQuery('games', {gameId: req.params.gameId}, function(err, result){
+	// Send game data as param
+	var move = parseInt(req.params.move);
+	db.getQuery('history', {gameId: req.params.gameId, move: move}, function(err, result){
 		if(err == null){
-			var html = mustache.to_html(page, {gameId: req.params.gameId, loginstatus: l, user: user, game: JSON.stringify(result[0])}); // replace all of the data
+			var page = fs.readFileSync("views/replay.html", "utf8"); // bring in the HTML file
+			(req.session.username ? user = req.session.username :  user = '');
+			// Display login status
+			if(user != ''){
+				l = '<div><p class="navbar-form navbar-right loginstatus">Logged in as: <span class="secondaryWord">'+user+'</span> | <a href="/actionLogout">Logout</a></p></div>';
+			} else {
+				l = '<form class="navbar-form navbar-right" action="/actionLogin" method="post"><div class="form-group"><input type="text" placeholder="Username" class="form-control" id="username" name="username"></div><div class="form-group"><input type="password" placeholder="Password" class="form-control" id="password" name="password"></div><input type="button" class="btn btn-primary" onclick="formhash(this.form, this.form.username, this.form.password);" value="Sign in" /></form>';
+			}
+			var html = mustache.to_html(page, {game: JSON.stringify(result[0])}); // replace all of the data
 			res.send(html);
 		} else {
 			res.redirect("/?e=1");
@@ -208,9 +209,7 @@ app.get('/replay/:gameId/:move', function (req, res) {
 
 
 /*
-
 ### End of pages, begin actions/tasks ####
-
 */
 
 // Login action
@@ -250,6 +249,11 @@ app.get('/actionLogout', function (req, res) {
 	res.redirect('/');
 })
 
+// Calculate score from "game.js (lib)" and return score
+app.get('/gameOver', function (req, res) {
+
+})
+
 // Handle registration submission
 app.post('/actionRegister', function (req, res) {
 	// Get post params
@@ -283,6 +287,7 @@ app.post('/actionRegister', function (req, res) {
 		}
 	});
 })
+
 
 // Create handlers for starting up a new game
 app.post('/newLocalGame', function (req, res) {
@@ -380,13 +385,14 @@ function createGame(ip, player1, player2, boardSize, res){
 app.post('/sendMove', function (req, res) {
 	// Get parameters
 	var gameId = req.body.gameId;
-	console.log("gameId: " + gameId);
 	var x = parseInt(req.body.x);
 	var y = parseInt(req.body.y);
+	var pass = (req.body.pass == 'true' || req.body.pass == true);
 	var user = req.session.username;
 	var reqIP = req.connection.remoteAddress;
 	var board;
 	var color;
+	var ai = req.body.ai; // bool that says if AI sent this request 
 
 	// Get the game board from the server
 	db.getQuery('games', {gameId: gameId}, function(err, result){
@@ -398,174 +404,135 @@ app.post('/sendMove', function (req, res) {
 		// Make sure a valid user is sending the request
 		if(userIP == null){
 			// AI or PvP game
-			if(user == player1){
+			// Check if AI sent this move
+			if(ai != undefined && ai != null){
+				console.log("AI sent this request!");
+				color = 2;
+			} else if(user == player1){
+				console.log("Player1 sent this request!");
 				color = 1;
 			} else if(user == player2){
+				console.log("Player2 sent this request!");
 				color = 2;
 			} else {
 				// User is not in this game, they cannot send moves
-				res.send("{}");
+				console.log("User is not in this game! No action taken");
+				res.send(result[0]);
+				return;
 			}
 		} else {
 			// Local game
 			console.log("Local game");
-			if(reqIP != userIP){
-				// Not their local game, they can't make moves!
-				res.send("{}");
-			} else {
+			if(reqIP == userIP){
 				// If local game, and right IP, next move depends on current state
 				switch(result[0].state){
 					case 0: color = 1; break;
 					case 1: color = 2; break;
 					case 2: color = 2; break;
 					case 3: color = 1; break;
+					default: res.send(result[0]); break; // Game is over, no updates
 				}
+			} else {
+				// Cant move, since not in this local game! Send same state back
+				console.log("Can't send move since not correct player in the local game!");
+				res.send(result[0]);
+				return;
 			}
 		}
         
-        // Check to see if a pass was sent
-        if(req.body.pass != undefined) {
-			
-			var game = result[0];
-			// Check who sent it
-			if (game.state == blackTurn && color == blackPlayer){
-				game.state = blackPassed;
-			} else if (game.state == whiteTurn && color == whitePlayer){
-				game.state = whitePassed;
-			}
-			// If two consecutive passes
-			else if ((game.state == blackPassed && color == whitePlayer) || (game.state == whitePassed && color == blackPlayer)){
-				// Calculate game score
-				serverGameModule.calculateScore(game);
+    	// Process the move
+		var payload = {game: result[0], move: {x: x, y: y, color: color, pass: pass}};
+		console.log("Attempting to process move");
+		var moveResult = serverGameModule.processMove(payload.game, payload.move);
+
+		// TODO: add check, only update if game actually changes?
+		db.updateGame(moveResult, function(dbresult){
+			// Check if insertion ok
+			if(dbresult.result.ok == 1){
+				// If it is, add to the replay collection
+				db.addHistory(moveResult, function(err){
+					console.log("Added history to game. Error?: "+err)
+				});
+
+				//console.log(moveResult);
+				//console.log("DBResult state = "+moveResult.state+", and player2 is: "+player2);
+
+				// If AI game, call AI move function
+				if(player2 == "AI" && (moveResult.state == whiteTurn || moveResult.state == blackPassed)){
+					console.log("Requesting a move from the AI");
+					getAIMove(moveResult, payload.move);
+				}
 				
-				// Set state appropriately 
-				if (game.player1score > game.player2score) {
-					game.state = blackWon;
-					console.log("black won!")
-				} else {
-					game.state = whiteWon;
-					console.log("white won!")
-				}
+				// Send user the board
+				res.send(moveResult); 
+				return;
+			} else {
+				// Failed to update db
+				console.log("Failed to update DB, returning same board");
+				res.send(result[0]);
+				return;
 			}
-			
-			// Update game move counter
-			game.move = game.move + 1;
-			
-			// Update the game state in the db
-            db.updateGame(game, function(dbresult){
-				if (dbresult.result.ok == 1) {
-					// Update history collection
-					db.addHistory(game, function(err){
-						console.log("Added history to game. Error?: "+err)
-					});
-					res.send(game);
-					// If AI game, call AI move function
-					if(player2 == "AI"){
-						getAIMove(moveResult, null, true);
-					}
-				} else {
-					res.send('{}');
-				}
-			});
-        } else {
-			// If not a pass, process the move and see if its legit
-			var payload = {game: result[0], move: {x: x, y: y, color: color}};
-			var moveResult = serverGameModule.processMove(payload.game, payload.move);
-			if(moveResult != false){
-				// Update the game board in the db
-				moveResult.move = moveResult.move + 1;
-				db.updateGame(moveResult, function(dbresult){
-					// Check if insertion ok
-					if((dbresult.result.ok == 1)){
-						// If it is, add to the replay collection
-						db.addHistory(moveResult, function(err){
-							console.log("Added history to game. Error?: "+err)
-						});
-						
-						// Send user the board
-						res.send(moveResult); 
-						
-						// If AI game, call AI move function
-						if(player2 == "AI"){
-							getAIMove(moveResult, payload.move);
-						}
-					} else {
-						// Failed to update db
-						res.send('{}');
-					}
-				}, 'games');
-			}
-		}
+		}, 'games');
 	});
 })
 
-// Given a game, updates the game with a move from the AI
-function getAIMove(game, lastMove, pass){
-	
-	if(pass == null) pass = false;
-	if(lastMove == null) lastMove = {x:0, y:0, color: 0};
-	
-	// Prepare input to ajax call
-	var param = {
-		size: game.size,
-		board: game.board,
-		last: {
-			x: lastMove.x,
-			y: lastMove.y,
-			c: lastMove.color,
-			pass: pass
-		}
-	};
+//
+function postRoberts(param, game, callback){
+		var move;
 
-	var options = {
-		host: "roberts.seng.uvic.ca",
-		json: true,
-		headers: {'Content-type': 'application/json'},
-		port: 30000,
-		path: '/ai/random',
-		method: 'POST'
-	};
-	
-	// Keep making ajax calls until we get a valid move
-	// Since its random, may as well use rand(0, size) for each move but whatever
-	var moveResult, AIMove;
-	do {
-		// Make the POST request
-		var req = http.request(options, function(response){
-			var str = "";
-			response.on('data', function(chunk){
-				str += chunk.toString();
-			});
-			response.on('end', function(){
-				var data = JSON.parse(str);
-				AIMove = {
-					x: data.x,
-					y: data.y,
-					color: data.c,
-					pass: data.pass
-				};
-			});
-			req.write(JSON.stringify(param));
-			req.end();
+		request({
+		    url: "http://roberts.seng.uvic.ca:30000/ai/random",
+		    method: "POST",
+		    json: true,
+		    body: param 
+		}, function (error, response, body){
 
-			// insert AI pass code here
-		});   
-		// Check if valid result - i.e, the board changed after processing this move
-	} while((moveResult = serverGameModule.processMove(payload.game, AIMove)) != game);
-	
-	// Update the db with the game result
-	moveResult.move = moveResult.move + 1;
-	db.updateGame(moveResult, function(dbresult){
-		// Check if insertion ok
-		if((dbresult.result.ok == 1)){
-			// If it is, add to the replay collection
-			db.addHistory(moveResult, function(err){
-				console.log("Added history to game. Error?: "+err)
-			});
+		if(error != null){
+			// Fatal error, couldn't reach server
+			move = {gameId: game.gameId, x: 0, y: 0, pass: true, ai: true};
 		} else {
-			console.log("Failed to update game board in db");
+			// If we recieve an invalid request or something, try again one more time
+			if(body == "Invalid request format." || response.statusCode == 400){
+				// First call failed
+				console.log("Invalid move, say its a pass");
+				move = {gameId: game.gameId, x: 0, y: 0, pass: true, ai: true};
+			} else {
+				move = {gameId: game.gameId, x: body.x, y: body.y, pass: body.pass, ai: true};
+			}
 		}
-	}, 'games');
+
+		// Send request to /sendMove from AI until board state changes
+		console.log("Move from AI: ");
+		console.log(move);
+		request({
+		    url: "http://localhost:"+PORT+"/sendMove",
+		    method: "POST",
+		    json: true,
+		    body: move 
+		}, function (error, response, body){
+			console.log("Sent sendMove for AI, error: "+error);
+		});
+
+	});
+}
+
+// Given a game, updates the game with a move from the AI
+function getAIMove(game, move){
+	// Prepare input to ajax call
+	//console.log(game);
+	var param = {
+		'size': game.boardSize,
+		'board': game.board,
+		'last': {
+			'x': move.x,
+			'y': move.y,
+			'c': move.color,
+			'pass': move.pass
+		}
+	};
+	postRoberts(param, game, function(newGame){
+		console.log("Tried to update the game and history");
+	});
 }
 
 // Get the status of a game
@@ -582,7 +549,7 @@ app.get('/getBoard', function (req, res) {
 //});
 
 // Listen on default port 
-var server = app.listen(8000, function () {
+var server = app.listen(PORT, function () {
   console.log("Server running at 127.0.0.1.");
   db.connect(function(){console.log("Ready to serve requests.");});
 })
