@@ -292,5 +292,5 @@ function init(){
 	// Do page load things here...
 	console.log("Initalizing Page...."); 
 	drawBoard([game]);
-	setInterval(tick, 1000);
+	setInterval(tick, 3000);
 }
