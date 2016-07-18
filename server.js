@@ -487,6 +487,11 @@ function postRoberts(param, game, callback){
 
 		console.log("Got from server: ");
 		console.log(body);
+		
+		if(error != null){
+			// Fatal error, couldn't reach server
+			move = {gameId: game.gameId, x: 0, y: 0, pass: true, ai: true};
+		}
 
 		// If we recieve an invalid request or something, try again one more time
 		if(body == "Invalid request format." || response.statusCode == 400){
