@@ -53,7 +53,7 @@ function checkIfValidMove(board, move){
 */
 function sendMove(x, y){
 	console.log("gameId: " + gameId);
-	var move = {"x": x, "y": y, gameId: gameId};
+	var move = {"x": x, "y": y, pass: false, gameId: gameId};
     $.post("/sendMove", move).done(function(data){
     	if(data != {}){
     		console.log([data]);
@@ -63,7 +63,7 @@ function sendMove(x, y){
 }
 
 function sendPass(){
-    var move = {"gameId": gameId, "pass": true};
+    var move = {"gameId": gameId, "pass": true, "x": null, "y": null};
     $.post("/sendMove", move).done(function(data){
         if(data != {}){
             console.log([data]);
@@ -294,5 +294,5 @@ function init(){
 	// Do page load things here...
 	console.log("Initalizing Page...."); 
 	getData(drawBoard);
-	setInterval(tick, 5000);
+	setInterval(tick, 1000);
 }
