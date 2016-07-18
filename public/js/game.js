@@ -138,17 +138,18 @@ function showPlayerInfo(player1, player2, player1score, player2score) {
 *              context (i.e. different game modes)
 *
 */
-function passButton(turn) {
-    
+function passButton(turn) {	
+	var localGame = (game.userIP != null);
     if (turn == 0 || turn == 3) {
-        $('#playerinfo-left-button').show(500);
+        if($('#playerinfo-left-button').css('display') == 'none') $('#playerinfo-left-button').show(500);
         $('#playerinfo-right-button').hide(500);
     }
-    else if (turn == 1 || turn == 2) {
+    else if ((turn == 1 || turn == 2) && localGame) {
         $('#playerinfo-left-button').hide(500);
-        $('#playerinfo-right-button').show(500);
-    }
-    else if (turn == 4 || turn == 5) {
+        if($('#playerinfo-right-button').css('display') == 'none') $('#playerinfo-right-button').show(500);
+    } else if(turn == 1 || turn == 2){
+		$('#playerinfo-left-button').hide(500);
+	} else if (turn == 4 || turn == 5) {
         $('#playerinfo-left-button').hide(500);
         $('#playerinfo-right-button').hide(500);
     }
@@ -248,11 +249,8 @@ function drawBoard(state){
     showPlayerInfo(state[0].player1, state[0].player2, state[0].player1score, state[0].player2score);
     
     // PASS BUTTON ANIMATION:
-    if (state[0].state != prevState) {
-        passButton(state[0].state);
-        prevState = state[0].state;
-    }
-    
+     passButton(state[0].state);
+	 
     // END GAME OPTION SHOW:
     if (state[0].state == 4 || state[0].state == 5) {
         $('#myModal').modal('show');
@@ -291,6 +289,6 @@ function tick(){
 function init(){
 	// Do page load things here...
 	console.log("Initalizing Page...."); 
-	getData(drawBoard);
-	setInterval(tick, 1000);
+	drawBoard([game]);
+	setInterval(tick, 3000);
 }
