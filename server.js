@@ -187,20 +187,19 @@ app.get('/play/:gameId', function (req, res) {
 
 // Replay page
 app.get('/replay/:gameId/:move', function (req, res) {
-	var page = fs.readFileSync("views/replay.html", "utf8"); // bring in the HTML file
-	(req.session.username ? user = req.session.username :  user = '');
-
-	// Display login status
-	if(user != ''){
-		l = '<div><p class="navbar-form navbar-right loginstatus">Logged in as: <span class="secondaryWord">'+user+'</span> | <a href="/actionLogout">Logout</a></p></div>';
-	} else {
-		l = '<form class="navbar-form navbar-right" action="/actionLogin" method="post"><div class="form-group"><input type="text" placeholder="Username" class="form-control" id="username" name="username"></div><div class="form-group"><input type="password" placeholder="Password" class="form-control" id="password" name="password"></div><input type="button" class="btn btn-primary" onclick="formhash(this.form, this.form.username, this.form.password);" value="Sign in" /></form>';
-	}
-
 	// Send game data as param
-	db.getQuery('history', {gameId: req.params.gameId, move: req.params.move}, function(err, result){
+	var move = parseInt(req.params.move);
+	db.getQuery('history', {gameId: req.params.gameId, move: move}, function(err, result){
 		if(err == null){
-			var html = mustache.to_html(page, {game: result[0]}); // replace all of the data
+			var page = fs.readFileSync("views/replay.html", "utf8"); // bring in the HTML file
+			(req.session.username ? user = req.session.username :  user = '');
+			// Display login status
+			if(user != ''){
+				l = '<div><p class="navbar-form navbar-right loginstatus">Logged in as: <span class="secondaryWord">'+user+'</span> | <a href="/actionLogout">Logout</a></p></div>';
+			} else {
+				l = '<form class="navbar-form navbar-right" action="/actionLogin" method="post"><div class="form-group"><input type="text" placeholder="Username" class="form-control" id="username" name="username"></div><div class="form-group"><input type="password" placeholder="Password" class="form-control" id="password" name="password"></div><input type="button" class="btn btn-primary" onclick="formhash(this.form, this.form.username, this.form.password);" value="Sign in" /></form>';
+			}
+			var html = mustache.to_html(page, {game: JSON.stringify(result[0])}); // replace all of the data
 			res.send(html);
 		} else {
 			res.redirect("/?e=1");
@@ -452,7 +451,7 @@ app.post('/sendMove', function (req, res) {
 			if(dbresult.result.ok == 1){
 				// If it is, add to the replay collection
 				db.addHistory(moveResult, function(err){
-					//console.log("Added history to game. Error?: "+err)
+					console.log("Added history to game. Error?: "+err)
 				});
 
 				//console.log(moveResult);
