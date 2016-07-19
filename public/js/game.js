@@ -144,7 +144,7 @@ function passButton(turn) {
         if($('#playerinfo-left-button').css('display') == 'none') $('#playerinfo-left-button').show(500);
         $('#playerinfo-right-button').hide(500);
     }
-    else if ((turn == 1 || turn == 2) && localGame) {
+    else if ((turn == 1 || turn == 2) && (localGame || (user == game.player2))) {
         $('#playerinfo-left-button').hide(500);
         if($('#playerinfo-right-button').css('display') == 'none') $('#playerinfo-right-button').show(500);
     } else if(turn == 1 || turn == 2){
