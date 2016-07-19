@@ -65,11 +65,11 @@ input, select {
 
 /* Text colors/sizes */
 
-h1 {
+h1, h3, p.lead {
     color: black;
 }
 
-p, a, span, h2, h3, h5, h6 {
+p, a, span, h2, h5, h6, h3.modal-title, label {
 	color: azure;
 }
 
