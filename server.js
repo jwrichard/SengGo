@@ -447,36 +447,49 @@ app.post('/sendMove', function (req, res) {
     	// Process the move
 		var payload = {game: result[0], move: {x: x, y: y, color: color, pass: pass}};
 		console.log("Attempting to process move");
-		var moveResult = serverGameModule.processMove(payload.game, payload.move);
-
-		// TODO: add check, only update if game actually changes?
-		db.updateGame(moveResult, function(dbresult){
-			// Check if insertion ok
-			if(dbresult.result.ok == 1){
-				// If it is, add to the replay collection
-				db.addHistory(moveResult, function(err){
-					console.log("Added history to game. Error?: "+err)
-				});
-
-				//console.log(moveResult);
-				//console.log("DBResult state = "+moveResult.state+", and player2 is: "+player2);
-
-				// If AI game, call AI move function
-				if(player2 == "AI" && (moveResult.state == whiteTurn || moveResult.state == blackPassed)){
-					console.log("Requesting a move from the AI");
-					getAIMove(moveResult, payload.move);
-				}
-				
-				// Send user the board
-				res.send(moveResult); 
-				return;
-			} else {
-				// Failed to update db
-				console.log("Failed to update DB, returning same board");
-				res.send(result[0]);
-				return;
+		
+		var oldMoveNumberForKo = payload.game.move-1;
+		
+		db.getQuery('history', {gameId: payload.game.gameId, move: oldMoveNumberForKo},
+		function(err, result)
+		{
+			var oldBoardForKo = undefined;
+			if (result != undefined && result[0] != undefined)
+			{
+				oldBoardForKo = result[0].board;
 			}
-		}, 'games');
+			
+			var moveResult = serverGameModule.processMove(payload.game, payload.move, oldBoardForKo);
+
+			// TODO: add check, only update if game actually changes?
+			db.updateGame(moveResult, function(dbresult){
+				// Check if insertion ok
+				if(dbresult.result.ok == 1){
+					// If it is, add to the replay collection
+					db.addHistory(moveResult, function(err){
+						console.log("Added history to game. Error?: "+err)
+					});
+
+					//console.log(moveResult);
+					//console.log("DBResult state = "+moveResult.state+", and player2 is: "+player2);
+
+					// If AI game, call AI move function
+					if(player2 == "AI" && (moveResult.state == whiteTurn || moveResult.state == blackPassed)){
+						console.log("Requesting a move from the AI");
+						getAIMove(moveResult, payload.move);
+					}
+					
+					// Send user the board
+					res.send(moveResult); 
+					return;
+				} else {
+					// Failed to update db
+					console.log("Failed to update DB, returning same board");
+					res.send(result[0]);
+					return;
+				}
+			}, 'games');
+		});
 	});
 })
 
