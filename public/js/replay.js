@@ -40,6 +40,38 @@ function checkIfValidMove(board, move){
 	return true;
 }
 
+/*
+*	sendMove - Sends a request to the server to make their move
+*			 - Should sent POST request to '/sendMove'
+			 - Should send game id and move in the request body
+			 - Don't need to send auth info, AJAX will forward cookies
+*	Inputs: 
+*	- Move: object - Object containing data about the moves location and token color {x: int, y: int, token: int}
+*
+*	Returns: 
+*	- Success: bool
+*/
+function sendMove(x, y){
+	console.log("gameId: " + gameId);
+	var move = {"x": x, "y": y, pass: false, gameId: gameId};
+    $.post("/sendMove", move).done(function(data){
+    	if(data != {}){
+    		console.log([data]);
+    		drawBoard([data]);
+    	}
+    });   
+}
+
+function sendPass(){
+    var move = {"gameId": gameId, "pass": true, "x": null, "y": null};
+    $.post("/sendMove", move).done(function(data){
+        if(data != {}){
+            console.log([data]);
+            drawBoard([data]);
+        }
+    })
+}
+
 function gameOver() {
     // WHAT DO WE WANT TO SEND? var board = {"gameId": gameId, (...)
     $.post("/gameOver", board).done(function(data){
@@ -102,57 +134,49 @@ function showPlayerInfo(player1, player2, player1score, player2score) {
 }
 
 /*
-*
-* Navigate to previous page (button with dynamic link).
+* passButton - Have the pass button show in the appropriate
+*              context (i.e. different game modes)
 *
 */
-function nextPage(game) {
-    $(location).attr('href',"http://localhost:8000/replay/" + game[0].gameId + "/" + ++game[0].move);
+function passButton(turn) {	
+	var localGame = (game.userIP != null);
+    if (turn == 0 || turn == 3) {
+        if($('#playerinfo-left-button').css('display') == 'none') $('#playerinfo-left-button').show(500);
+        $('#playerinfo-right-button').hide(500);
+    }
+    else if ((turn == 1 || turn == 2) && localGame) {
+        $('#playerinfo-left-button').hide(500);
+        if($('#playerinfo-right-button').css('display') == 'none') $('#playerinfo-right-button').show(500);
+    } else if(turn == 1 || turn == 2){
+		$('#playerinfo-left-button').hide(500);
+	} else if (turn == 4 || turn == 5) {
+        $('#playerinfo-left-button').hide(500);
+        $('#playerinfo-right-button').hide(500);
+    }
 }
 
-/*
-*
-* Navigate to next page (button with dynamic link).
-*
-*/
-function prevPage(game) {
-    $(location).attr('href',"http://localhost:8000/replay/" + game[0].gameId + "/" + --game[0].move);
-    
-}
+//pass button functionality
 
-/*
-*
-* Displays which player colour made last move.
-*
-*/
-function moveInfo(turn, moveCount) {
-        switch(turn) {
-            case 0:
-                var blackTurn = $("#moveInfo").html("White just made a move!");
-                $('div#col-mid-left').append(blackTurn).show(500);
-                break;
-            case 1:
-                var whiteTurn = $("#moveInfo").html("Black just made a move!");
-                $('div#col-mid-right').append(whiteTurn).show(500);
-                break;
-            case 2:
-                var blackPass = $("#moveInfo").html("Black just passed!");
-                $('div#col-mid-right').append(blackPass).show(500);
-                break;
-            case 3:
-                var whitePass = $("#moveInfo").html("White just passed!");
-                $('div#col-mid-left').append(whitePass).show(500);
-                break;
-            case 4:
-                var blackWon = $("#moveInfo").html("BLACK JUST WON!!");
-                $('div#col-mid-left').append(blackWon).show(500);
-                break;
-            case 5:
-                var whiteWon = $("#moveInfo").html("WHITE JUST WON!!");
-                $('div#col-mid-right').append(whiteWon).show(500);
-                break;
-        }  
-}
+    $('#playerinfo-left-button').click(function(){
+        if(this.id == 'playerinfo-left-button'){
+            var passBlack = confirm("Are you sure you want to pass?");
+            if(passBlack == true)
+            {
+                sendPass();
+            }
+    }
+    });
+
+    $('#playerinfo-right-button').click(function(){
+        if(this.id == 'playerinfo-right-button'){
+            var passWhite = confirm("Are you sure you want to pass?");
+            if(passWhite == true)
+            {
+                sendPass();
+            }
+    }
+    });
+
 
 function placeToken(board) {
  /*  setAttribute("onmouseover", 'setAttribute("fill-opacity", .5)');
@@ -166,29 +190,8 @@ function placeToken(board) {
 *
 */
 function drawBoard(state){
-  console.log("Move number: " + state[0].move);
-  console.log("State number: " + state[0].state);
-  // 31 = placeholder for totalMoves
-  $("#currentMove").html("Current move: " + state[0].move + "/" + 27);  
-    
-  if (state[0].move == 1) {
-      $('#glyph1').hide();
-  }
-    
-  if (state[0].move > 1) {
-      $('#glyph1').keydown(function(e) {
-        if (e.which == 37) {
-          alert(e.keyCode);
-          prevPage(state);
-        }
-      });          
-  }
-    
-  // 31 = placeholder for totalMoves
-  if (state[0].move == 27) {
-      $('#glyph2').hide();
-  }
-    
+	//console.log(state[0].board);
+	
 	$('#canvas, #playerinfo-left, #playerinfo-right').html('');
 	
     var canvas = $("#canvas"); 
@@ -235,12 +238,37 @@ function drawBoard(state){
 				var token = makeCircle( (i*inc)+offset-1,(j*inc)+offset-1,.48*(inc),"black");
 			if(board[i][j] === 2)
 				var token = makeCircle( (i*inc)+offset-1,(j*inc)+offset-1,.48*(inc),"white");
+			//click.setAttribute("onclick",placeToken(board));
 			svg.append(token);
 			svg.append(click);
+			//console.log(board[i][j]);
 		}
 	}
+	//console.log(board);
+
+    // append the svg object to the canvas object.
+    canvas.append(svg);
+    showPlayerInfo(state[0].player1, state[0].player2, state[0].player1score, state[0].player2score);
     
-        // Set the game status
+    // PASS BUTTON ANIMATION:
+     passButton(state[0].state);
+	 
+    // END GAME OPTION SHOW:
+    if (state[0].state == 4 || state[0].state == 5) {
+        $('#myModal').modal('show');
+		
+		// server handles calculating score/determining winner
+		
+        if (state[0].state == 4) {
+            $('#id-modal-title').html(state[0].player1 + " (black) has won the game with a total of " + state[0].player1score + " points!");
+        }
+        if (state[0].state == 5) {
+            $('#id-modal-title').html(state[0].player2 + " (white) has won the game with a total of " + state[0].player2score + " points!");
+        }
+    }
+    
+
+    // Set the game status
     switch(state[0].state){
     	case 0: $('#gameStatus').html('<b>Blacks turn</b>'); break;
     	case 1: $('#gameStatus').html('<b>Whites turn</b>'); break;
@@ -249,17 +277,20 @@ function drawBoard(state){
     	case 4: $('#gameStatus').html('<b>Black won!</b>'); break;
     	case 5: $('#gameStatus').html('<b>White won!</b>'); break;
     }
-
-    // append the svg object to the canvas object.
-    canvas.append(svg);
-    
-    showPlayerInfo(state[0].player1, state[0].player2, state[0].player1score, state[0].player2score);
-    moveInfo(state[0].state, state[0].move);
 }
+
+
+/* 
+*	tick - Periodically checks for game board updates if it isn't our turn
+*/
+function tick(){
+	// If we think its the other persons turn, check for updates
+	getData(drawBoard);
+} 
 
 function init(){
 	// Do page load things here...
 	console.log("Initalizing Page...."); 
 	drawBoard([game]);
-  setInterval(tick, 1000);
+	setInterval(tick, 3000);
 }
