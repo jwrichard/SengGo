@@ -107,7 +107,7 @@ function showPlayerInfo(player1, player2, player1score, player2score) {
 *
 */
 function nextPage(game) {
-    $(location).attr('href',"http://localhost:8000/replay/" + game[0].gameId + "/" + ++game[0].move);
+    $(location).attr('href',"/replay/" + game[0].gameId + "/" + ++game[0].move);
 }
 
 /*
@@ -116,7 +116,7 @@ function nextPage(game) {
 *
 */
 function prevPage(game) {
-    $(location).attr('href',"http://localhost:8000/replay/" + game[0].gameId + "/" + --game[0].move);
+    $(location).attr('href',"/replay/" + game[0].gameId + "/" + --game[0].move);
     
 }
 
@@ -165,16 +165,17 @@ function placeToken(board) {
 *			  - Look at /views/play.html to figure out how to draw it
 *
 */
-function drawBoard(state){
+function drawBoard(state, count){
   console.log("Move number: " + state[0].move);
   console.log("State number: " + state[0].state);
   // 31 = placeholder for totalMoves
-  $("#currentMove").html("Current move: " + state[0].move + "/" + 27);  
+  $("#currentMove").html("Current move: " + state[0].move + "/" + count);  
     
   if (state[0].move == 1) {
       $('#glyph1').hide();
   }
-    
+
+  /*
   if (state[0].move > 1) {
       $('#glyph1').keydown(function(e) {
         if (e.which == 37) {
@@ -183,9 +184,10 @@ function drawBoard(state){
         }
       });          
   }
+  */
     
   // 31 = placeholder for totalMoves
-  if (state[0].move == 27) {
+  if (state[0].move == count) {
       $('#glyph2').hide();
   }
     
@@ -239,16 +241,6 @@ function drawBoard(state){
 			svg.append(click);
 		}
 	}
-    
-        // Set the game status
-    switch(state[0].state){
-    	case 0: $('#gameStatus').html('<b>Blacks turn</b>'); break;
-    	case 1: $('#gameStatus').html('<b>Whites turn</b>'); break;
-    	case 2: $('#gameStatus').html('<b>Black passed</b>'); break;
-    	case 3: $('#gameStatus').html('<b>White passed</b>'); break;
-    	case 4: $('#gameStatus').html('<b>Black won!</b>'); break;
-    	case 5: $('#gameStatus').html('<b>White won!</b>'); break;
-    }
 
     // append the svg object to the canvas object.
     canvas.append(svg);
