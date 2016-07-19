@@ -479,7 +479,7 @@ function postRoberts(param, game, callback){
 		var move;
 
 		request({
-		    url: "http://roberts.seng.uvic.ca:30000/ai/random",
+		    url: "http://roberts.seng.uvic.ca:30000/ai/attackEnemy",
 		    method: "POST",
 		    json: true,
 		    body: param 
