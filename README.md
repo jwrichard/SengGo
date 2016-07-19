@@ -15,21 +15,8 @@ WARNING: Any changes you made that have not been pushed will be lost.
 
 ##TODO
 
-Work on dis
-
 ###Game Functionality
 
-- Pass function > game.js/html stuff?
-- Scoring/Rule algorithms
-- Token interactions
-- Replay
-- Move theme selector
-- Make Radical, radical yeaaaaaaaaaaa
-
-###Server
-- Computer to computer
-- AI communication
-
-###Database
-- History
-- Replays?
+- Token interactions: Remove hover when not your turn?
+- Replay: Finish and test
+- Invalid move: Make sure server doesnt crash for invalid moves! If someone not in the game moves, server should handle that
