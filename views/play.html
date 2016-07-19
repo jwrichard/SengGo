@@ -73,14 +73,14 @@
             <h2 id="playerinfo-left-name">You forgot to enter a name.</h2>
             <h3>Black</h3>
             <h3 id="playerinfo-left-score">Score: 0</h3>
-            <button type="button" class="btn btn-danger" id="playerinfo-left-button" align='center'>PASS</button>
+            <button type="button" class="btn btn-danger" id="playerinfo-left-button" align='center' style="display:none">PASS</button>
           <!-- Show a move history here or something? -->
         </div>
         <div class="col-md-8">
 
           <!-- Holds the game board -->
           <div id="canvas">
-            i am game board. The game id is: {{{gameId}}}. The player logged in is: {{{user}}}. A blank user can make a move in any hot seat game that their IP matches
+            
           </div>
            <!-- Modal -->
           <div class="modal fade" id="myModal" role="dialog">
@@ -90,15 +90,12 @@
               <div class="modal-content">
                 <div class="modal-header">
                   <button type="button" class="close" data-dismiss="modal">&times;</button>
-                  <h2 class="modal-title" id="id-modal-title" align='center'>The game is now over!</h4>
+                  <h2 class="modal-title" id="id-modal-title" align='center'>Game over!</h4>
                 </div>
                 <div class="modal-body-game">
-                    <h2 align='center' id="headerz"><a href="http://localhost:8000/">NEW GAME</a></h2>
-                    <h2 align='center' id="headerz"><a href="http://localhost:8000/">MATCH REPLAY</a></h2>
-                    <h2 align='center' id="headerz"><a href="http://localhost:8000/">EXIT TO MAIN MENU</a></h2>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <h2 align='center' id="headerz"><a href="/">New game</a></h2>
+                    <h2 align='center' id="headerz"><a id="replayUrl" href="/">Match replay</a></h2>
+                    <h2 align='center' id="headerz"><a href="/">Exit to main menu</a></h2>
                 </div>
               </div>
 
@@ -109,7 +106,7 @@
             <h2 id="playerinfo-right-name">You forgot to enter a name.</h2>
             <h3>White</h3>
             <h3 id="playerinfo-right-score">Score: 0</h3>
-            <button type="button" class="btn btn-danger" id="playerinfo-right-button" align='center'>PASS</button>
+            <button type="button" class="btn btn-danger" id="playerinfo-right-button" align='center' style="display:none">PASS</button>
         </div>
       </div>
     </div><!-- /.container -->
@@ -122,9 +119,9 @@
     <script src="/js/game.js"></script>
 	<script src="/js/svgMake.js"></script>
 	<script src="/js/themePicker.js"></script>
-    <script>$('#gid').text(gameId);</script>
 	<script>
         init(); 
+		$('#replayUrl').attr("href", "/replay/"+gameId+"/1");
     </script>
   </body>
 </html>
