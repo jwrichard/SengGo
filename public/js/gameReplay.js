@@ -168,25 +168,20 @@ function placeToken(board) {
 function drawBoard(state, count){
   console.log("Move number: " + state[0].move);
   console.log("State number: " + state[0].state);
-  // 31 = placeholder for totalMoves
+    
+  if (state[0].player2.equals("AI")) {
+      count = count;
+  }
+  else {
+      count = count-1;
+  }
+  
   $("#currentMove").html("Current move: " + state[0].move + "/" + count);  
     
   if (state[0].move == 1) {
       $('#glyph1').hide();
   }
 
-  /*
-  if (state[0].move > 1) {
-      $('#glyph1').keydown(function(e) {
-        if (e.which == 37) {
-          alert(e.keyCode);
-          prevPage(state);
-        }
-      });          
-  }
-  */
-    
-  // 31 = placeholder for totalMoves
   if (state[0].move == count) {
       $('#glyph2').hide();
   }
