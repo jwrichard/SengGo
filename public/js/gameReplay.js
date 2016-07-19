@@ -169,7 +169,7 @@ function drawBoard(state, count){
   console.log("Move number: " + state[0].move);
   console.log("State number: " + state[0].state);
     
-  if (state[0].player2.equals("AI")) {
+  if (state[0].player2 == "AI") {
       count = count;
   }
   else {
