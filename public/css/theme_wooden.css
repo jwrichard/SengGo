@@ -64,10 +64,10 @@ input, select {
 }
 
 /* Text colors/sizes */
-p, a, span, h1, h3, h5, h6, div {
+p, a, span, h1, h2, h3, h5, h6, div {
 	color: #000;
 }
 
-h2, h4 {
+h4 {
     color: azure;
 }
