@@ -11,7 +11,9 @@
     <!-- CSS Stylesheets -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
-
+    <script>
+      var games = {{{games}}};
+    </script>
   </head>
 
   <body>
@@ -118,6 +120,13 @@
 
       <div class="text-center">
         <button id="prev" class="btn btn-default" style="display: none;">Previous step</button>
+      </div>
+
+
+      <div class="col-md-6 col-md-offset-3 text-left">
+          <h4>Games I am in:</h4>
+          <div class="games">
+          </div>
       </div>
     </div><!-- /.container -->
 
@@ -230,7 +239,7 @@
     <script src="js/bootstrap.min.js"></script>
     <script src="js/sha512.js"></script>
     <script src="js/forms.js"></script>
-	<script src="js/themePicker.js"></script>
+	   <script src="js/themePicker.js"></script>
 
     <!-- Adds functionality for the interactive menu and hides later steps -->
     <script>
@@ -262,7 +271,16 @@
           $('#pvp').on('click', function(){
             $('#pvpModal').modal();
           });
-      });
+
+          // Create lists of games
+          $('.games').append('<ul>');
+          for(i = 0; i < games.length; i++){
+              if(games[i].player1 == '') games[i].player1 = '(No name)';
+              if(games[i].player2 == '') games[i].player2 = '(No name)';
+              $('.games').append('<li><a href="/play/'+games[i].gameId+'">'+games[i].player1+' vs. '+games[i].player2+'</a></li>');
+          }
+          $('.games').append('</ul>');
+          });
     </script>
   </body>
 </html>
