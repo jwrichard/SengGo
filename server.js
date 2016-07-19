@@ -192,6 +192,10 @@ app.get('/replay/:gameId/:move', function (req, res) {
 	db.getQuery('history', {gameId: req.params.gameId, move: move}, function(err, result){
 		if(err == null){
 			db.getHistoryMoveCount(req.params.gameId, function(count){
+				if(req.params.move > count || req.params.move < 1 || count == 0){
+					res.redirect("/?e=1");
+					return;
+				}
 				var page = fs.readFileSync("views/replay.html", "utf8"); // bring in the HTML file
 				(req.session.username ? user = req.session.username :  user = '');
 				// Display login status
@@ -202,9 +206,11 @@ app.get('/replay/:gameId/:move', function (req, res) {
 				}
 				var html = mustache.to_html(page, {game: JSON.stringify(result[0]), count: count}); // replace all of the data
 				res.send(html);
+				return;
 			});
 		} else {
 			res.redirect("/?e=1");
+			return;
 		}
 	});
 })
@@ -546,9 +552,9 @@ app.get('/getBoard', function (req, res) {
 })
 
 // Redirect all unsupported pages to the home page
-//app.get('*', function (req, res) {
-    //res.redirect('/');
-//});
+app.get('*', function (req, res) {
+    res.redirect('/');
+});
 
 // Listen on default port 
 var server = app.listen(PORT, function () {
