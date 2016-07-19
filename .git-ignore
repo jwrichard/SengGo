@@ -1,4 +1,4 @@
 #untracked files
 
 node_modules
-.DS-store
+.DS_Store
