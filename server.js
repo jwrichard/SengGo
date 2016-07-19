@@ -84,7 +84,14 @@ app.get('/', function (req, res) {
 	}
 
 	// Gather a list of the game the user is current in
-	db.getQuery('games', {$or: [{player1: user}, {player2: user}, {userIP: req.connection.remoteAddress}]}, function(err, data){
+	var query;
+	if(user == ''){
+		query = {userIP: req.connection.remoteAddress};
+	} else {
+		query = {$or: [{player1: user}, {player2: user}, {userIP: req.connection.remoteAddress}]};
+	}
+
+	db.getQuery('games', query, function(err, data){
 		pageData.games = JSON.stringify(data);
 		var page = fs.readFileSync("views/index.html", "utf8"); // bring in the HTML file
 		var html = mustache.to_html(page, pageData); // replace all of the data
