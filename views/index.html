@@ -11,7 +11,9 @@
     <!-- CSS Stylesheets -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
-
+    <script>
+      var games = {{{games}}};
+    </script>
   </head>
 
   <body>
@@ -72,8 +74,16 @@
         <div class="col-md-12">
           <div class="col-md-6 extra-pad" >
 
+            <!-- New Panel -->
+            <div class="panel panel-default" style="height: 300px;" id="new">
+              <div class="panel-body text-center">
+                <h2>New Game</h2>
+                <span class="glyphicon glyphicon-tower" style="font-size:8em; padding-top: 40px;"></span>
+              </div>
+            </div>
+
             <!-- Local Panel -->
-            <div class="panel panel-default" style="height: 300px;" id="local">
+            <div class="panel panel-default" style="height: 300px; display: none;" id="local">
               <div class="panel-body text-center">
                 <h2>Local play</h2>
                 <span class="glyphicon glyphicon-user" style="font-size:6em; padding-top: 40px;"></span>
@@ -93,8 +103,16 @@
           </div>
           <div class="col-md-6 extra-pad">
 
+             <!-- Existing panel -->
+            <div class="panel panel-default" style="height: 300px;" id="existing">
+              <div class="panel-body text-center">
+                <h2>Existing Game</h2>
+                <span class="glyphicon glyphicon-floppy-saved" style="font-size:8em; padding-top: 40px;"></span>
+              </div>
+            </div>
+
             <!-- Online panel -->
-            <div class="panel panel-default" style="height: 300px;" id="online">
+            <div class="panel panel-default" style="height: 300px; display: none;" id="online">
               <div class="panel-body text-center">
                 <h2>Online play</h2>
                 <span class="glyphicon glyphicon-cloud-upload" style="font-size:8em; padding-top: 20px;" aria-hidden="true"></span>
@@ -102,7 +120,7 @@
               </div>
             </div>
 
-          <!-- Online panel -->
+          <!-- PVP panel -->
           <div class="panel panel-default" style="height: 300px; display: none;" id="pvp">
 
             <div class="panel-body text-center">
@@ -118,6 +136,16 @@
 
       <div class="text-center">
         <button id="prev" class="btn btn-default" style="display: none;">Previous step</button>
+      </div>
+      <div class="text-center">
+        <button id="prev2" class="btn btn-default" style="display: none;">Previous step</button>
+      </div>
+
+
+      <div id="games" class="col-md-6 col-md-offset-3 text-center" style="display:none;">
+          <h3>Games I am in:</h3>
+          <div id="gamesList" style="font-size: 1.2em;">
+          </div>
       </div>
     </div><!-- /.container -->
 
@@ -230,24 +258,40 @@
     <script src="js/bootstrap.min.js"></script>
     <script src="js/sha512.js"></script>
     <script src="js/forms.js"></script>
-	<script src="js/themePicker.js"></script>
+	   <script src="js/themePicker.js"></script>
 
     <!-- Adds functionality for the interactive menu and hides later steps -->
     <script>
       $(document).ready(function(){
+
+          $('#new').on('click', function(){
+              $('#new, #existing').hide(500);
+              $('#local, #online, #prev2').show(500);
+          });
+
+          $('#existing').on('click', function(){
+              $('#new, #existing').hide(500);
+              $('#games, #prev2').show(500);
+          });
+
           // Handler for step 1
           $('#online').on('click', function(){
             if($('#auth').text() != ''){
               window.location.href = "/login?e=3";
             }
-            $('#local, #online').hide(500);
+            $('#local, #online, #prev2').hide(500);
             $('#ai, #pvp, #prev').show(500);
           });
 
           // Previous step button
           $('#prev').on('click', function(){
-            $('#local, #online').show(500);
+            $('#local, #online, #prev2').show(500);
             $('#ai, #pvp, #prev').hide(500);
+          });
+          // Previous step button
+          $('#prev2').on('click', function(){
+            $('#new, #existing').show(500);
+            $('#local, #online, #prev2, #games').hide(500);
           });
 
           // Handle panel clicks for game modes
@@ -262,7 +306,16 @@
           $('#pvp').on('click', function(){
             $('#pvpModal').modal();
           });
-      });
+
+          // Create lists of games
+          $('#gamesList').append('<ul>');
+          for(i = 0; i < games.length; i++){
+              if(games[i].player1 == '') games[i].player1 = '(No name)';
+              if(games[i].player2 == '') games[i].player2 = '(No name)';
+              $('#gamesList').append('<li><a href="/play/'+games[i].gameId+'">'+games[i].player1+' vs. '+games[i].player2+'</a></li>');
+          }
+          $('#gamesList').append('</ul>');
+          });
     </script>
   </body>
 </html>

@@ -82,9 +82,22 @@ app.get('/', function (req, res) {
 					success: s
 				}; // replace all of the data
 	}
-	var page = fs.readFileSync("views/index.html", "utf8"); // bring in the HTML file
-	var html = mustache.to_html(page, pageData); // replace all of the data
-	res.send(html);
+
+	// Gather a list of the game the user is current in
+	var query;
+	if(user == ''){
+		query = {userIP: req.connection.remoteAddress};
+	} else {
+		query = {$or: [{player1: user}, {player2: user}, {userIP: req.connection.remoteAddress}]};
+	}
+
+	db.getQuery('games', query, function(err, data){
+		pageData.games = JSON.stringify(data);
+		var page = fs.readFileSync("views/index.html", "utf8"); // bring in the HTML file
+		var html = mustache.to_html(page, pageData); // replace all of the data
+		res.send(html);
+	});
+	return;
 })
 
 // About page
@@ -192,6 +205,10 @@ app.get('/replay/:gameId/:move', function (req, res) {
 	db.getQuery('history', {gameId: req.params.gameId, move: move}, function(err, result){
 		if(err == null){
 			db.getHistoryMoveCount(req.params.gameId, function(count){
+				if(req.params.move > count || req.params.move < 1 || count == 0){
+					res.redirect("/?e=1");
+					return;
+				}
 				var page = fs.readFileSync("views/replay.html", "utf8"); // bring in the HTML file
 				(req.session.username ? user = req.session.username :  user = '');
 				// Display login status
@@ -202,18 +219,18 @@ app.get('/replay/:gameId/:move', function (req, res) {
 				}
 				var html = mustache.to_html(page, {game: JSON.stringify(result[0]), count: count}); // replace all of the data
 				res.send(html);
+				return;
 			});
 		} else {
 			res.redirect("/?e=1");
+			return;
 		}
 	});
 })
 
 
 /*
-
 ### End of pages, begin actions/tasks ####
-
 */
 
 // Login action
@@ -561,9 +578,9 @@ app.get('/getBoard', function (req, res) {
 })
 
 // Redirect all unsupported pages to the home page
-//app.get('*', function (req, res) {
-    //res.redirect('/');
-//});
+app.get('*', function (req, res) {
+    res.redirect('/');
+});
 
 // Listen on default port 
 var server = app.listen(PORT, function () {

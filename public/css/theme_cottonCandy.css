@@ -65,10 +65,10 @@ input, select {
 }
 
 /* Text colors/sizes */
-a, span, h2, h4, h5, h6, div {
+span, h5, h6, div {
 	color: #eee;
 }
 
-h1, h3, p {
+a, h1, h3, h2, h4, p {
     color: black;
 }
