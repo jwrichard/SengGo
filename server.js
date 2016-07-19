@@ -217,9 +217,7 @@ app.get('/replay/:gameId/:move', function (req, res) {
 
 
 /*
-
 ### End of pages, begin actions/tasks ####
-
 */
 
 // Login action
