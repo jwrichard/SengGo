@@ -453,7 +453,7 @@ app.post('/sendMove', function (req, res) {
 					case 1: color = 2; break;
 					case 2: color = 2; break;
 					case 3: color = 1; break;
-					default: console.log("State at default: " + result[0].state); res.send(result[0]); break; // Game is over, no updates
+					default: console.log("GAME OVER"); res.send(result[0]); break; // Game is over, no updates
 				}
 			} else {
 				// Cant move, since not in this local game! Send same state back
@@ -483,6 +483,8 @@ app.post('/sendMove', function (req, res) {
 			// TODO: add check, only update if game actually changes?
 			db.updateGame(moveResult, function(dbresult){
 				// Check if insertion ok
+          console.log("UPDATING GAME");
+          console.log("dbresult.ok: " + dbresult.result.ok);
 				if(dbresult.result.ok == 1){
 					// If it is, add to the replay collection
 					db.addHistory(moveResult, function(err){
