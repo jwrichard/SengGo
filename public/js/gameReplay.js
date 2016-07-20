@@ -168,13 +168,15 @@ function placeToken(board) {
 function drawBoard(state, count){
   console.log("Move number: " + state[0].move);
   console.log("State number: " + state[0].state);
-    
+
+    /*
   if (state[0].player2 == "AI") {
       count = count;
   }
   else {
       count = count-1;
   }
+  */
   
   $("#currentMove").html("Current move: " + state[0].move + "/" + count);  
     

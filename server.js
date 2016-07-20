@@ -404,6 +404,8 @@ function createGame(ip, player1, player2, boardSize, res){
 
 // Handle a request for a move, or the sending of a move
 app.post('/sendMove', function (req, res) {
+  console.log("SEND MOVE REQUEST MADE");
+    
 	// Get parameters
 	var gameId = req.body.gameId;
 	var x = parseInt(req.body.x);
@@ -451,7 +453,7 @@ app.post('/sendMove', function (req, res) {
 					case 1: color = 2; break;
 					case 2: color = 2; break;
 					case 3: color = 1; break;
-					default: res.send(result[0]); break; // Game is over, no updates
+					default: console.log("State at default: " + result[0].state); res.send(result[0]); break; // Game is over, no updates
 				}
 			} else {
 				// Cant move, since not in this local game! Send same state back
@@ -497,6 +499,8 @@ app.post('/sendMove', function (req, res) {
 					}
 					
 					// Send user the board
+          //console.log(moveResult);
+          console.log("SEND USER THE BOARD");
 					res.send(moveResult); 
 					return;
 				} else {

@@ -160,18 +160,18 @@ function passButton(turn) {
     $('#playerinfo-left-button').click(function(){
         if(this.id == 'playerinfo-left-button'){
               $("#passModal").modal("show");
-              $('#pass').click(function() {
+              $('#pass').off().click(function() {
                   sendPass();
-              })
+              });
         }
     });
 
     $('#playerinfo-right-button').click(function(){
         if(this.id == 'playerinfo-right-button'){
               $("#passModal").modal("show");
-              $('#pass').click(function() {
+              $('#pass').off().click(function() {
                   sendPass();
-              })
+              });
         }
     });
 
