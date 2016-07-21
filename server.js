@@ -314,6 +314,7 @@ app.post('/actionRegister', function (req, res) {
 app.post('/newLocalGame', function (req, res) {
 	// Get game properties 
 	var userIP = req.connection.remoteAddress;
+	console.log("Creating local game for IP: "+userIP);
 	var boardSize = req.body.boardSize;
 	var player1 = req.body.player1;
 	var player2 = req.body.player2;
@@ -483,12 +484,12 @@ app.post('/sendMove', function (req, res) {
 			// TODO: add check, only update if game actually changes?
 			db.updateGame(moveResult, function(dbresult){
 				// Check if insertion ok
-          console.log("UPDATING GAME");
-          console.log("dbresult.ok: " + dbresult.result.ok);
+         		console.log("UPDATING GAME");
+          		console.log("dbresult.ok: " + dbresult.result.ok);
 				if(dbresult.result.ok == 1){
 					// If it is, add to the replay collection
 					db.addHistory(moveResult, function(err){
-						console.log("Added history to game. Error?: "+err)
+						console.log("Added history to game for move: "+moveResult.move)
 					});
 
 					//console.log(moveResult);
