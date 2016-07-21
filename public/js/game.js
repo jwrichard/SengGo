@@ -140,11 +140,13 @@ function showPlayerInfo(player1, player2, player1score, player2score) {
 */
 function passButton(turn) {	
 	var localGame = (game.userIP != null);
-    if (turn == 0 || turn == 3) {
+    if ((turn == 0 || turn == 3) && (user == game.player1 || localGame)) {
         if($('#playerinfo-left-button').css('display') == 'none') $('#playerinfo-left-button').show(500);
         $('#playerinfo-right-button').hide(500);
-    }
-    else if ((turn == 1 || turn == 2) && (localGame || (user == game.player2))) {
+    } else if(turn == 0 || turn == 3){
+		$('#playerinfo-left-button').hide(500);
+        $('#playerinfo-right-button').hide(500);
+	} else if ((turn == 1 || turn == 2) && (localGame || (user == game.player2))) {
         $('#playerinfo-left-button').hide(500);
         if($('#playerinfo-right-button').css('display') == 'none') $('#playerinfo-right-button').show(500);
     } else if(turn == 1 || turn == 2){

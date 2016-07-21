@@ -13,6 +13,7 @@
     <link href="css/style.css" rel="stylesheet">
     <script>
       var games = {{{games}}};
+	  var user = "{{{user}}}";
     </script>
   </head>
 
@@ -143,6 +144,9 @@
 
 
       <div id="games" class="col-md-6 col-md-offset-3 text-center" style="display:none;">
+		  <h3>My Record (Online games only)</h3>
+		  <div id="winLoss" style="font-size: 1.2em;">
+		  </div>
           <h3>Games I am in:</h3>
           <div id="gamesList" style="font-size: 1.2em;">
           </div>
@@ -315,7 +319,19 @@
               $('#gamesList').append('<li><a href="/play/'+games[i].gameId+'">'+games[i].player1+' vs. '+games[i].player2+'</a></li>');
           }
           $('#gamesList').append('</ul>');
+		  
+		  // Create win-loss record
+		  var wins = 0;
+		  var losses = 0;
+		  for(i = 0; i < games.length; i++){
+              if(games[i].player1 == user && games[i].state == 5) wins++;
+              if(games[i].player2 == user && games[i].state == 4) wins++;
+			  if(games[i].player1 == user && games[i].state == 4) losses++;
+              if(games[i].player2 == user && games[i].state == 5) losses++;
+          }
+		  $('#winLoss').append('<b>'+wins+'</b> wins - <b>'+losses+'</b> losses');
           });
+		  
     </script>
   </body>
 </html>

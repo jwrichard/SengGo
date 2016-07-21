@@ -33,7 +33,7 @@ const whiteWon = 5;
 const blackPlayer = 1;
 const whitePlayer = 2;
 
-const PORT = 8000;
+const PORT = 30040;
 
 // Setup sessions and how the IDs are created
 app.use(session({
@@ -72,14 +72,16 @@ app.get('/', function (req, res) {
 		pageData = {loginstatus: '<div><p class="navbar-form navbar-right loginstatus">Logged in as: <span class="secondaryWord">'+user+'</span> | <a href="/actionLogout">Logout</a></p></div>', 
 					error: e,
 					menu: '',
-					success: s
+					success: s,
+					user: user
 				}; // replace all of the data
 	} else {
 		pageData = {loginstatus: '<form class="navbar-form navbar-right" action="/actionLogin" method="post"><div class="form-group"><input type="text" placeholder="Username" class="form-control" id="username" name="username" size="10"></div><div class="form-group"><input type="password" placeholder="Password" class="form-control" id="password" name="password" size="10"></div><input type="button" class="btn btn-primary" onclick="formhash(this.form, this.form.username, this.form.password);" value="Sign in" /></form>', 
 					authreq: '(Authentication required)',
 					menu: '<li><a href="/login">Sign in</a></li><li><a href="/register">Register</a></li>',
 					error: e,
-					success: s
+					success: s,
+					user: ''
 				}; // replace all of the data
 	}
 
