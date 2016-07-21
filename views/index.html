@@ -324,10 +324,10 @@
 		  var wins = 0;
 		  var losses = 0;
 		  for(i = 0; i < games.length; i++){
-              if(games[i].player1 == user && games[i].state == 5) wins++;
-              if(games[i].player2 == user && games[i].state == 4) wins++;
-			  if(games[i].player1 == user && games[i].state == 4) losses++;
-              if(games[i].player2 == user && games[i].state == 5) losses++;
+              if(games[i].player1 == user && games[i].state == 4 && user != '') wins++;
+              if(games[i].player2 == user && games[i].state == 5 && user != '') wins++;
+			        if(games[i].player1 == user && games[i].state == 5 && user != '') losses++;
+              if(games[i].player2 == user && games[i].state == 4 && user != '') losses++;
           }
 		  $('#winLoss').append('<b>'+wins+'</b> wins - <b>'+losses+'</b> losses');
           });
